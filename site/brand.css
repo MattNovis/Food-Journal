@@ -40,10 +40,10 @@
   --step-4: clamp(2.75rem, 7vw, 4.5rem);
   --step-5: clamp(3.5rem, 13vw, 6rem);
 
-  /* Shape: the "leaf" — two soft opposite corners, two tight */
-  --leaf-lg: 28px 6px 28px 6px;
-  --leaf-md: 18px 4px 18px 4px;
-  --leaf-sm: 10px 3px 10px 3px;
+  /* Shape: plain, consistent rounding */
+  --radius-lg: 14px;
+  --radius-md: 10px;
+  --radius-sm: 6px;
   --pill: 999px;
 
   /* Space */
@@ -111,7 +111,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.
   display: inline-flex; align-items: center; gap: .45em;
   font-size: var(--step--1); font-weight: 600; letter-spacing: .02em; color: var(--ink-soft);
 }
-.region-tag::before { content: ""; width: .7em; height: .7em; border-radius: 8px 2px 8px 2px; background: var(--r); }
+.region-tag::before { content: ""; width: .7em; height: .7em; border-radius: 50%; background: var(--r); }
 
 /* Chip (filters) */
 .chip {
@@ -122,16 +122,12 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.
 }
 .chip:hover { border-color: var(--ink-faint); }
 .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-.chip[data-region]::before { content: ""; width: .65em; height: .65em; border-radius: 7px 2px 7px 2px; background: var(--r); }
+.chip[data-region]::before { content: ""; width: .65em; height: .65em; border-radius: 50%; background: var(--r); }
 
-/* Rating: big number + 10-leaf meter */
+/* Rating: number out of 10 */
 .rating { display: inline-flex; align-items: baseline; gap: .15em; font-family: var(--font-display); line-height: 1; }
 .rating b { font-weight: 400; font-size: 1.9em; }
 .rating span { font-family: var(--font-body); font-size: .8em; font-weight: 600; color: var(--ink-faint); }
-.leaves { display: inline-flex; gap: 2px; }
-.leaves i { width: 9px; height: 13px; border-radius: 9px 1px 9px 1px; background: var(--rule); }
-.leaves i.on { background: var(--fern); }
-.leaves i.half { background: linear-gradient(90deg, var(--fern) 50%, var(--rule) 50%); }
 
 /* Price */
 .price { font-weight: 600; }

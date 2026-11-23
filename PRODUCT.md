@@ -13,5 +13,5 @@ place/vendor, price in THB (USD shown at ~33.5), rating out of 10, date and meal
 
 **Itinerary source:** `atlas-trip-studio/data/trips/thailand-solo` → snapshot in `data/trip.json`.
 
-**Brand:** tropical / jungle. See DESIGN.md.
+**Brand:** tropical, kept simple (palette only, no decorative motifs). See DESIGN.md.
 **Surface mode:** Experience (gallery). Thailand only (no multi-trip).

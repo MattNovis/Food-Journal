@@ -1,6 +1,6 @@
 ---
 name: Kin Khao
-description: Tropical/jungle brand kit for a Thailand food photo journal.
+description: Simple tropical brand kit for a Thailand food photo journal.
 colors:
   paper: "#f4eedb"
   paper-raised: "#fffaec"
@@ -54,9 +54,9 @@ typography:
     fontSize: "1.25rem"
     fontWeight: 500
 rounded:
-  leaf-lg: "28px 6px 28px 6px"
-  leaf-md: "18px 4px 18px 4px"
-  leaf-sm: "10px 3px 10px 3px"
+  lg: "14px"
+  md: "10px"
+  sm: "6px"
   pill: "999px"
 spacing:
   s1: "4px"
@@ -69,16 +69,16 @@ spacing:
   s8: "72px"
 components:
   dish-photo:
-    rounded: "{rounded.leaf-lg}"
+    rounded: "{rounded.lg}"
     backgroundColor: "{colors.paper-sunk}"
   rating-badge:
     backgroundColor: "{colors.paper-raised}"
     textColor: "{colors.ink}"
-    rounded: "{rounded.leaf-sm}"
+    rounded: "{rounded.sm}"
   rating-badge-top:
     backgroundColor: "{colors.hibiscus}"
     textColor: "{colors.paper-raised}"
-    rounded: "{rounded.leaf-sm}"
+    rounded: "{rounded.sm}"
   chip:
     backgroundColor: "{colors.paper-raised}"
     textColor: "{colors.ink}"
@@ -97,9 +97,9 @@ A visual version is at `site/brand.html` (linked from the journal footer).
 
 ## Overview
 
-**Tropical / jungle, photo-led.** The food photos are the hero, and everything else is the
-jungle around them: banana-leaf paper, canopy-green ink, and generated palm fronds in the masthead.
-Accents come from the fruit stall (hibiscus, mango, pandan) and the sea (lagoon).
+**Simple, tropical, photo-led.** The food photos are the hero. The tropical feel comes from the
+palette alone (warm paper, jungle-green ink, a hibiscus accent), not from decorative motifs.
+Keep it restrained: no illustrations, patterns or ornamental shapes.
 Surface mode: **Experience** (a gallery). The interface recedes so the dishes lead.
 
 Two themes, chosen by the viewer's system setting or the toggle:
@@ -111,9 +111,9 @@ Name: **Kin Khao** (กินข้าว, "eat rice"; *kin khao reu yang?* = "h
 ## Colors
 
 - **Hibiscus**: the one loud accent. Used for the top-rated badge, focus rings and link underlines. Never use it for body text.
-- **Fern / Pandan**: the jungle greens. Used for the rating leaves, the fronds, the active sort control and text selection.
+- **Fern / Pandan**: the jungle greens. Used for the Thai subtitle, the active sort control and text selection.
 - **Mango / Lagoon**: supporting accents only.
-- **Region colours** give each stop its own hue, used for the day rule, the tag dot and the filter chip dot:
+- **Region colours** give each stop its own hue, used only as a small dot and on the "Day N" label:
   Bangkok = chili red · Chiang Mai = lantern orange (Yi Peng) · Chiang Rai = Blue Temple sapphire ·
   Doi Inthanon = misty fern · Koh Lanta = Andaman lagoon · Transit = stone.
 - Secondary text is tinted green (`ink-soft`, `ink-faint`), never grey.
@@ -128,7 +128,7 @@ Name: **Kin Khao** (กินข้าว, "eat rice"; *kin khao reu yang?* = "h
 ## Layout
 
 - Max width 1180px, with a 16px gutter on phones and 32px from 720px.
-- Days run in trip order. Each day has a heading row underlined in its region colour, then a dish grid
+- Days run in trip order. Each day has a heading row with a thin neutral rule, then a dish grid
   (1 column on phones, 2 from 560px, 3 from 940px).
 - "Best bites so far" (top 3 by rating) appears once 3 or more dishes are rated.
 - Upcoming days collapse into a "Still to come" list showing food plans from the Atlas itinerary.
@@ -141,20 +141,21 @@ No hard offset shadows and no glow.
 
 ## Shapes
 
-**The leaf**: two opposite corners soft, two tight (`28px 6px 28px 6px`). It is used on every photo,
-badge, the empty-day panel, the region dots and the rating leaves. Pills are reserved for chips and the sort toggle.
+Plain, consistent rounding: 14px on photos and dialogs, 10px on panels, 6px on badges, and pills for chips
+and the sort toggle. Region dots are circles. No decorative shapes.
 
 ## Components
 
-- **Dish card**: a leaf-cornered photo (4:5, or 1:1 on phones) with a rating badge bottom-left, then the dish name (Gloock), Thai name,
+- **Dish card**: a rounded photo (4:5, or 1:1 on phones) with a rating badge bottom-left, then the dish name (Gloock), Thai name,
   place + region tag, a 3-line description, then price (฿ + $) and meal. Tapping it opens the lightbox.
-- **Rating**: a big number /10 plus a 10-leaf meter (half leaves allowed).
+- **Rating**: a plain number /10 (halves allowed). No meters or icons.
 - **Lightbox**: a `<dialog>` with the photo left and details right (stacked on phones), and thumbnails when there are several photos.
 - **Icons**: authored inline SVG, 1.8px stroke. No emoji standing in for icons.
 
 ## Do's and Don'ts
 
 - Do let the photos be big, uncropped in the lightbox and never filtered.
-- Do keep one motion moment: the fronds unfurl on load. Everything else is a quiet hover lift.
+- Do keep motion minimal: a quiet hover lift on cards and a soft fade-in on the dialog.
 - Don't use gradient text, glassy cards, eyebrow labels or stat-tile heroes. The ledger stays a sentence.
+- Don't add decorative motifs (leaves, fronds, patterns, illustrations).
 - Don't add new colours without adding them to `brand.css` and this file.
