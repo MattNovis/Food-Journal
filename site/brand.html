@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kin Khao Brand Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css">
+<style>
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 32px; } }
+  header { padding: var(--s-8) 0 var(--s-6); }
+  header h1 { font-size: var(--step-5); }
+  header p { color: var(--ink-soft); font-size: var(--step-1); max-width: 44ch; margin: var(--s-4) 0 0; }
+  header a { font-size: var(--step--1); font-weight: 600; }
+  section { padding: var(--s-7) 0; border-top: 1px solid var(--rule); }
+  section > h2 { font-size: var(--step-3); margin-bottom: var(--s-2); }
+  section > p { color: var(--ink-soft); max-width: 62ch; margin: 0 0 var(--s-5); }
+  .swatches { display: grid; gap: var(--s-4); grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .sw { display: flex; flex-direction: column; gap: var(--s-2); font-size: var(--step--1); }
+  .sw div { aspect-ratio: 3 / 2; border-radius: var(--leaf-md); background: var(--c); box-shadow: inset 0 0 0 1px rgb(0 0 0 / .08); }
+  .sw b { font-weight: 600; }
+  .sw code { color: var(--ink-faint); font-size: .95em; }
+  .type-row { display: grid; grid-template-columns: 1fr; gap: var(--s-2); padding: var(--s-5) 0; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 720px) { .type-row { grid-template-columns: 11rem 1fr; align-items: baseline; } }
+  .type-row .meta { font-size: var(--step--1); color: var(--ink-faint); font-weight: 600; }
+  .shapes { display: flex; flex-wrap: wrap; gap: var(--s-5); align-items: end; }
+  .shape { width: 140px; aspect-ratio: 1; background: var(--fern); display: grid; place-items: end start; padding: var(--s-3); color: var(--paper-raised); font-size: var(--step--1); font-weight: 600; }
+  .demo { display: flex; flex-wrap: wrap; gap: var(--s-5); align-items: center; }
+  .badge-demo { background: var(--paper-raised); padding: .45em .75em .4em; border-radius: var(--leaf-sm); box-shadow: var(--shadow-1); }
+  .badge-demo.top { background: var(--hibiscus); color: var(--on-accent); }
+  .badge-demo.top span { color: inherit; opacity: .75; }
+  .rules { display: grid; gap: var(--s-5); grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .rules { grid-template-columns: 1fr 1fr; } }
+  .rules ul { margin: 0; padding-left: 1.2em; color: var(--ink-soft); }
+  .rules li { margin-bottom: var(--s-2); }
+  .rules h3 { font-size: var(--step-1); margin-bottom: var(--s-3); }
+  footer { padding: var(--s-6) 0 var(--s-8); color: var(--ink-faint); font-size: var(--step--1); border-top: 1px solid var(--rule); }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a href="index.html">← Back to the journal</a>
+  <h1>Brand kit</h1>
+  <p>Kin Khao is tropical and photo-led. The dishes are the hero, and the jungle (banana-leaf paper, canopy ink, palm fronds) sits around them.</p>
+</header>
+
+<main class="wrap">
+  <section>
+    <h2>Jungle neutrals</h2>
+    <p>The paper and ink for the light theme ("Daylight") and dark theme ("Canopy"). Secondary text is always tinted green, never grey.</p>
+    <div class="swatches">
+      <div class="sw" style="--c:#f4eedb"><div></div><b>Paper</b><code>#f4eedb</code></div>
+      <div class="sw" style="--c:#fffaec"><div></div><b>Paper raised</b><code>#fffaec</code></div>
+      <div class="sw" style="--c:#12251a"><div></div><b>Canopy ink</b><code>#12251a</code></div>
+      <div class="sw" style="--c:#435747"><div></div><b>Ink soft</b><code>#435747</code></div>
+      <div class="sw" style="--c:#0d1d15"><div></div><b>Night canopy</b><code>#0d1d15</code></div>
+      <div class="sw" style="--c:#f2ecd6"><div></div><b>Night ink</b><code>#f2ecd6</code></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fruit-stall accents</h2>
+    <p>Hibiscus is the one loud colour, used for the top dish, focus and links. Fern and pandan are the jungle greens. Mango and lagoon play support.</p>
+    <div class="swatches">
+      <div class="sw" style="--c:#d8432e"><div></div><b>Hibiscus</b><code>#d8432e</code></div>
+      <div class="sw" style="--c:#2e6a45"><div></div><b>Fern</b><code>#2e6a45</code></div>
+      <div class="sw" style="--c:#a9cf5b"><div></div><b>Pandan</b><code>#a9cf5b</code></div>
+      <div class="sw" style="--c:#f0a32f"><div></div><b>Mango</b><code>#f0a32f</code></div>
+      <div class="sw" style="--c:#1b8c93"><div></div><b>Lagoon</b><code>#1b8c93</code></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The route in colour</h2>
+    <p>Each stop has its own hue. It colours that day's heading rule, the region dots and the filter chips.</p>
+    <div class="demo">
+      <span class="chip" data-region="chiang-mai">Chiang Mai: Yi Peng lantern</span>
+      <span class="chip" data-region="chiang-rai">Chiang Rai: Blue Temple</span>
+      <span class="chip" data-region="doi-inthanon">Doi Inthanon: misty fern</span>
+      <span class="chip" data-region="koh-lanta">Koh Lanta: Andaman lagoon</span>
+      <span class="chip" data-region="bangkok">Bangkok: chili</span>
+      <span class="chip" data-region="transit">In transit: stone</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Type</h2>
+    <p>Gloock is juicy and high-contrast, for headings. Hanken Grotesk carries the reading, with tabular numerals for prices and scores. Sarabun sets Thai script.</p>
+    <div class="type-row"><span class="meta">Display · Gloock 96</span><h1 style="font-size:var(--step-5)">Khao soi</h1></div>
+    <div class="type-row"><span class="meta">Headline · Gloock 36</span><h2 style="font-size:var(--step-3)">Tue 24 Nov</h2></div>
+    <div class="type-row"><span class="meta">Title · Gloock 26</span><h3 style="font-size:var(--step-2)">Mango sticky rice</h3></div>
+    <div class="type-row"><span class="meta">Thai · Sarabun 20</span><p lang="th" style="margin:0;font:500 var(--step-1) 'Sarabun',sans-serif">ข้าวเหนียวมะม่วง</p></div>
+    <div class="type-row"><span class="meta">Body · Hanken 16</span><p style="margin:0;max-width:60ch">Curry noodle soup with crispy noodles on top. Rich and coconutty, and the pickled mustard greens cut right through it.</p></div>
+    <div class="type-row"><span class="meta">Label · Hanken 13 / 600</span><span class="region-tag" data-region="chiang-mai">Khao Soi Mae Sai · Chiang Mai</span></div>
+  </section>
+
+  <section>
+    <h2>The leaf</h2>
+    <p>The signature shape has two soft opposite corners and two tight ones. It's used on every photo, badge, panel and dot. Pills are only for chips.</p>
+    <div class="shapes">
+      <div class="shape" style="border-radius:var(--leaf-lg)">leaf-lg 28/6</div>
+      <div class="shape" style="border-radius:var(--leaf-md);width:110px;background:var(--lagoon)">leaf-md 18/4</div>
+      <div class="shape" style="border-radius:var(--leaf-sm);width:80px;background:var(--hibiscus)">sm</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Scores and prices</h2>
+    <p>Every dish is rated out of 10, as a number plus a ten-leaf meter, and half points are fine. Prices are in baht, with dollars beside them.</p>
+    <div class="demo">
+      <span class="badge-demo top"><span class="rating"><b>9.5</b><span>/10</span></span></span>
+      <span class="badge-demo"><span class="rating"><b>7</b><span>/10</span></span></span>
+      <span class="leaves" aria-label="7.5 out of 10"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="half"></i><i></i><i></i></span>
+      <span class="price">฿60<small>$1.79</small></span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Rules of the jungle</h2>
+    <div class="rules">
+      <div><h3>Do</h3><ul>
+        <li>Let photos run big, and never filter them.</li>
+        <li>Keep one motion moment: the fronds unfurl on load.</li>
+        <li>Write the ledger as a sentence, in the traveller's voice.</li>
+        <li>Use soft, offset, green-tinted shadows.</li>
+      </ul></div>
+      <div><h3>Don't</h3><ul>
+        <li>Use gradient text, glassy cards, or labels stacked above headings.</li>
+        <li>Use stat-tile heroes or emoji as icons.</li>
+        <li>Use hard block shadows or glows.</li>
+        <li>Add a colour without adding it to brand.css and DESIGN.md.</li>
+      </ul></div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">Tokens live in <code>site/brand.css</code>. Rationale is in <code>DESIGN.md</code>.</div></footer>
+</body>
+</html>

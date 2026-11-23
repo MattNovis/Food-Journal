@@ -1,0 +1,160 @@
+---
+name: Kin Khao
+description: Tropical/jungle brand kit for a Thailand food photo journal.
+colors:
+  paper: "#f4eedb"
+  paper-raised: "#fffaec"
+  paper-sunk: "#e9e1c7"
+  ink: "#12251a"
+  ink-soft: "#435747"
+  ink-faint: "#6d7c68"
+  rule: "#cfc5a5"
+  hibiscus: "#d8432e"
+  mango: "#f0a32f"
+  pandan: "#a9cf5b"
+  fern: "#2e6a45"
+  lagoon: "#1b8c93"
+  canopy: "#0d1d15"
+  canopy-raised: "#15291f"
+  canopy-ink: "#f2ecd6"
+  region-bangkok: "#d8432e"
+  region-chiang-mai: "#d9861c"
+  region-chiang-rai: "#3566c8"
+  region-doi-inthanon: "#4f8d5d"
+  region-koh-lanta: "#1b8c93"
+  region-transit: "#7b826f"
+typography:
+  display:
+    fontFamily: "Gloock, Iowan Old Style, Georgia, serif"
+    fontSize: "clamp(3.5rem, 13vw, 6rem)"
+    fontWeight: 400
+    lineHeight: 1.05
+    letterSpacing: "-0.02em"
+  headline:
+    fontFamily: "Gloock, Georgia, serif"
+    fontSize: "2.25rem"
+    fontWeight: 400
+    lineHeight: 1.05
+  title:
+    fontFamily: "Gloock, Georgia, serif"
+    fontSize: "1.625rem"
+    fontWeight: 400
+  body:
+    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
+    fontSize: "1rem"
+    fontWeight: 400
+    lineHeight: 1.55
+    fontFeature: "tnum"
+  label:
+    fontFamily: "Hanken Grotesk, system-ui, sans-serif"
+    fontSize: "0.8125rem"
+    fontWeight: 600
+  thai:
+    fontFamily: "Sarabun, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 500
+rounded:
+  leaf-lg: "28px 6px 28px 6px"
+  leaf-md: "18px 4px 18px 4px"
+  leaf-sm: "10px 3px 10px 3px"
+  pill: "999px"
+spacing:
+  s1: "4px"
+  s2: "8px"
+  s3: "12px"
+  s4: "16px"
+  s5: "24px"
+  s6: "32px"
+  s7: "48px"
+  s8: "72px"
+components:
+  dish-photo:
+    rounded: "{rounded.leaf-lg}"
+    backgroundColor: "{colors.paper-sunk}"
+  rating-badge:
+    backgroundColor: "{colors.paper-raised}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.leaf-sm}"
+  rating-badge-top:
+    backgroundColor: "{colors.hibiscus}"
+    textColor: "{colors.paper-raised}"
+    rounded: "{rounded.leaf-sm}"
+  chip:
+    backgroundColor: "{colors.paper-raised}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.pill}"
+    padding: "0.6em 1em"
+  chip-active:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.paper}"
+    rounded: "{rounded.pill}"
+---
+
+# Kin Khao design system
+
+The live source of truth is `site/brand.css` (CSS custom properties). This file explains them.
+A visual version is at `site/brand.html` (linked from the journal footer).
+
+## Overview
+
+**Tropical / jungle, photo-led.** The food photos are the hero, and everything else is the
+jungle around them: banana-leaf paper, canopy-green ink, and generated palm fronds in the masthead.
+Accents come from the fruit stall (hibiscus, mango, pandan) and the sea (lagoon).
+Surface mode: **Experience** (a gallery). The interface recedes so the dishes lead.
+
+Two themes, chosen by the viewer's system setting or the toggle:
+- **Daylight**: warm paper `#f4eedb`, canopy ink `#12251a`.
+- **Canopy**: night jungle `#0d1d15`, cream ink `#f2ecd6`, with brighter accents.
+
+Name: **Kin Khao** (กินข้าว, "eat rice"; *kin khao reu yang?* = "have you eaten yet?", the everyday Thai greeting).
+
+## Colors
+
+- **Hibiscus**: the one loud accent. Used for the top-rated badge, focus rings and link underlines. Never use it for body text.
+- **Fern / Pandan**: the jungle greens. Used for the rating leaves, the fronds, the active sort control and text selection.
+- **Mango / Lagoon**: supporting accents only.
+- **Region colours** give each stop its own hue, used for the day rule, the tag dot and the filter chip dot:
+  Bangkok = chili red · Chiang Mai = lantern orange (Yi Peng) · Chiang Rai = Blue Temple sapphire ·
+  Doi Inthanon = misty fern · Koh Lanta = Andaman lagoon · Transit = stone.
+- Secondary text is tinted green (`ink-soft`, `ink-faint`), never grey.
+
+## Typography
+
+- **Gloock** (display/headings): juicy, high-contrast serif, set large. Max 6rem.
+- **Hanken Grotesk** (body/labels): tabular numerals on, so prices and ratings line up.
+- **Sarabun** for Thai script (dish names in Thai).
+- No eyebrow or kicker labels above headings.
+
+## Layout
+
+- Max width 1180px, with a 16px gutter on phones and 32px from 720px.
+- Days run in trip order. Each day has a heading row underlined in its region colour, then a dish grid
+  (1 column on phones, 2 from 560px, 3 from 940px).
+- "Best bites so far" (top 3 by rating) appears once 3 or more dishes are rated.
+- Upcoming days collapse into a "Still to come" list showing food plans from the Atlas itinerary.
+- The filter bar sticks to the top. On phones the sort toggle wraps to its own row.
+
+## Elevation & Depth
+
+Two soft shadows, both green-tinted and always offset (`--shadow-1` rest, `--shadow-2` hover/dialog).
+No hard offset shadows and no glow.
+
+## Shapes
+
+**The leaf**: two opposite corners soft, two tight (`28px 6px 28px 6px`). It is used on every photo,
+badge, the empty-day panel, the region dots and the rating leaves. Pills are reserved for chips and the sort toggle.
+
+## Components
+
+- **Dish card**: a leaf-cornered photo (4:5, or 1:1 on phones) with a rating badge bottom-left, then the dish name (Gloock), Thai name,
+  place + region tag, a 3-line description, then price (฿ + $) and meal. Tapping it opens the lightbox.
+- **Rating**: a big number /10 plus a 10-leaf meter (half leaves allowed).
+- **Lightbox**: a `<dialog>` with the photo left and details right (stacked on phones), and thumbnails when there are several photos.
+- **Icons**: authored inline SVG, 1.8px stroke. No emoji standing in for icons.
+
+## Do's and Don'ts
+
+- Do let the photos be big, uncropped in the lightbox and never filtered.
+- Do keep one motion moment: the fronds unfurl on load. Everything else is a quiet hover lift.
+- Don't use gradient text, glassy cards, eyebrow labels or stat-tile heroes. The ledger stays a sentence.
+- Don't add new colours without adding them to `brand.css` and this file.
