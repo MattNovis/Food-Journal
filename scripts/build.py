@@ -7,6 +7,7 @@ site/data.js (window.JOURNAL = {...}). The page loads data.js and photos/*.
 Usage: python3 scripts/build.py
 """
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -26,7 +27,8 @@ def dish_score(qs, eid, label):
             fail(f"{eid}: unknown {label} score '{k}' (use {list(RUBRIC)})")
         if not 1 <= v <= 10:
             fail(f"{eid}: {label}.{k} must be 1–10")
-    return round(sum(qs[k] * w for k, w in RUBRIC.items()) / sum(RUBRIC.values()), 1)
+    # Round half up to one decimal — must match weighted() in site/index.html.
+    return math.floor(sum(qs[k] * w for k, w in RUBRIC.items()) * 10 / sum(RUBRIC.values()) + 0.5) / 10
 
 
 MEALS = {"breakfast", "lunch", "dinner", "snack", "dessert", "drink"}

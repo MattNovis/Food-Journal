@@ -104,7 +104,9 @@
   dialog[open] { animation: rise .45s var(--ease-out); }
   @keyframes rise { from { transform: translateY(16px) scale(.98); opacity: 0; } }
   .lb { display: grid; grid-template-columns: 1fr; }
-  @media (min-width: 820px) { .lb { grid-template-columns: 1.3fr 1fr; } }
+  @media (min-width: 820px) { .lb { grid-template-columns: 1.3fr 1fr; } .lb.nophoto { grid-template-columns: 1fr; max-width: 560px; } }
+  dialog:has(.lb.nophoto) { max-width: min(560px, calc(100vw - 32px)); }
+  .lb.nophoto .lb-body { padding-top: var(--s-7); }
   .lb-photo { background: #0b1a12; display: grid; place-items: center; min-height: 240px; }
   .lb-photo img { max-height: 78dvh; width: 100%; object-fit: contain; }
   .lb-body { padding: var(--s-6); display: flex; flex-direction: column; gap: var(--s-4); overflow: auto; }
@@ -133,6 +135,27 @@
   .lb-thumbs button[aria-current="true"] { border-color: var(--hibiscus); }
   .lb-thumbs img { width: 100%; height: 100%; object-fit: cover; }
 
+  .todo { align-self: flex-start; font-size: var(--step--1); font-weight: 600; color: var(--hibiscus); }
+  .score-btn, .wiz-nav button { appearance: none; font: 600 var(--step--1)/1 var(--font-body); padding: .8em 1.2em; border-radius: var(--pill); cursor: pointer; }
+  .score-btn, .wiz-nav .primary { border: 0; background: var(--fern); color: var(--paper-raised); align-self: flex-start; }
+  .wiz-nav .primary:disabled { opacity: .45; cursor: not-allowed; }
+  .wiz-nav { display: flex; gap: var(--s-2); justify-content: space-between; margin-top: auto; padding-top: var(--s-2); }
+  .wiz-nav .ghost { border: 1.5px solid var(--rule); background: none; color: var(--ink); }
+  .wiz-step { margin: 0; font-size: var(--step--1); font-weight: 600; color: var(--ink-faint); }
+  .wiz-q { margin: 0; color: var(--ink-soft); }
+  .wiz-anchor { margin: 0; font-size: var(--step--1); color: var(--ink-faint); }
+  .wiz-msg { margin: 0; font-size: var(--step--1); color: var(--ink-soft); min-height: 1.2em; }
+  .nums { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s-2); }
+  @media (min-width: 820px) { .nums { grid-template-columns: repeat(10, 1fr); } }
+  .nums button { appearance: none; min-height: 48px; border: 1.5px solid var(--rule); border-radius: var(--radius-sm); background: var(--paper); color: var(--ink); font: 600 var(--step-1)/1 var(--font-body); cursor: pointer; }
+  .nums button:hover { border-color: var(--fern); }
+  .nums button[aria-checked="true"] { background: var(--fern); border-color: var(--fern); color: var(--paper-raised); }
+  @media (max-width: 819px) { .lb.scoring .lb-photo { min-height: 0; height: 120px; } .lb.scoring .lb-photo img { height: 120px; object-fit: cover; } }
+  .multi { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
+  .multi li { display: grid; gap: var(--s-2); }
+  .multi li > span { font-weight: 600; }
+  .multi .nums { grid-template-columns: repeat(10, 1fr); gap: 4px; }
+  .multi .nums button { min-height: 36px; font-size: var(--step--1); }
   footer { border-top: 1px solid var(--rule); padding: var(--s-6) 0 var(--s-7); color: var(--ink-faint); font-size: var(--step--1); }
 
   @media (max-width: 599px) {
@@ -174,7 +197,9 @@
 <script>
 (() => {
   const J = window.JOURNAL || { trip: { days: [], regions: {} }, entries: [] };
-  const { trip, entries } = J;
+  const { trip } = J;
+  const BASE = J.entries || [];
+  let entries = BASE;
   const RATE = trip.thbPerUsd || 33.5;
   const $ = (s, el = document) => el.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -206,19 +231,22 @@
 
   /* ---------- Derived data ---------- */
   const regionName = k => trip.regions[k] || k;
-  const priced = entries.filter(e => typeof e.priceThb === "number");
-  const rated = entries.filter(e => typeof e.rating === "number");
-  const totalThb = priced.reduce((s, e) => s + e.priceThb, 0);
-  const avg = rated.length ? rated.reduce((s, e) => s + e.rating, 0) / rated.length : null;
-  const daysWithFood = new Set(entries.map(e => e.date)).size;
-  const topRating = rated.length ? Math.max(...rated.map(e => e.rating)) : null;
+  let priced, rated, totalThb, avg, daysWithFood, topRating;
+  function derive() {
+    priced = entries.filter(e => typeof e.priceThb === "number");
+    rated = entries.filter(e => typeof e.rating === "number");
+    totalThb = priced.reduce((s, e) => s + e.priceThb, 0);
+    avg = rated.length ? rated.reduce((s, e) => s + e.rating, 0) / rated.length : null;
+    daysWithFood = new Set(entries.map(e => e.date)).size;
+    topRating = rated.length ? Math.max(...rated.map(e => e.rating)) : null;
+    $("#ledger").innerHTML = entries.length
+      ? `<strong>${entries.length} ${entries.length === 1 ? "dish" : "dishes"}</strong> across ${daysWithFood} ${daysWithFood === 1 ? "day" : "days"}` +
+        (priced.length ? ` · <strong>${baht(totalThb)}</strong> spent (about ${usd(totalThb)})` : "") +
+        (avg !== null ? ` · averaging <strong>${avg.toFixed(1)}/10</strong>` : "")
+      : "Nothing logged yet. The first bite lands soon.";
+  }
 
   $("#tagline").textContent = `Everything we ate in ${trip.country || "Thailand"}, ${fmtDate(trip.start, { day: "numeric", month: "short" })} – ${fmtDate(trip.end, { day: "numeric", month: "short", year: "numeric" })}.`;
-  $("#ledger").innerHTML = entries.length
-    ? `<strong>${entries.length} ${entries.length === 1 ? "dish" : "dishes"}</strong> across ${daysWithFood} ${daysWithFood === 1 ? "day" : "days"}` +
-      (priced.length ? ` · <strong>${baht(totalThb)}</strong> spent (about ${usd(totalThb)})` : "") +
-      (avg !== null ? ` · averaging <strong>${avg.toFixed(1)}/10</strong>` : "")
-    : "Nothing logged yet. The first bite lands soon.";
 
   /* Route order of regions (consecutive duplicates collapsed) */
   const routeRegions = [];
@@ -280,6 +308,7 @@
       <p class="where">${e.place?.name ? `<span class="place">${esc(e.place.name)}</span>` : ""}<span class="region-tag" data-region="${esc(e.region)}">${esc(e.place?.area || regionName(e.region))}</span></p>
       ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}
       ${sidesLine(e)}
+      ${canScore && !e.scores?.main ? `<span class="todo">Needs scores</span>` : ""}
       <div class="foot">${priceHtml(e)}<span>${esc(e.meal ? e.meal[0].toUpperCase() + e.meal.slice(1) : "")}${typeof e.ambiance === "number" ? ` · Ambiance ${fmtScore(e.ambiance)}/10` : ""}</span></div>
     </button>`;
   }
@@ -343,8 +372,8 @@
       day ? ["Trip day", `Day ${dayIndex[e.date] + 1} · ${esc(day.location)}`] : null,
     ].filter(Boolean);
     dlg.innerHTML = `<button class="lb-close" type="button" aria-label="Close">${ICON.close}</button>
-      <div class="lb" data-region="${esc(e.region)}">
-        <div class="lb-photo">${photos[0] ? `<img id="lbImg" src="${esc(photos[0].src)}" alt="${esc(photos[0].alt || e.dish)}">` : `<div class="noimg">${ICON.bowl}</div>`}</div>
+      <div class="lb${photos[0] ? "" : " nophoto"}" data-region="${esc(e.region)}">
+        ${photos[0] ? `<div class="lb-photo"><img id="lbImg" src="${esc(photos[0].src)}" alt="${esc(photos[0].alt || e.dish)}"></div>` : ""}
         <div class="lb-body">
           <span class="region-tag" data-region="${esc(e.region)}">${esc(regionName(e.region))}</span>
           <h2 id="lbTitle">${esc(e.dish)}</h2>
@@ -352,6 +381,7 @@
           ${typeof e.rating === "number" ? `<div>${ratingHtml(e.rating)} <span style="color:var(--ink-faint);font-size:var(--step--1);font-weight:600">main dish</span></div>` : ""}
           ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}
           ${breakdown(e)}
+          ${canScore ? `<button type="button" class="score-btn" data-score="${esc(e.id)}">${e.scores?.main ? "Edit scores" : "Score it"}</button>` : ""}
           <dl class="facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
           ${photos.length > 1 ? `<div class="lb-thumbs">${photos.map((p, i) => `<button type="button" data-i="${i}" aria-current="${i === 0}" aria-label="Photo ${i + 1}"><img src="${esc(p.src)}" alt=""></button>`).join("")}</div>` : ""}
         </div>
@@ -368,13 +398,156 @@
     dlg.querySelectorAll(".lb-thumbs button").forEach(b => b.setAttribute("aria-current", b === t));
   });
 
+  /* ---------- Live scores (artifact db) ----------
+     Scores entered on the page live in db collection "scores", one doc per entry id:
+     { main: {flavour, value, texture, presentation}, sidesRating, sideItems: {name: n}, ambiance }.
+     They override the repo data; Claude folds them back into data/entries.json. */
+  let db = null, canScore = false, dbScores = {};
+  const isScore = v => Number.isInteger(v) && v >= 1 && v <= 10;
+  // Round half up to one decimal — must match dish_score() in scripts/build.py.
+  const weighted = qs => Math.floor(Object.entries(RUBRIC).reduce((t, [k, w]) => t + qs[k] * w, 0) * 10 / Object.values(RUBRIC).reduce((a, b) => a + b, 0) + 0.5) / 10;
+  function applyScores(e, sc) {
+    const x = JSON.parse(JSON.stringify(e));
+    if (sc.main && Object.keys(RUBRIC).every(k => isScore(sc.main[k]))) {
+      const main = Object.fromEntries(Object.keys(RUBRIC).map(k => [k, sc.main[k]]));
+      x.scores = { ...(x.scores || {}), main };
+      x.rating = weighted(main);
+    }
+    if (isScore(sc.sidesRating)) x.sides = { items: [], ...(x.sides || {}), rating: sc.sidesRating };
+    if (sc.sideItems && typeof sc.sideItems === "object" && x.sides?.items) {
+      x.sides.items = x.sides.items.map(it => {
+        const r = sc.sideItems[sideName(it)];
+        if (!isScore(r)) return it;
+        return typeof it === "string" ? { name: it, rating: r } : { ...it, rating: r };
+      });
+    }
+    if (isScore(sc.ambiance)) x.ambiance = sc.ambiance;
+    return x;
+  }
+  function refresh() {
+    entries = BASE.map(e => dbScores[e.id] ? applyScores(e, dbScores[e.id]) : e);
+    derive(); render();
+  }
+
+  const ANCHOR = "1–2 bad · 3–4 below par · 5–6 fine · 7–8 genuinely good · 9–10 among the best";
+  function steps(e) {
+    const st = [
+      { key: "flavour", title: "Flavour", q: "Is it well seasoned and balanced? Does it taste good?" },
+      { key: "value", title: "Value", q: "Was it worth what you paid?" },
+      { key: "texture", title: "Texture", q: "How does it feel to eat: bite, crispness, tenderness?" },
+      { key: "presentation", title: "Presentation", q: "Did it look good and arrive well put together?" },
+    ];
+    if (e.sides) st.push({ key: "sidesRating", title: "Sides", q: "One score for everything else on the table.", optional: true });
+    if ((e.sides?.items || []).length) st.push({ key: "sideItems", title: "Standout sides", q: "Score any side worth calling out. Skip the rest.", optional: true, multi: true });
+    st.push({ key: "ambiance", title: "Ambiance", q: "The setting. Shown separately; it never counts toward the food score.", optional: true });
+    return st;
+  }
+  let wiz = null;
+  function startScoring(id) {
+    const e = entries.find(x => x.id === id); if (!e) return;
+    const prev = dbScores[id] || {};
+    const sideItems = {};
+    (e.sides?.items || []).forEach(it => { if (typeof it === "object" && isScore(it.rating)) sideItems[it.name] = it.rating; });
+    wiz = {
+      e, i: 0, st: steps(e),
+      v: {
+        ...(e.scores?.main || {}), ...(prev.main || {}),
+        sidesRating: prev.sidesRating ?? (e.scores?.main && isScore(e.sides?.rating) ? e.sides.rating : undefined),
+        sideItems: { ...sideItems, ...(prev.sideItems || {}) },
+        ambiance: prev.ambiance ?? e.ambiance,
+      },
+    };
+    drawWizard();
+  }
+  const numRow = (name, cur) => `<div class="nums" role="radiogroup" aria-label="${esc(name)}">${Array.from({ length: 10 }, (_, k) => k + 1).map(n =>
+    `<button type="button" role="radio" aria-checked="${cur === n}" data-n="${n}" data-for="${esc(name)}">${n}</button>`).join("")}</div>`;
+  function drawWizard() {
+    const { e, st, i, v } = wiz;
+    const body = dlg.querySelector(".lb-body");
+    const total = st.length + 1;
+    let inner;
+    if (i < st.length) {
+      const s = st[i];
+      const field = s.multi
+        ? `<ul class="multi">${e.sides.items.map(it => { const n = sideName(it); return `<li><span>${esc(n)}</span>${numRow(n, v.sideItems[n])}</li>`; }).join("")}</ul>`
+        : numRow(s.key, v[s.key]);
+      inner = `<p class="wiz-step">${i + 1} of ${total} · ${esc(e.dish)}</p>
+        <h2 id="lbTitle">${s.title}</h2><p class="wiz-q">${s.q}</p>${field}<p class="wiz-anchor">${ANCHOR}</p>
+        <div class="wiz-nav"><button type="button" class="ghost" data-nav="back">${i ? "Back" : "Cancel"}</button>
+        ${s.multi || s.optional ? `<button type="button" class="ghost" data-nav="next">${s.multi ? "Next" : "Skip"}</button>` : ""}</div>`;
+    } else {
+      const ok = Object.keys(RUBRIC).every(k => isScore(v[k]));
+      inner = `<p class="wiz-step">${total} of ${total} · ${esc(e.dish)}</p><h2 id="lbTitle">Check and save</h2>
+        ${ok ? `<div>${ratingHtml(weighted(v))} <span class="wiz-q">main dish</span></div>` : `<p class="wiz-q">Flavour, value, texture and presentation are all needed.</p>`}
+        <dl class="facts">${Object.keys(RUBRIC).map(k => `<dt>${k[0].toUpperCase() + k.slice(1)} ×${RUBRIC[k]}</dt><dd>${v[k] ?? "–"}</dd>`).join("")}
+        ${isScore(v.sidesRating) ? `<dt>Sides</dt><dd>${v.sidesRating}</dd>` : ""}
+        ${Object.entries(v.sideItems).filter(([, r]) => isScore(r)).map(([n, r]) => `<dt>${esc(n)}</dt><dd>${r}</dd>`).join("")}
+        ${isScore(v.ambiance) ? `<dt>Ambiance</dt><dd>${v.ambiance} <small>(not in the food score)</small></dd>` : ""}</dl>
+        <p class="wiz-msg" role="status"></p>
+        <div class="wiz-nav"><button type="button" class="ghost" data-nav="back">Back</button><button type="button" class="primary" data-nav="save" ${ok ? "" : "disabled"}>Save scores</button></div>`;
+    }
+    dlg.querySelector(".lb").classList.add("scoring");
+    body.innerHTML = inner;
+    body.querySelector(".nums button[aria-checked=true], .nums button, .primary")?.focus({ preventScroll: true });
+  }
+  async function saveScores() {
+    const { e, v } = wiz;
+    const btn = dlg.querySelector("[data-nav=save]"), msg = dlg.querySelector(".wiz-msg");
+    btn.disabled = true; msg.textContent = "Saving…";
+    const doc = { main: Object.fromEntries(Object.keys(RUBRIC).map(k => [k, v[k]])), updatedAt: new Date().toISOString() };
+    if (isScore(v.sidesRating)) doc.sidesRating = v.sidesRating;
+    const items = Object.fromEntries(Object.entries(v.sideItems).filter(([, r]) => isScore(r)));
+    if (Object.keys(items).length) doc.sideItems = items;
+    if (isScore(v.ambiance)) doc.ambiance = v.ambiance;
+    try {
+      await db.doc("scores/" + e.id).set(doc);
+      dbScores[e.id] = doc; wiz = null; refresh(); open(e.id);
+    } catch (err) {
+      btn.disabled = false;
+      msg.textContent = err?.code === "invalid_argument" ? "Only the journal's owner can save scores." : "Couldn't save just now. Try again in a moment.";
+    }
+  }
+  dlg.addEventListener("click", ev => {
+    if (!wiz) return;
+    const n = ev.target.closest(".nums button");
+    if (n) {
+      const val = +n.dataset.n, f = n.dataset.for, s = wiz.st[wiz.i];
+      if (s?.multi) { wiz.v.sideItems[f] = wiz.v.sideItems[f] === val ? undefined : val; drawWizard(); }
+      else { wiz.v[f] = val; wiz.i++; drawWizard(); }
+      return;
+    }
+    const nav = ev.target.closest("[data-nav]"); if (!nav) return;
+    if (nav.dataset.nav === "back") { if (wiz.i === 0) { const id = wiz.e.id; wiz = null; open(id); } else { wiz.i--; drawWizard(); } }
+    else if (nav.dataset.nav === "next") { wiz.i++; drawWizard(); }
+    else if (nav.dataset.nav === "save") saveScores();
+  });
+  dlg.addEventListener("click", ev => { const b = ev.target.closest("[data-score]"); if (b) startScoring(b.dataset.score); });
+  dlg.addEventListener("close", () => { wiz = null; });
+
+  (async () => {
+    if (!window.claude?.use) return;
+    const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+    if (!d) return;
+    db = d;
+    const can = user ? await user.canEdit() : null;
+    canScore = can !== false;
+    const slow = setTimeout(() => { $("#liveNote").textContent = " · Live scores can't be reached right now."; }, 10000);
+    db.collection("scores").onSnapshot(snap => {
+      if (!snap.metadata.fromCache) { clearTimeout(slow); $("#liveNote").textContent = ""; }
+      dbScores = Object.fromEntries(snap.docs.filter(x => x.exists).map(x => [x.id, x.data()]));
+      refresh();
+    }, () => { clearTimeout(slow); });
+    render();
+  })();
+
   /* ---------- Events ---------- */
   const syncHash = () => { try { history.replaceState(null, "", `#r=${state.region}&s=${state.sort}`); } catch {} };
   $("#filters").addEventListener("click", ev => { const b = ev.target.closest("[data-filter]"); if (!b) return; state.region = b.dataset.filter; syncHash(); render(); });
   document.querySelector(".sort").addEventListener("click", ev => { const b = ev.target.closest("[data-sort]"); if (!b) return; state.sort = b.dataset.sort; syncHash(); render(); });
   $("#main").addEventListener("click", ev => { const c = ev.target.closest(".dish"); if (c) open(c.dataset.id); });
 
-  $("#footer").innerHTML = `Kin Khao · ${esc(trip.name || "Thailand")} · prices in baht, dollars at ~${RATE} THB to $1 · <a href="brand.html">Brand kit</a>`;
+  $("#footer").innerHTML = `Kin Khao · ${esc(trip.name || "Thailand")} · prices in baht, dollars at ~${RATE} THB to $1 · <a href="brand.html">Brand kit</a><span id="liveNote"></span>`;
+  derive();
   render();
 })();
 </script>
