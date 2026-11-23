@@ -203,6 +203,12 @@ window.JOURNAL = {
    }
   ]
  },
+ "rubric": {
+  "flavour": 3,
+  "value": 2,
+  "texture": 2,
+  "presentation": 1
+ },
  "entries": [
   {
    "id": "2026-11-22-starlux-beef-bulgogi",

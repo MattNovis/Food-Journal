@@ -12,6 +12,23 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+# Food score rubric: each question 1–10; dish score = weighted average (also 1–10).
+# Ambiance is recorded per meal but never counts toward the food scores.
+RUBRIC = {"flavour": 3, "value": 2, "texture": 2, "presentation": 1}
+
+
+def dish_score(qs, eid, label):
+    missing = [k for k in RUBRIC if not isinstance(qs.get(k), (int, float))]
+    if missing:
+        fail(f"{eid}: {label} scores missing {missing}")
+    for k, v in qs.items():
+        if k not in RUBRIC:
+            fail(f"{eid}: unknown {label} score '{k}' (use {list(RUBRIC)})")
+        if not 1 <= v <= 10:
+            fail(f"{eid}: {label}.{k} must be 1–10")
+    return round(sum(qs[k] * w for k, w in RUBRIC.items()) / sum(RUBRIC.values()), 1)
+
+
 MEALS = {"breakfast", "lunch", "dinner", "snack", "dessert", "drink"}
 
 
@@ -35,6 +52,14 @@ def main():
             fail(f"{eid}: missing dish")
         if e.get("meal") and e["meal"] not in MEALS:
             fail(f"{eid}: meal must be one of {sorted(MEALS)}")
+        sc = e.get("scores") or {}
+        if "main" in sc:
+            e["rating"] = dish_score(sc["main"], eid, "main")
+        if "sides" in sc:
+            e.setdefault("sides", {})["rating"] = dish_score(sc["sides"], eid, "sides")
+        a = e.get("ambiance")
+        if a is not None and not (1 <= a <= 10):
+            fail(f"{eid}: ambiance must be 1–10")
         r = e.get("rating")
         if r is not None and not (0 <= r <= 10):
             fail(f"{eid}: rating must be 0–10")
@@ -58,7 +83,7 @@ def main():
             fail(f"{eid}: unknown region {e['region']}")
     order = {m: i for i, m in enumerate(["breakfast", "lunch", "snack", "dinner", "dessert", "drink"])}
     entries.sort(key=lambda e: (e["date"], e.get("time") or "", order.get(e.get("meal"), 9)))
-    bundle = {"trip": trip, "entries": entries}
+    bundle = {"trip": trip, "rubric": RUBRIC, "entries": entries}
     js = "window.JOURNAL = " + json.dumps(bundle, ensure_ascii=False, indent=1) + ";\n"
     (ROOT / "site/data.js").write_text(js)
     print(f"build: {len(entries)} entries, {sum(len(e.get('photos', [])) for e in entries)} photos → site/data.js")
