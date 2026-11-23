@@ -26,7 +26,7 @@ REGIONS = [
     ("bangkok", ["Bangkok", "home"]),
 ]
 REGION_NAMES = {
-    "transit": "In transit",
+    "transit": "Travel",
     "bangkok": "Bangkok",
     "chiang-mai": "Chiang Mai",
     "chiang-rai": "Chiang Rai",

@@ -1,1 +1,35 @@
-[]
+[
+  {
+    "id": "2026-11-22-starlux-beef-bulgogi",
+    "date": "2026-11-22",
+    "meal": "dinner",
+    "dish": "Beef bulgogi",
+    "description": "STARLUX inflight meal. Shockingly tender, flavorful beef, and tasty fruit. Walked around the cabin with a hot tea, which was a delight. The rest was classic airline food.",
+    "place": { "name": "STARLUX Airlines", "area": "Inflight" },
+    "rating": 7.2,
+    "region": "transit",
+    "photos": []
+  },
+  {
+    "id": "2026-11-23-starlux-pork-congee",
+    "date": "2026-11-23",
+    "meal": "breakfast",
+    "dish": "Pork congee",
+    "description": "STARLUX inflight breakfast. Pork congee was the star of the show: super tasty, very fragrant and flavorful, with a great texture. The rest of the breakfast was standard.",
+    "place": { "name": "STARLUX Airlines", "area": "Inflight" },
+    "rating": 7.8,
+    "region": "transit",
+    "photos": []
+  },
+  {
+    "id": "2026-11-23-taoyuan-soup-dumplings",
+    "date": "2026-11-23",
+    "meal": "lunch",
+    "dish": "Soup dumplings",
+    "description": "Soup dumplings were so fire. Alongside: hot and sour soup (good, tasted like pepper), smashed cucumbers (a good fresh addition), hot cabbage (mid) and a milk tea. The rest was good but nothing special.",
+    "place": { "name": "Taiwan airport layover", "area": "Taoyuan, Taiwan" },
+    "rating": 8.4,
+    "region": "transit",
+    "photos": [{ "src": "photos/2026-11-23-taoyuan-soup-dumplings.jpg", "w": 1200, "h": 1600, "alt": "Bamboo steamer of soup dumplings with ginger, hot and sour soup, stir-fried cabbage and cucumbers on airport food-court trays" }]
+  }
+]

@@ -72,6 +72,8 @@
   .dish figure { margin: 0; position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4 / 5; background: var(--paper-sunk); box-shadow: var(--shadow-1); transition: box-shadow .4s var(--ease-out), transform .4s var(--ease-out); }
   .dish:hover figure { box-shadow: var(--shadow-2); transform: translateY(-3px); }
   .dish img { width: 100%; height: 100%; object-fit: cover; }
+  .dish figure.nophoto, .best-row .dish:first-child figure.nophoto { aspect-ratio: auto; height: 88px; }
+  .dish figure.nophoto .noimg svg { width: 40px; }
   .dish .noimg { position: absolute; inset: 0; display: grid; place-items: center; background: color-mix(in srgb, var(--r) 18%, var(--paper-sunk)); color: var(--r); }
   .dish .noimg svg { width: 45%; opacity: .7; }
   .dish .badge {
@@ -230,7 +232,7 @@
     const p = (e.photos || [])[0];
     const isTop = typeof e.rating === "number" && e.rating === topRating && rated.length > 1;
     return `<button type="button" class="dish" data-region="${esc(e.region)}" data-id="${esc(e.id)}" aria-label="${esc(e.dish)}, details">
-      <figure>
+      <figure class="${p ? "" : "nophoto"}">
         ${p ? `<img src="${esc(p.src)}" alt="${esc(p.alt || e.dish)}" width="${p.w || 1200}" height="${p.h || 1500}" loading="lazy" decoding="async">`
             : `<div class="noimg">${ICON.bowl}</div>`}
         ${typeof e.rating === "number" ? `<span class="badge ${isTop ? "top" : ""}">${ratingHtml(e.rating)}</span>` : ""}
