@@ -56,7 +56,7 @@ def main():
         if "main" in sc:
             e["rating"] = dish_score(sc["main"], eid, "main")
         if "sides" in sc:
-            e.setdefault("sides", {})["rating"] = dish_score(sc["sides"], eid, "sides")
+            fail(f"{eid}: sides take one overall score — use sides.rating, not scores.sides")
         a = e.get("ambiance")
         if a is not None and not (1 <= a <= 10):
             fail(f"{eid}: ambiance must be 1–10")
@@ -67,6 +67,16 @@ def main():
         if sides is not None:
             if not isinstance(sides.get("items", []), list):
                 fail(f"{eid}: sides.items must be a list")
+            # Items are plain names, or {"name", "rating"?, "note"?} for noteworthy sides.
+            for it in sides.get("items", []):
+                if isinstance(it, dict):
+                    if not it.get("name"):
+                        fail(f"{eid}: side item without a name")
+                    ir = it.get("rating")
+                    if ir is not None and not (1 <= ir <= 10):
+                        fail(f"{eid}: side '{it['name']}' rating must be 1–10")
+                elif not isinstance(it, str):
+                    fail(f"{eid}: side items must be names or objects")
             sr = sides.get("rating")
             if sr is not None and not (0 <= sr <= 10):
                 fail(f"{eid}: sides.rating must be 0–10")

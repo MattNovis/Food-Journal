@@ -121,6 +121,10 @@
   .breakdown tbody th { font-weight: 600; }
   .breakdown td.total { font-weight: 700; color: var(--ink); }
   .breakdown .short { display: none; }
+  .side-list { list-style: none; margin: var(--s-2) 0 0; padding: 0; }
+  .side-list li { display: flex; justify-content: space-between; gap: var(--s-3); padding: .3em 0; border-top: 1px solid var(--rule); }
+  .side-list small { color: var(--ink-faint); }
+  .side-list b { font-weight: 700; }
   @media (max-width: 599px) { .breakdown .full { display: none; } .breakdown .short { display: inline; } .breakdown th, .breakdown td { padding: .4em .3em; } }
   .lb-close { position: absolute; top: var(--s-3); right: var(--s-3); width: 40px; height: 40px; border-radius: var(--pill); border: 0; background: var(--paper-raised); color: var(--ink); display: grid; place-items: center; cursor: pointer; box-shadow: var(--shadow-1); z-index: 1; }
   .lb-close svg { width: 18px; height: 18px; }
@@ -239,21 +243,27 @@
   const priceHtml = e => typeof e.priceThb === "number" ? `<span class="price">${baht(e.priceThb)}<small>${usd(e.priceThb)}</small></span>` : "";
 
   const fmtScore = r => Number.isInteger(r) ? String(r) : r.toFixed(1);
+  const sideName = it => typeof it === "string" ? it : it.name;
+  const sidesDetail = sd => {
+    const its = (sd.items || []).filter(it => typeof it === "object" && (typeof it.rating === "number" || it.note));
+    if (!its.length) return "";
+    return `<ul class="side-list">${its.map(it => `<li><span>${esc(it.name)}${it.note ? ` <small>${esc(it.note)}</small>` : ""}</span>${typeof it.rating === "number" ? `<b>${fmtScore(it.rating)}</b>` : ""}</li>`).join("")}</ul>`;
+  };
   const sidesLine = e => {
     const sd = e.sides; if (!sd) return "";
     const score = typeof sd.rating === "number" ? `<b>${fmtScore(sd.rating)}/10</b>` : "";
-    const items = (sd.items || []).join(", ");
+    const items = (sd.items || []).map(sideName).join(", ");
     return `<p class="sides">Sides ${score}${score && items ? " · " : ""}${esc(items)}</p>`;
   };
 
   const RUBRIC = J.rubric || { flavour: 3, value: 2, texture: 2, presentation: 1 };
   function breakdown(e) {
-    const sc = e.scores; if (!sc || (!sc.main && !sc.sides)) return "";
+    const sc = e.scores; if (!sc || !sc.main) return "";
     const keys = Object.keys(RUBRIC);
     const cap = k => k[0].toUpperCase() + k.slice(1);
     const row = (label, qs, total) => qs ? `<tr><th scope="row">${label}</th>${keys.map(k => `<td>${fmtScore(qs[k])}</td>`).join("")}<td class="total">${fmtScore(total)}</td></tr>` : "";
     return `<table class="breakdown"><thead><tr><th></th>${keys.map(k => `<th scope="col" title="${cap(k)}, weight ×${RUBRIC[k]}"><span class="full">${cap(k)}</span><span class="short">${({ flavour: "Flavour", value: "Value", texture: "Texture", presentation: "Pres." })[k] || cap(k)}</span><br><span style="font-weight:400">×${RUBRIC[k]}</span></th>`).join("")}<th scope="col">Score</th></tr></thead>
-      <tbody>${row("Main", sc.main, e.rating)}${row("Sides", sc.sides, e.sides?.rating)}</tbody></table>`;
+      <tbody>${row("Main", sc.main, e.rating)}</tbody></table>`;
   }
 
   function card(e) {
@@ -326,8 +336,8 @@
       ["When", `${fmtDate(e.date, { weekday: "long", day: "numeric", month: "long" })}${e.meal ? ", " + e.meal : ""}${e.time ? " · " + e.time : ""}`],
       ["Where", [e.place?.name, e.place?.area || regionName(e.region)].filter(Boolean).map(esc).join(", ") + (e.place?.mapsUrl ? ` · <a href="${esc(e.place.mapsUrl)}" target="_blank" rel="noopener">map</a>` : "")],
       e.sides ? ["Sides", (typeof e.sides.rating === "number" ? `<strong>${fmtScore(e.sides.rating)}/10</strong>` : "") +
-        ((e.sides.items || []).length ? `${typeof e.sides.rating === "number" ? " · " : ""}${esc(e.sides.items.join(", "))}` : "") +
-        (e.sides.note ? `<br>${esc(e.sides.note)}` : "")] : null,
+        ((e.sides.items || []).length ? `${typeof e.sides.rating === "number" ? " · " : ""}${esc(e.sides.items.map(sideName).join(", "))}` : "") +
+        (e.sides.note ? `<br>${esc(e.sides.note)}` : "") + sidesDetail(e.sides)] : null,
       typeof e.ambiance === "number" ? ["Ambiance", `<strong>${fmtScore(e.ambiance)}/10</strong> <small>(not part of the food score)</small>`] : null,
       typeof e.priceThb === "number" ? ["Paid", priceHtml(e) + (e.priceNote ? ` <small>(${esc(e.priceNote)})</small>` : "")] : null,
       day ? ["Trip day", `Day ${dayIndex[e.date] + 1} · ${esc(day.location)}`] : null,
