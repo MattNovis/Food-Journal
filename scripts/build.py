@@ -38,6 +38,13 @@ def main():
         r = e.get("rating")
         if r is not None and not (0 <= r <= 10):
             fail(f"{eid}: rating must be 0–10")
+        sides = e.get("sides")
+        if sides is not None:
+            if not isinstance(sides.get("items", []), list):
+                fail(f"{eid}: sides.items must be a list")
+            sr = sides.get("rating")
+            if sr is not None and not (0 <= sr <= 10):
+                fail(f"{eid}: sides.rating must be 0–10")
         if e.get("priceThb") is not None and e["priceThb"] < 0:
             fail(f"{eid}: negative price")
         for p in e.get("photos", []):

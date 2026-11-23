@@ -87,6 +87,8 @@
   .dish .where { margin: 0; display: flex; flex-wrap: wrap; gap: .25em .75em; align-items: center; font-size: var(--step--1); color: var(--ink-soft); }
   .dish .where .place { font-weight: 600; color: var(--ink); }
   .dish .desc { margin: 0; color: var(--ink-soft); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .dish .sides { margin: 0; font-size: var(--step--1); color: var(--ink-soft); }
+  .dish .sides b { color: var(--ink); font-weight: 700; }
   .dish .foot { display: flex; justify-content: space-between; align-items: center; gap: var(--s-3); font-size: var(--step--1); color: var(--ink-faint); }
   .best-row .dish:first-child figure { aspect-ratio: 5 / 4; }
   @media (max-width: 759px) { .best-row .dish:first-child figure { aspect-ratio: 4 / 5; } }
@@ -228,6 +230,14 @@
   const ratingHtml = r => `<span class="rating"><b>${Number.isInteger(r) ? r : r.toFixed(1)}</b><span>/10</span></span>`;
   const priceHtml = e => typeof e.priceThb === "number" ? `<span class="price">${baht(e.priceThb)}<small>${usd(e.priceThb)}</small></span>` : "";
 
+  const fmtScore = r => Number.isInteger(r) ? String(r) : r.toFixed(1);
+  const sidesLine = e => {
+    const sd = e.sides; if (!sd) return "";
+    const score = typeof sd.rating === "number" ? `<b>${fmtScore(sd.rating)}/10</b>` : "";
+    const items = (sd.items || []).join(", ");
+    return `<p class="sides">Sides ${score}${score && items ? " · " : ""}${esc(items)}</p>`;
+  };
+
   function card(e) {
     const p = (e.photos || [])[0];
     const isTop = typeof e.rating === "number" && e.rating === topRating && rated.length > 1;
@@ -241,6 +251,7 @@
       ${e.thaiName ? `<p class="thai" lang="th">${esc(e.thaiName)}</p>` : ""}
       <p class="where">${e.place?.name ? `<span class="place">${esc(e.place.name)}</span>` : ""}<span class="region-tag" data-region="${esc(e.region)}">${esc(e.place?.area || regionName(e.region))}</span></p>
       ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}
+      ${sidesLine(e)}
       <div class="foot">${priceHtml(e)}<span>${esc(e.meal ? e.meal[0].toUpperCase() + e.meal.slice(1) : "")}</span></div>
     </button>`;
   }
@@ -296,6 +307,9 @@
     const facts = [
       ["When", `${fmtDate(e.date, { weekday: "long", day: "numeric", month: "long" })}${e.meal ? ", " + e.meal : ""}${e.time ? " · " + e.time : ""}`],
       ["Where", [e.place?.name, e.place?.area || regionName(e.region)].filter(Boolean).map(esc).join(", ") + (e.place?.mapsUrl ? ` · <a href="${esc(e.place.mapsUrl)}" target="_blank" rel="noopener">map</a>` : "")],
+      e.sides ? ["Sides", (typeof e.sides.rating === "number" ? `<strong>${fmtScore(e.sides.rating)}/10</strong>` : "") +
+        ((e.sides.items || []).length ? `${typeof e.sides.rating === "number" ? " · " : ""}${esc(e.sides.items.join(", "))}` : "") +
+        (e.sides.note ? `<br>${esc(e.sides.note)}` : "")] : null,
       typeof e.priceThb === "number" ? ["Paid", priceHtml(e) + (e.priceNote ? ` <small>(${esc(e.priceNote)})</small>` : "")] : null,
       day ? ["Trip day", `Day ${dayIndex[e.date] + 1} · ${esc(day.location)}`] : null,
     ].filter(Boolean);
@@ -306,7 +320,7 @@
           <span class="region-tag" data-region="${esc(e.region)}">${esc(regionName(e.region))}</span>
           <h2 id="lbTitle">${esc(e.dish)}</h2>
           ${e.thaiName ? `<p class="thai" lang="th">${esc(e.thaiName)}</p>` : ""}
-          ${typeof e.rating === "number" ? `<div>${ratingHtml(e.rating)}</div>` : ""}
+          ${typeof e.rating === "number" ? `<div>${ratingHtml(e.rating)} <span style="color:var(--ink-faint);font-size:var(--step--1);font-weight:600">main dish</span></div>` : ""}
           ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}
           <dl class="facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
           ${photos.length > 1 ? `<div class="lb-thumbs">${photos.map((p, i) => `<button type="button" data-i="${i}" aria-current="${i === 0}" aria-label="Photo ${i + 1}"><img src="${esc(p.src)}" alt=""></button>`).join("")}</div>` : ""}
