@@ -204,10 +204,10 @@ window.JOURNAL = {
   ]
  },
  "rubric": {
-  "flavour": 3,
-  "value": 2,
-  "texture": 2,
-  "presentation": 1
+  "flavour": 50,
+  "texture": 20,
+  "value": 20,
+  "presentation": 10
  },
  "entries": [
   {

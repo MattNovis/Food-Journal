@@ -148,7 +148,7 @@ and the sort toggle. Region dots are circles. No decorative shapes.
 
 - **Dish card**: a rounded photo (4:5, or 1:1 on phones) with a rating badge bottom-left, then the dish name (Gloock), Thai name,
   place + region tag, a 3-line description, then price (฿ + $) and meal. Tapping it opens the lightbox.
-- **Rating**: a plain number /10 (one decimal). Computed from the rubric (Flavour 37.5%, Value 25%, Texture 25%, Presentation 12.5%). Weights are always shown to people as % of the score, never as multipliers. The lightbox shows the breakdown as a small table. Ambiance is shown separately and never affects the score. No meters or icons.
+- **Rating**: a plain number /10 (one decimal). Computed from the rubric (Flavour 50%, Texture 20%, Value 20%, Presentation 10%). Weights are always shown to people as % of the score, never as multipliers. The lightbox shows the breakdown as a small table. Ambiance is shown separately and never affects the score. No meters or icons.
 - **Lightbox**: a `<dialog>` with the photo left and details right (stacked on phones), and thumbnails when there are several photos.
 - **Icons**: authored inline SVG, 1.8px stroke. No emoji standing in for icons.
 

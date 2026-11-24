@@ -15,7 +15,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 # Food score rubric: each question 1–10; dish score = weighted average (also 1–10).
 # Ambiance is recorded per meal but never counts toward the food scores.
-RUBRIC = {"flavour": 3, "value": 2, "texture": 2, "presentation": 1}
+# Weights are percent of the score (sum 100). Order = the order questions are asked/sent.
+RUBRIC = {"flavour": 50, "texture": 20, "value": 20, "presentation": 10}
 
 
 def dish_score(qs, eid, label):

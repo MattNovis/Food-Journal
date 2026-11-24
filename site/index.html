@@ -298,7 +298,7 @@
     return `<p class="sides">Sides ${score}${score && items ? " · " : ""}${esc(items)}</p>`;
   };
 
-  const RUBRIC = J.rubric || { flavour: 3, value: 2, texture: 2, presentation: 1 };
+  const RUBRIC = J.rubric || { flavour: 50, texture: 20, value: 20, presentation: 10 };
   // Each question's share of the dish score, e.g. "37.5%".
   const pct = k => `${+(RUBRIC[k] / Object.values(RUBRIC).reduce((a, b) => a + b, 0) * 100).toFixed(1)}%`;
   function breakdown(e) {
@@ -416,7 +416,7 @@
 
   /* ---------- Live scores (artifact db) ----------
      Scores entered on the page live in db collection "scores", one doc per entry id:
-     { main: {flavour, value, texture, presentation}, sidesRating, sideItems: {name: n}, ambiance }.
+     { main: {flavour, texture, value, presentation}, sidesRating, sideItems: {name: n}, ambiance }.
      They override the repo data; Claude folds them back into data/entries.json. */
   let db = null, canScore = false, dbScores = {};
   // Scores are 1.0–10.0 in steps of 0.1.
@@ -451,8 +451,8 @@
   function steps(e) {
     const st = [
       { key: "flavour", title: "Flavour", q: "Is it well seasoned and balanced? Does it taste good?" },
-      { key: "value", title: "Value", q: "Was it worth what you paid?" },
       { key: "texture", title: "Texture", q: "How does it feel to eat: bite, crispness, tenderness?" },
+      { key: "value", title: "Value", q: "Was it worth what you paid?" },
       { key: "presentation", title: "Presentation", q: "Did it look good and arrive well put together?" },
     ];
     if (e.sides) st.push({ key: "sidesRating", title: "Sides", q: "One score for everything else on the table.", optional: true });
