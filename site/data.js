@@ -485,6 +485,32 @@ window.JOURNAL = {
     ],
     "note": "The star of the show."
    }
+  },
+  {
+   "id": "2026-11-24-thai-tea",
+   "date": "2026-11-24",
+   "time": "14:49",
+   "meal": "drink",
+   "dish": "Thai tea",
+   "thaiName": "ชาไทย",
+   "description": "Thai tea!",
+   "place": {
+    "name": "ปู่อู๋ คอฟฟี่",
+    "area": "Bangkok"
+   },
+   "region": "bangkok",
+   "price": {
+    "currency": "THB",
+    "main": 45
+   },
+   "photos": [
+    {
+     "src": "photos/2026-11-24-thai-tea.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Iced Thai tea in a plastic cup with a moustache logo, held up in a hotel room"
+    }
+   ]
   }
  ]
 };

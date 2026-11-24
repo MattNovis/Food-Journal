@@ -342,9 +342,12 @@
   /* ---------- Derived data ---------- */
   const regionName = k => trip.regions[k] || k;
   let priced, rated, totalUsd, avg, daysWithFood, topRating;
+  // Drinks get ONE overall score (scores.overall) instead of the four-question rubric.
+  const isDrink = e => e.meal === "drink";
+  const hasScore = e => isDrink(e) ? typeof e.scores?.overall === "number" : !!e.scores?.main;
   function derive() {
     priced = entries.filter(e => mealUsd(e) !== null);
-    rated = entries.filter(e => typeof e.rating === "number");
+    rated = entries.filter(e => typeof e.rating === "number" && !isDrink(e));  // meals only; drinks rank separately
     totalUsd = priced.reduce((s, e) => s + mealUsd(e), 0);
     avg = rated.length ? rated.reduce((s, e) => s + e.rating, 0) / rated.length : null;
     daysWithFood = new Set(entries.map(e => e.date)).size;
@@ -419,7 +422,7 @@
 
   function card(e) {
     const p = (e.photos || [])[0];
-    const isTop = typeof e.rating === "number" && e.rating === topRating && rated.length > 1;
+    const isTop = !isDrink(e) && typeof e.rating === "number" && e.rating === topRating && rated.length > 1;
     return `<button type="button" class="dish" data-region="${esc(e.region)}" data-id="${esc(e.id)}" aria-label="${esc(e.dish)}, details">
       <figure class="${p ? "" : "nophoto"}">
         ${p ? `<img src="${esc(p.src)}" alt="${esc(p.alt || e.dish)}" width="${p.w || 1200}" height="${p.h || 1500}" loading="lazy" decoding="async">`
@@ -432,7 +435,7 @@
       ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}
       ${sidesLine(e)}
       ${dessertLine(e)}
-      ${canScore && !e.scores?.main ? `<span class="todo">Needs scores</span>` : ""}
+      ${canScore && !hasScore(e) ? `<span class="todo">Needs ${isDrink(e) ? "a score" : "scores"}</span>` : ""}
       <div class="foot">${priceHtml(e)}<span>${esc(e.meal ? e.meal[0].toUpperCase() + e.meal.slice(1) : "")}${typeof e.ambiance === "number" ? ` · Ambiance ${fmtScore(e.ambiance)}/10` : ""}</span></div>
     </button>`;
   }
@@ -530,9 +533,14 @@
     const where = e => [e.place?.name, shortDate(e.date)].filter(Boolean).map(esc).join(" · ");
     let rows = [], rest = "";
     if (rank.kind === "mains") {
-      const scored = pool.filter(e => typeof e.rating === "number");
-      rows = scored.map(e => ({ e, title: e.dish, sub: where(e), score: e.rating }));
-      const un = pool.filter(e => typeof e.rating !== "number");
+      const meals = pool.filter(e => !isDrink(e));
+      rows = meals.filter(e => typeof e.rating === "number").map(e => ({ e, title: e.dish, sub: where(e), score: e.rating }));
+      const un = meals.filter(e => typeof e.rating !== "number");
+      if (un.length) rest = `Not scored yet: ${un.map(e => esc(e.dish)).join(", ")}.`;
+    } else if (rank.kind === "drinks") {
+      const drinks = pool.filter(isDrink);
+      rows = drinks.filter(e => typeof e.rating === "number").map(e => ({ e, title: e.dish, sub: where(e), score: e.rating }));
+      const un = drinks.filter(e => typeof e.rating !== "number");
       if (un.length) rest = `Not scored yet: ${un.map(e => esc(e.dish)).join(", ")}.`;
     } else if (rank.kind === "desserts") {
       pool.forEach(e => {
@@ -550,12 +558,12 @@
     const opt = (v, label, cur) => `<option value="${esc(v)}"${v === cur ? " selected" : ""}>${esc(label)}</option>`;
     const filters = `<div class="filters">
       <div class="field"><span id="kindLbl">Rank</span><div class="seg" role="group" aria-labelledby="kindLbl">
-        ${[["mains", "Main dishes"], ["sides", "Sides"], ["desserts", "Desserts"]].map(([k, l]) => `<button type="button" data-kind="${k}" aria-pressed="${rank.kind === k}">${l}</button>`).join("")}</div></div>
+        ${[["mains", "Main dishes"], ["sides", "Sides"], ["desserts", "Desserts"], ["drinks", "Drinks"]].map(([k, l]) => `<button type="button" data-kind="${k}" aria-pressed="${rank.kind === k}">${l}</button>`).join("")}</div></div>
       <label class="field"><span>Location</span><select data-filter="loc">${opt("all", "Everywhere", rank.loc)}${locs.map(k => opt(k, regionName(k), rank.loc)).join("")}</select></label>
       <label class="field"><span>Meal</span><select data-filter="meal">${opt("all", "All meals", rank.meal)}${meals.map(m => opt(m, cap1(m), rank.meal)).join("")}</select></label>
     </div>`;
     const list = rows.length ? `<ol class="rank">${rows.map((r, i) => rankRow(i + 1, r.e, r.title, r.sub, r.score)).join("")}</ol>`
-      : `<p class="day-empty" style="margin-top:var(--s-6)">${({ sides: "No scored sides", desserts: "No scored desserts" })[rank.kind] || "No scored dishes"} for these filters yet.</p>`;
+      : `<p class="day-empty" style="margin-top:var(--s-6)">${({ sides: "No scored sides", desserts: "No scored desserts", drinks: "No scored drinks" })[rank.kind] || "No scored dishes"} for these filters yet.</p>`;
     return `<div class="view-intro"><h2 class="section-title">Best to worst</h2>${filters}${list}${rest ? `<p class="rank-rest">${rest}</p>` : ""}</div>`;
   }
 
@@ -600,10 +608,10 @@
           <span class="region-tag" data-region="${esc(e.region)}">${esc(regionName(e.region))}</span>
           <h2 id="lbTitle">${esc(e.dish)}</h2>
           ${e.thaiName ? `<p class="thai" lang="th">${esc(e.thaiName)}</p>` : ""}
-          ${typeof e.rating === "number" ? `<div>${ratingHtml(e.rating)} <span style="color:var(--ink-faint);font-size:var(--step--1);font-weight:600">main dish</span></div>` : ""}
+          ${typeof e.rating === "number" ? `<div>${ratingHtml(e.rating)} <span style="color:var(--ink-faint);font-size:var(--step--1);font-weight:600">${isDrink(e) ? "overall" : "main dish"}</span></div>` : ""}
           ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}
           ${breakdown(e)}
-          ${canScore ? `<button type="button" class="score-btn" data-score="${esc(e.id)}">${e.scores?.main ? "Edit scores" : "Score it"}</button>` : ""}
+          ${canScore ? `<button type="button" class="score-btn" data-score="${esc(e.id)}">${hasScore(e) ? "Edit scores" : "Score it"}</button>` : ""}
           <dl class="facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
         </div>
       </div>`;
@@ -652,6 +660,7 @@
       x.scores = { ...(x.scores || {}), main };
       x.rating = weighted(main);
     }
+    if (isDrink(x) && isScore(sc.overall)) { x.scores = { ...(x.scores || {}), overall: sc.overall }; x.rating = sc.overall; }
     if (isScore(sc.sidesRating)) x.sides = { items: [], ...(x.sides || {}), rating: sc.sidesRating };
     if (sc.sideItems && typeof sc.sideItems === "object" && x.sides?.items) {
       x.sides.items = x.sides.items.map(it => {
@@ -681,6 +690,11 @@
   }
 
   function steps(e) {
+    if (isDrink(e)) return [
+      { key: "overall", title: "Overall", q: "One score for the drink." },
+      { key: "ambiance", title: "Ambiance", q: "The setting. Shown separately; it never counts toward the score.", optional: true },
+      { key: "price", title: "Price", q: "Optional. What did it cost?", optional: true, kind: "price" },
+    ];
     const st = [
       { key: "flavour", title: "Flavour", q: "Is it well seasoned and balanced? Does it taste good?" },
       { key: "texture", title: "Texture", q: "How does it feel to eat: bite, crispness, tenderness?" },
@@ -704,6 +718,7 @@
       e, i: 0, st: steps(e),
       v: {
         ...(e.scores?.main || {}), ...(prev.main || {}),
+        overall: prev.overall ?? e.scores?.overall,
         sidesRating: prev.sidesRating ?? (e.scores?.main && isScore(e.sides?.rating) ? e.sides.rating : undefined),
         sideItems: { ...sideItems, ...(prev.sideItems || {}) },
         dessertRating: prev.dessertRating ?? e.dessert?.rating,
@@ -730,7 +745,7 @@
     </div>`;
   };
   // Bottom bar: Cancel (+ Skip) on the left; ‹ Save › on the right, so a single change can be saved from any step.
-  const mainDone = () => Object.keys(RUBRIC).every(k => isScore(wiz.v[k]));
+  const mainDone = () => isDrink(wiz.e) ? isScore(wiz.v.overall) : Object.keys(RUBRIC).every(k => isScore(wiz.v[k]));
   const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
   function navBar(nextReady) {
     const { st, i } = wiz, s = st[i];
@@ -739,7 +754,7 @@
         ${s && s.optional && !s.multi && s.kind !== "price" ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}</span>
       <span class="wiz-right">
         <button type="button" class="ghost arrow" data-nav="back" aria-label="Previous" ${i ? "" : "disabled"}>${ARROW("M15 5l-7 7 7 7")}</button>
-        <button type="button" class="primary" data-nav="save" ${mainDone() ? "" : "disabled"} title="${mainDone() ? "Save scores" : "Flavour, texture, value and presentation are needed first"}">Save</button>
+        <button type="button" class="primary" data-nav="save" ${mainDone() ? "" : "disabled"} title="${mainDone() ? "Save scores" : isDrink(wiz.e) ? "Give it an overall score first" : "Flavour, texture, value and presentation are needed first"}">Save</button>
         <button type="button" class="ghost arrow" data-nav="next" aria-label="Next" ${!last && nextReady ? "" : "disabled"}>${ARROW("M9 5l7 7-7 7")}</button>
       </span></div>`;
   }
@@ -770,10 +785,10 @@
         <h2 id="lbTitle">${s.title}</h2><p class="wiz-q">${s.q}${RUBRIC[s.key] ? ` <strong class="share">${pct(s.key)} of the score</strong>` : ""}</p>${field}
         ${navBar(ready)}`;
     } else {
-      const ok = Object.keys(RUBRIC).every(k => isScore(v[k]));
+      const ok = mainDone(), drink = isDrink(e);
       inner = `<p class="wiz-step">${total} of ${total} · ${esc(e.dish)}</p><h2 id="lbTitle">Check and save</h2>
-        ${ok ? `<div>${ratingHtml(weighted(v))} <span class="wiz-q">main dish</span></div>` : `<p class="wiz-q">Flavour, value, texture and presentation are all needed.</p>`}
-        <dl class="facts">${Object.keys(RUBRIC).map(k => `<dt>${k[0].toUpperCase() + k.slice(1)} <small>${pct(k)}</small></dt><dd>${isScore(v[k]) ? v[k].toFixed(1) : "–"}</dd>`).join("")}
+        ${ok ? `<div>${ratingHtml(drink ? v.overall : weighted(v))} <span class="wiz-q">${drink ? "overall" : "main dish"}</span></div>` : `<p class="wiz-q">${drink ? "An overall score is needed." : "Flavour, value, texture and presentation are all needed."}</p>`}
+        <dl class="facts">${drink ? "" : Object.keys(RUBRIC).map(k => `<dt>${k[0].toUpperCase() + k.slice(1)} <small>${pct(k)}</small></dt><dd>${isScore(v[k]) ? v[k].toFixed(1) : "–"}</dd>`).join("")}
         ${isScore(v.sidesRating) ? `<dt>Sides</dt><dd>${v.sidesRating.toFixed(1)}</dd>` : ""}
         ${Object.entries(v.sideItems).filter(([, r]) => isScore(r)).map(([n, r]) => `<dt>${esc(n)}</dt><dd>${r.toFixed(1)}</dd>`).join("")}
         ${isScore(v.dessertRating) ? `<dt>Dessert${dessertItems(e).length || v.dessertName ? ` <small>${esc(dessertItems(e).join(", ") || v.dessertName)}</small>` : ""}</dt><dd>${v.dessertRating.toFixed(1)}</dd>` : ""}
@@ -793,7 +808,8 @@
     let msg = dlg.querySelector(".wiz-msg");
     if (!msg) { msg = document.createElement("p"); msg.className = "wiz-msg"; msg.setAttribute("role", "status"); dlg.querySelector(".wiz-nav").before(msg); }
     btn.disabled = true; msg.textContent = "Saving…";
-    const doc = { main: Object.fromEntries(Object.keys(RUBRIC).map(k => [k, v[k]])), updatedAt: new Date().toISOString() };
+    const doc = isDrink(e) ? { overall: v.overall, updatedAt: new Date().toISOString() }
+      : { main: Object.fromEntries(Object.keys(RUBRIC).map(k => [k, v[k]])), updatedAt: new Date().toISOString() };
     if (isScore(v.sidesRating)) doc.sidesRating = v.sidesRating;
     const items = Object.fromEntries(Object.entries(v.sideItems).filter(([, r]) => isScore(r)));
     if (Object.keys(items).length) doc.sideItems = items;

@@ -66,6 +66,16 @@ def main():
         if e.get("meal") and e["meal"] not in MEALS:
             fail(f"{eid}: meal must be one of {sorted(MEALS)}")
         sc = e.get("scores") or {}
+        if e.get("meal") == "drink":
+            # Drinks: ONE overall score, no four-question rubric.
+            if "main" in sc:
+                fail(f"{eid}: drinks take one overall score — use scores.overall, not scores.main")
+            if "overall" in sc:
+                if not isinstance(sc["overall"], (int, float)) or not 1 <= sc["overall"] <= 10:
+                    fail(f"{eid}: scores.overall must be 1–10")
+                e["rating"] = sc["overall"]
+        elif "overall" in sc:
+            fail(f"{eid}: scores.overall is for drinks only (meal: drink)")
         if "main" in sc:
             e["rating"] = dish_score(sc["main"], eid, "main")
         if "sides" in sc:
