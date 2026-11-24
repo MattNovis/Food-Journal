@@ -129,6 +129,6 @@ URL: https://claude.ai/artifact/Th9qzbSyQkUTqpUY8PmFMp (Matt's copy: scoring via
 
 ## Family site (Vercel)
 
-Read-only public copy for family, no claude.ai sign-in. Vercel project `foodjournal` (team matt-novis-projects, https://foodjournal.vercel.app),
+Read-only public copy for family, no claude.ai sign-in. Vercel project `foodjournal` (team matt-novis-projects, https://foodjournal-beta.vercel.app),
 linked to this GitHub repo; every push to the production branch redeploys. Outside claude.ai the page skips
 the db and hides "Score it", showing the scores folded into entries.json.
