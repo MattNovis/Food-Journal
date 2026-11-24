@@ -122,22 +122,22 @@ window.JOURNAL = {
    },
    {
     "date": "2026-11-24",
-    "location": "Bangkok → Chiang Mai",
+    "location": "Bangkok",
     "region": "bangkok",
     "foodHint": null,
     "plan": {
-     "morning": "You: sleep in at the airport hotel; late checkout (~noon). Your friend lands ~noon (airport + exact time TBC).",
+     "morning": "⚠ BOOKINGS (Nov 21–22): Matt lands BKK 12:35 PM (STARLUX JX 741 via Taipei). The hotel is booked in Bangkok for tonight too, and the Chiang Mai flight is tomorrow morning (Nov 25, 10:20). So tonight is in Bangkok — the Chiang Mai flight and Yi Peng night 1 below need re-planning.",
      "afternoon": "Meet him in arrivals (allow ~1 h for immigration + bags). Fly together Bangkok → Chiang Mai on a late-afternoon flight (~1 h 15 m), leaving at least 3 h after his landing. Check into the Old City room (4 nights).",
      "evening": "YI PENG night 1 (events reported Nov 24–26) — a later evening once you've landed: Tha Phae Gate, lantern-lit Old City lanes, Wat Phan Tao's lantern display. Expect crowds — keep phone + cash in a front pocket."
     }
    },
    {
     "date": "2026-11-25",
-    "location": "Chiang Mai",
+    "location": "Bangkok → Chiang Mai",
     "region": "chiang-mai",
     "foodHint": null,
     "plan": {
-     "morning": "Easy start. Wat Phra That Doi Suthep (Grab/red truck up ~8 AM), then walk the MONK'S TRAIL down to Wat Pha Lat (~1 h, steep).",
+     "morning": "BOOKED: fly Bangkok → Chiang Mai, Bangkok Airways PG1201, BKK 10:20 → CNX 11:35.",
      "afternoon": "Wat Chedi Luang + Wat Phra Singh. Wat Chedi Luang has daytime Monk Chat tables (drop-in — check hours).",
      "evening": "LOY KRATHONG night (Nov 25 per most sources): reported Tha Phae Gate opening ceremony ~6 PM; buy a krathong and float it on the Ping River near Nawarat Bridge."
     }
@@ -188,22 +188,22 @@ window.JOURNAL = {
    },
    {
     "date": "2026-11-30",
-    "location": "Chiang Mai",
+    "location": "Chiang Mai → Koh Lanta",
     "region": "koh-lanta",
     "foodHint": null,
     "plan": {
-     "morning": "Free morning. Sleep in, or: Sticky Waterfall (Bua Tong, ~1 h north — you can climb up the falls), or a Thai massage + Nimman cafés.",
+     "morning": "⚠ BOOKED: fly Chiang Mai → Krabi via Don Mueang (Nok Air DD123 06:45 → DMK 08:00; DD542 09:40 → Krabi 11:05), then transfer to Lanta. The Chiang Mai plans below (Wat Umong, Monk Chat) no longer fit — re-plan.",
      "afternoon": "Wat Umong (forest temple with meditation tunnels, near Wat Suan Dok). Pack for the beach.",
      "evening": "MONK CHAT at Wat Suan Dok, 5–7 PM (Mon/Wed/Fri per a Mar 2026 listing — confirm): informal Q&A with monks about Buddhism, meditation and monastic life. Dress modestly. Early night — 4:45 AM alarm for the flight."
     }
    },
    {
     "date": "2026-12-01",
-    "location": "Chiang Mai → Koh Lanta",
+    "location": "Koh Lanta",
     "region": "koh-lanta",
     "foodHint": null,
     "plan": {
-     "morning": "6:35 AM flight Chiang Mai → Krabi (FD3070 per timetable sites — confirm it runs Dec 1) → land ~8:30 → private car to Koh Lanta (~2–3 h).",
+     "morning": "⚠ The Krabi flight is now Nov 30 — this morning you're already on Koh Lanta. Re-check the PADI start with Lanta Diver.",
      "afternoon": "~Noon: Lanta Diver in Saladan (on the way in) — sign up both of you, gear fitting, medical forms, PADI pool session this afternoon (theory done at home via eLearning). Check in on Long Beach (5 nights).",
      "evening": "Long Beach sunset. Early night — boat day tomorrow."
     }
@@ -259,7 +259,7 @@ window.JOURNAL = {
     "foodHint": "CHINATOWN (Yaowarat) street-food crawl — a small-group food tour, or DIY on Yaowarat Rd.",
     "plan": {
      "morning": "Slow morning on the beach. ~10 AM shared van or car to Krabi Airport (2–3 h).",
-     "afternoon": "Afternoon flight Krabi → Bangkok (DMK or BKK both fine). Check into the Bangkok hotel (2 nights; riverside or Silom/Sathorn).",
+     "afternoon": "BOOKED: Thai AirAsia FD 4401, Krabi 15:55 → Suvarnabhumi 17:20.",
      "evening": "CHINATOWN (Yaowarat) street-food crawl — a small-group food tour, or DIY on Yaowarat Rd."
     }
    },
@@ -282,7 +282,7 @@ window.JOURNAL = {
     "plan": {
      "morning": "Sleep in; ask for late checkout (or a day-use room to shower before the flight).",
      "afternoon": "Last massage, MBK or a mall run; spend or exchange leftover baht.",
-     "evening": "Leave for Suvarnabhumi (BKK) by ~7:30 PM — international flight departs 11:15 PM (times unconfirmed). Arrive 3 h early."
+     "evening": "Matt: Korean Air KE 658 leaves BKK 9:40 PM — leave for the airport by ~6:30 PM. Then ~11.5 h in Seoul, Seoul → Seattle → Fairbanks, home Dec 9 ~3 PM."
     }
    },
    {
