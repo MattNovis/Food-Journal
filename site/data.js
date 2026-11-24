@@ -137,19 +137,19 @@ window.JOURNAL = {
     "region": "chiang-mai",
     "foodHint": null,
     "plan": {
-     "morning": "Check out of Hotel Tranz. Rail Link from Phaya Thai to BKK ~7:15 AM. Bangkok Airways PG1201 departs 10:20 (desk closes 9:40), lands Chiang Mai 11:35. Check in, Old City (3 nights).",
-     "afternoon": "Wat Chedi Luang (daytime Monk Chat tables) + Wat Phra Singh.",
-     "evening": "Loy Krathong: Tha Phae Gate ceremony ~6 PM; float a krathong at Nawarat Bridge. Mass lantern releases are ticketed (see Bookings)."
+     "morning": "Check out of Hotel Tranz. Rail Link from Phaya Thai to BKK ~7:15 AM. Bangkok Airways PG1201 departs 10:20 (desk closes 9:40), lands Chiang Mai 11:35.",
+     "afternoon": "⚠ Yee Peng tickets must be collected by 1:00 PM: go straight from the airport to Central Festival (white YLI booth, 1st floor, by KFC), both of you together. Drop bags at B2 Riverside if time allows (early check-in/bag hold requested). Shuttle 12–3 PM from the KFC entrance.",
+     "evening": "Yee Peng Lanna International, Sansai (booked, Premium x2): 5:30 buffet, 7:30 ceremony, 8:30–9:30 lantern release; shuttle back to Central Festival ~10:30, then Grab to B2 Riverside."
     }
    },
    {
     "date": "2026-11-26",
     "location": "Chiang Mai",
     "region": "chiang-mai",
-    "foodHint": "Cooking class + market tour.",
+    "foodHint": "Check out of B2 Riverside by noon (breakfast included).",
     "plan": {
-     "morning": "Cooking class + market tour.",
-     "afternoon": "Muay Thai beginner class (~1.5 h).",
+     "morning": "Check out of B2 Riverside by noon (breakfast included). Cooking class + market tour (if booked).",
+     "afternoon": "Check in to Villa Korbhun Khinbua from 2 PM (4 nights). Muay Thai beginner class (~1.5 h).",
      "evening": "Krathongs on the Ping River 7–10 PM; fireworks ~7:30 + 9:30."
     }
    },
@@ -182,7 +182,7 @@ window.JOURNAL = {
     "foodHint": "Sunday Walking Street, Tha Phae Gate, ~4–10:30 PM.",
     "plan": {
      "morning": "Summit at dawn (2,565 m, cold). Kew Mae Pan trail (guide 200 THB, ~2–3 h).",
-     "afternoon": "Twin Pagodas (100 THB) → Wat Phra That Doi Kham → Chiang Mai hotel (2 nights).",
+     "afternoon": "Twin Pagodas (100 THB) → Wat Phra That Doi Kham → back to Villa Korbhun Khinbua (last night).",
      "evening": "Sunday Walking Street, Tha Phae Gate, ~4–10:30 PM."
     }
    },
