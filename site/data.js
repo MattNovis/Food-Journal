@@ -545,7 +545,10 @@ window.JOURNAL = {
    "region": "bangkok",
    "price": {
     "currency": "THB",
-    "main": 220
+    "main": 220,
+    "sides": {
+     "Mango sticky rice": 80
+    }
    },
    "sides": {
     "items": [
@@ -557,7 +560,8 @@ window.JOURNAL = {
     "items": [
      "Mango sticky rice"
     ],
-    "note": "Star of the show. Perfect amount of sweetness and incredible juicy ripe mango."
+    "note": "Star of the show. Perfect amount of sweetness and incredible juicy ripe mango.",
+    "rating": 9.3
    },
    "photos": [
     {
@@ -566,7 +570,17 @@ window.JOURNAL = {
      "h": 1200,
      "alt": "Tray with chicken tikka masala, a mound of rice flecked with carrot, and garlic naan"
     }
-   ]
+   ],
+   "scores": {
+    "main": {
+     "flavour": 6.5,
+     "texture": 8,
+     "value": 6.5,
+     "presentation": 8
+    }
+   },
+   "ambiance": 4,
+   "rating": 7.0
   },
   {
    "id": "2026-11-24-golden-moon-mochi-tea",
