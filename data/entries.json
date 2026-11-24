@@ -162,14 +162,25 @@
         "Fruit",
         "Bread roll"
       ],
-      "note": "The potato salad was weirdly citrusy."
+      "note": "The potato salad was weirdly citrusy.",
+      "rating": 5
     },
     "dessert": {
       "items": [
         "Black sesame mochi gelato"
       ],
-      "note": "The star of the show."
-    }
+      "note": "The star of the show.",
+      "rating": 7.1
+    },
+    "scores": {
+      "main": {
+        "flavour": 6,
+        "texture": 5,
+        "value": 5,
+        "presentation": 3
+      }
+    },
+    "ambiance": 1
   },
   {
     "id": "2026-11-24-thai-tea",
@@ -194,6 +205,56 @@
         "w": 1200,
         "h": 1600,
         "alt": "Iced Thai tea in a plastic cup with a moustache logo, held up in a hotel room"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-24-braised-duck-noodles",
+    "date": "2026-11-24",
+    "meal": "lunch",
+    "dish": "Braised duck noodles",
+    "description": "First street food meal.",
+    "place": {
+      "name": "Street food stall",
+      "area": "Bangkok"
+    },
+    "region": "bangkok",
+    "price": {
+      "currency": "THB",
+      "main": 60
+    },
+    "photos": [
+      {
+        "src": "photos/2026-11-24-braised-duck-noodles.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Bowl of egg noodles with duck, bean sprouts, pickled ginger, chives and chillies, with a plate of duck on rice behind"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-24-lychee-tea",
+    "date": "2026-11-24",
+    "time": "15:54",
+    "meal": "drink",
+    "dish": "Lychee tea",
+    "thaiName": "ชาลิ้นจี่",
+    "description": "With the braised duck noodles.",
+    "place": {
+      "name": "OWL",
+      "area": "Bangkok street food"
+    },
+    "region": "bangkok",
+    "price": {
+      "currency": "THB",
+      "main": 24
+    },
+    "photos": [
+      {
+        "src": "photos/2026-11-24-lychee-tea.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Iced lychee tea in an OWL-branded cup held over the street"
       }
     ]
   }
