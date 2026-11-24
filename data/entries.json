@@ -257,5 +257,29 @@
         "alt": "Iced lychee tea in an OWL-branded cup held over the street"
       }
     ]
+  },
+  {
+    "id": "2026-11-24-golden-moon-mochi-tea",
+    "date": "2026-11-24",
+    "meal": "drink",
+    "dish": "Thai golden moon mochi tea",
+    "description": "Thai golden moon mochi tea.",
+    "place": {
+      "name": "Bear House",
+      "area": "Bangkok mall"
+    },
+    "region": "bangkok",
+    "price": {
+      "currency": "THB",
+      "main": 179
+    },
+    "photos": [
+      {
+        "src": "photos/2026-11-24-golden-moon-mochi-tea.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Two Bear House mochi milk teas held up at a table in a mall"
+      }
+    ]
   }
 ]
