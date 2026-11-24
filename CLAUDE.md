@@ -104,6 +104,19 @@ which keeps its data in its own db and is synced to the `artifact-planner` branc
 `git -C ../atlas-trip-studio checkout artifact-planner && git -C ../atlas-trip-studio pull`, then
 `python3 scripts/sync_trip.py ../atlas-trip-studio` re-snapshots the days, then rebuild.
 
+## Current state (handoff, Nov 24 2026)
+
+- Page: Dishspatch, light only, no footer. Tabs Home · Legs · Day by day (URL hash routing). Home = leg strip,
+  Top 3 meals, scoring chart. Tagline: "Matt's food reviews from his trip to Thailand!"
+- Legs (scripts/sync_trip.py LEGS): Getting there (In) · Bangkok (BKK) · Chiang Mai · Koh Lanta · Bangkok ·
+  Seoul / return travel (Out). Dec 9 is a journal-only extra day.
+- Entries so far (all region `transit`): STARLUX beef bulgogi (Nov 22), STARLUX pork congee (Nov 23),
+  Taoyuan airport soup dumplings (Nov 23, photo, $8.99 USD). All three scored on the page and folded in.
+- Still unknown: prices for the two STARLUX meals (likely included in the fare) and the dumpling stall's name.
+- Matt's real flights: out FAI→SEA→TPE→BKK (lands Nov 24 12:35); BKK→CNX PG1201 Nov 25 10:20; CNX→DMK→KBV
+  Nok Air Nov 30 6:45; KBV→BKK FD 4401 Dec 6 15:55; home BKK Dec 8 21:40 KE658 → Seoul (11h25) → SEA → FAI Dec 9.
+- Weights shown to Matt as percentages only. Keep the design simple — no decorative motifs, no dark mode.
+
 ## Published artifact
 
 URL: https://claude.ai/artifact/Th9qzbSyQkUTqpUY8PmFMp

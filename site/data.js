@@ -320,18 +320,30 @@ window.JOURNAL = {
     "name": "STARLUX Airlines",
     "area": "Inflight"
    },
-   "rating": 7.2,
    "region": "transit",
    "photos": [],
    "sides": {
-    "rating": 5.7,
+    "rating": 3.5,
     "items": [
-     "Fruit",
+     {
+      "name": "Fruit",
+      "rating": 7.7
+     },
      "Hot tea",
      "Rest of the tray"
     ],
     "note": "Tasty fruit. Walked around with a hot tea, which was a delight. The rest was classic airline food."
-   }
+   },
+   "scores": {
+    "main": {
+     "flavour": 8.7,
+     "texture": 7.6,
+     "value": 5,
+     "presentation": 4
+    }
+   },
+   "ambiance": 1,
+   "rating": 7.3
   },
   {
    "id": "2026-11-23-starlux-pork-congee",

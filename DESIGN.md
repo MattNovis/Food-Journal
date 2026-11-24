@@ -90,7 +90,7 @@ components:
 # Dishspatch design system
 
 The live source of truth is `site/brand.css` (CSS custom properties). This file explains them.
-A visual version is at `site/brand.html` (linked from the journal footer).
+A visual version is at `site/brand.html` (published alongside the journal at `brand.html`; the page has no footer link).
 
 ## Overview
 

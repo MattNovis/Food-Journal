@@ -215,7 +215,6 @@
   .multi { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
   .multi li { display: grid; gap: var(--s-2); }
   .multi li > span { font-weight: 600; }
-  footer { border-top: 1px solid var(--rule); padding: var(--s-6) 0 var(--s-7); color: var(--ink-faint); font-size: var(--step--1); }
 
   @media (max-width: 599px) {
     .controls .wrap { flex-wrap: wrap; }
@@ -246,7 +245,6 @@
 
 <main class="wrap" id="main"></main>
 
-<footer><div class="wrap" id="footer"></div></footer>
 
 <dialog id="lightbox" aria-labelledby="lbTitle"></dialog>
 
@@ -706,12 +704,10 @@
     db = d;
     const can = user ? await user.canEdit() : null;
     canScore = can !== false;
-    const slow = setTimeout(() => { $("#liveNote").textContent = " · Live scores can't be reached right now."; }, 10000);
     db.collection("scores").onSnapshot(snap => {
-      if (!snap.metadata.fromCache) { clearTimeout(slow); $("#liveNote").textContent = ""; }
       dbScores = Object.fromEntries(snap.docs.filter(x => x.exists).map(x => [x.id, x.data()]));
       refresh();
-    }, () => { clearTimeout(slow); });
+    }, () => {});  // on failure the page keeps showing the scores saved in the repo
     render();
   })();
 
@@ -724,7 +720,6 @@
   });
   $("#main").addEventListener("click", ev => { const c = ev.target.closest(".dish"); if (c) open(c.dataset.id); });
 
-  $("#footer").innerHTML = `Dishspatch · ${esc(trip.name || "Thailand")} · prices in local currency with US dollars at about ${Object.entries(FX).filter(([c]) => c !== "USD").map(([c, r]) => `${r} ${c}`).join(" / ")} to $1 · <a href="brand.html">Brand kit</a><span id="liveNote"></span>`;
   derive();
   go();
 })();
