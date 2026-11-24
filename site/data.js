@@ -451,7 +451,7 @@ window.JOURNAL = {
    "date": "2026-11-24",
    "meal": "lunch",
    "dish": "Garlic butter chicken and rice",
-   "description": "Garlic butter chicken and rice.",
+   "description": "Another STARLUX meal. Super mediocre, but it's cool to get a meal included on a 4-hour flight. The chicken and rice was... chicken and rice.",
    "place": {
     "name": "STARLUX Airlines",
     "area": "Inflight (TPE → BKK)"
@@ -473,10 +473,14 @@ window.JOURNAL = {
    ],
    "sides": {
     "items": [
-     "Potato salad",
+     {
+      "name": "Potato salad",
+      "note": "weirdly citrusy"
+     },
      "Fruit",
      "Bread roll"
-    ]
+    ],
+    "note": "The potato salad was weirdly citrusy."
    },
    "dessert": {
     "items": [
