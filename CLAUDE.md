@@ -96,6 +96,8 @@ Anchors: 1–2 bad · 3–4 below par · 5–6 fine/as expected · 7–8 genuine
 Ambiance (1–10) is the setting and is shown separately; it never affects food scores.
 Old entries with only a plain `rating` are legacy until Matt rescores them.
 
+If Matt says there are no sides, omit the `sides` key entirely (no empty object, no "no sides" text).
+
 If a rating, price or place is missing, log the entry anyway and ask once in the reply ("score out of 10?").
 
 ## Itinerary changes
@@ -108,12 +110,14 @@ which keeps its data in its own db and is synced to the `artifact-planner` branc
 
 ## Current state (handoff, Nov 24 2026)
 
-- Page: Dishspatch, light only, no footer. Tabs Home · Legs · Day by day (URL hash routing). Home = leg strip,
-  Top 3 meals, scoring chart. Tagline: "Matt's food reviews from his trip to Thailand!"
+- Page: Dishspatch, light only, no footer. Hamburger menu (sticky bar) with Home · Legs · Day by day · Best to worst
+  (URL hash routing: #home #legs #days #rank). Home = leg strip, Top 3 meals, scoring chart. Best to worst ranks
+  main dishes or sides, filtered by location (region) and meal. Tagline: "Matt's food reviews from his trip to Thailand!"
 - Legs (scripts/sync_trip.py LEGS): Getting there (In) · Bangkok (BKK) · Chiang Mai · Koh Lanta · Bangkok ·
   Seoul / return travel (Out). Dec 9 is a journal-only extra day.
-- Entries so far (all region `transit`): STARLUX beef bulgogi (Nov 22), STARLUX pork congee (Nov 23),
-  Taoyuan airport soup dumplings (Nov 23, photo, $8.99 USD). All three scored on the page and folded in.
+- Entries so far (all region `transit`): Qdoba chicken bowl at SEA (Nov 22, $15, no sides, no photo/scores yet),
+  STARLUX beef bulgogi (Nov 22), STARLUX pork congee (Nov 23), Taoyuan airport soup dumplings (Nov 24 per Matt,
+  id still says 11-23 so its db score doc stays linked; photo, $8.99 USD).
 - Still unknown: prices for the two STARLUX meals (likely included in the fare) and the dumpling stall's name.
 - Matt's real flights: out FAI→SEA→TPE→BKK (lands Nov 24 12:35); BKK→CNX PG1201 Nov 25 10:20; CNX→DMK→KBV
   Nok Air Nov 30 6:45; KBV→BKK FD 4401 Dec 6 15:55; home BKK Dec 8 21:40 KE658 → Seoul (11h25) → SEA → FAI Dec 9.
@@ -125,6 +129,6 @@ URL: https://claude.ai/artifact/Th9qzbSyQkUTqpUY8PmFMp (Matt's copy: scoring via
 
 ## Family site (Vercel)
 
-Read-only public copy for family, no claude.ai sign-in. Vercel project `dishspatch` (team matt-novis-projects),
+Read-only public copy for family, no claude.ai sign-in. Vercel project `foodjournal` (team matt-novis-projects, https://foodjournal.vercel.app),
 linked to this GitHub repo; every push to the production branch redeploys. Outside claude.ai the page skips
 the db and hides "Score it", showing the scores folded into entries.json.

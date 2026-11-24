@@ -311,6 +311,23 @@ window.JOURNAL = {
  },
  "entries": [
   {
+   "id": "2026-11-22-qdoba-chicken-bowl",
+   "date": "2026-11-22",
+   "meal": "dinner",
+   "dish": "Chicken bowl",
+   "description": "I always get this at the airport. It's like my almost Chipotle: good enough, and today they hooked it up.",
+   "place": {
+    "name": "Qdoba",
+    "area": "Seattle airport (SEA)"
+   },
+   "region": "transit",
+   "photos": [],
+   "price": {
+    "currency": "USD",
+    "main": 15
+   }
+  },
+  {
    "id": "2026-11-22-starlux-beef-bulgogi",
    "date": "2026-11-22",
    "meal": "dinner",
@@ -377,7 +394,7 @@ window.JOURNAL = {
   },
   {
    "id": "2026-11-23-taoyuan-soup-dumplings",
-   "date": "2026-11-23",
+   "date": "2026-11-24",
    "meal": "lunch",
    "dish": "Soup dumplings",
    "description": "Soup dumplings were so fire.",

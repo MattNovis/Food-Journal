@@ -33,11 +33,46 @@
   /* Sticky bar: the three views */
   .bar { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
   .bar .wrap { padding-top: var(--s-2); padding-bottom: var(--s-2); }
-  .tabs { display: flex; border: 1.5px solid var(--rule); border-radius: var(--pill); padding: 3px; background: var(--paper-raised); width: max-content; max-width: 100%; }
-  .tabs a { flex: 1 1 auto; text-align: center; text-decoration: none; color: var(--ink-soft); font: 600 var(--step--1)/1 var(--font-body); padding: .85em 1.15em; border-radius: var(--pill); white-space: nowrap; }
-  .tabs a:hover { color: var(--ink); }
-  .tabs a[aria-current="page"] { background: var(--fern); color: var(--paper-raised); }
-  @media (max-width: 479px) { .tabs { width: 100%; } .tabs a { padding-left: .5em; padding-right: .5em; } }
+  /* Menu: one button opens the list of views */
+  .menu { position: relative; width: max-content; }
+  .menu-btn { display: inline-flex; align-items: center; gap: .65em; min-height: 44px; padding: 0 1.15em 0 .85em; border: 1.5px solid var(--rule); border-radius: var(--pill);
+    background: var(--paper-raised); color: var(--ink); font: 600 var(--step--1)/1 var(--font-body); cursor: pointer; transition: border-color .2s var(--ease-out); }
+  .menu-btn:hover, .menu-btn[aria-expanded="true"] { border-color: var(--fern); }
+  .menu-btn svg { width: 20px; height: 20px; flex: none; color: var(--fern); }
+  .menu-list { position: absolute; top: calc(100% + 8px); left: 0; z-index: 6; min-width: 232px; list-style: none; margin: 0; padding: 6px;
+    background: var(--paper-raised); border: 1px solid var(--rule); border-radius: var(--radius-md); box-shadow: var(--shadow-2); }
+  .menu-list a { display: block; padding: .85em 1em; border-radius: var(--radius-sm); color: var(--ink); text-decoration: none; font-weight: 600; }
+  .menu-list a:hover { background: var(--paper-sunk); }
+  .menu-list a[aria-current="page"] { background: var(--fern); color: var(--paper-raised); }
+
+  /* Best to worst */
+  .filters { display: flex; flex-wrap: wrap; align-items: end; gap: var(--s-4); }
+  .field { display: grid; gap: 6px; }
+  .field > span { font-size: var(--step--1); font-weight: 600; color: var(--ink-soft); }
+  .seg { display: flex; border: 1.5px solid var(--rule); border-radius: var(--pill); padding: 3px; background: var(--paper-raised); }
+  .seg button { border: 0; background: none; font: 600 var(--step--1)/1 var(--font-body); color: var(--ink-soft); padding: 0 1.2em; min-height: 36px; border-radius: var(--pill); cursor: pointer; }
+  .seg button:hover { color: var(--ink); }
+  .seg button[aria-pressed="true"] { background: var(--fern); color: var(--paper-raised); }
+  .field select { appearance: none; min-height: 42px; padding: 0 2.4em 0 1em; border: 1.5px solid var(--rule); border-radius: var(--pill); color: var(--ink); cursor: pointer;
+    font: 600 var(--step--1)/1 var(--font-body); background: var(--paper-raised) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2312251a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right .8em center / 16px; }
+  .field select:hover { border-color: var(--ink-faint); }
+  .rank { list-style: none; margin: var(--s-6) 0 0; padding: 0; border-top: 1px solid var(--rule); max-width: 760px; }
+  .rank li { border-bottom: 1px solid var(--rule); }
+  .rank-row { display: grid; grid-template-columns: 1.75rem 56px 1fr auto; gap: var(--s-3); align-items: center; width: 100%; padding: var(--s-3) 0;
+    background: none; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+  .rank-row:hover b { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+  .rank-n { font-weight: 700; color: var(--ink-faint); font-variant-numeric: tabular-nums; text-align: right; }
+  .rank-thumb { width: 56px; height: 56px; border-radius: var(--radius-sm); overflow: hidden; display: grid; place-items: center;
+    background: color-mix(in srgb, var(--r) 18%, var(--paper-sunk)); color: var(--r); }
+  .rank-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .rank-thumb svg { width: 30px; opacity: .75; }
+  .rank-text { min-width: 0; }
+  .rank-text b { display: block; font-weight: 700; }
+  .rank-text small { display: block; margin-top: 2px; color: var(--ink-soft); font-size: var(--step--1); }
+  .rank-score { font: 400 var(--step-2)/1 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .rank-score small { font: 600 var(--step--1)/1 var(--font-body); color: var(--ink-faint); margin-left: 1px; }
+  .rank li:first-child .rank-score { color: var(--hibiscus); }
+  .rank-rest { margin: var(--s-4) 0 0; color: var(--ink-faint); font-size: var(--step--1); max-width: 62ch; }
   .masthead h1 a { color: inherit; text-decoration: none; }
   .view-intro { padding-top: var(--s-6); }
   .view-intro .strip { margin-top: 0; }
@@ -236,10 +271,17 @@
 
 <div class="bar" id="bar">
   <div class="wrap">
-    <nav class="tabs" aria-label="Views">
-      <a href="#home" data-view="home">Home</a>
-      <a href="#legs" data-view="legs">Legs</a>
-      <a href="#days" data-view="days">Day by day</a>
+    <nav class="menu" aria-label="Views">
+      <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menuList">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <span id="menuLabel">Home</span>
+      </button>
+      <ul class="menu-list" id="menuList" hidden>
+        <li><a href="#home" data-view="home">Home</a></li>
+        <li><a href="#legs" data-view="legs">Legs</a></li>
+        <li><a href="#days" data-view="days">Day by day</a></li>
+        <li><a href="#rank" data-view="rank">Best to worst</a></li>
+      </ul>
     </nav>
   </div>
 </div>
@@ -308,7 +350,8 @@
     return cands.find(l => (l.regions || [l.region]).includes(e.region)) || LEGS.find(l => owns(l, e.date)) || cands[0];
   }
   const dishesIn = l => entries.filter(e => legFor(e) === l);
-  const VIEWS = ["home", "legs", "days"];
+  const VIEWS = ["home", "legs", "days", "rank"];
+  const VIEW_NAMES = { home: "Home", legs: "Legs", days: "Day by day", rank: "Best to worst" };
   const state = { view: "home" };
   // Hash → view: #home, #legs, #leg-N (legs), #days, #d-YYYY-MM-DD (days).
   const viewFor = h => h.startsWith("leg-") ? "legs" : h.startsWith("d-") ? "days" : VIEWS.includes(h) ? h : "home";
@@ -372,8 +415,10 @@
 
   /* ---------- Views ---------- */
   function render() {
-    document.querySelectorAll(".tabs a").forEach(a => { if (a.dataset.view === state.view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
-    $("#main").innerHTML = state.view === "legs" ? legsView() : state.view === "days" ? daysView() : homeView();
+    document.querySelectorAll(".menu-list a").forEach(a => { if (a.dataset.view === state.view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    $("#menuLabel").textContent = VIEW_NAMES[state.view];
+    $("#menuBtn").setAttribute("aria-label", `Menu, showing ${VIEW_NAMES[state.view]}`);
+    $("#main").innerHTML = state.view === "legs" ? legsView() : state.view === "days" ? daysView() : state.view === "rank" ? rankView() : homeView();
   }
 
   function stripHtml() {
@@ -438,6 +483,51 @@
       return `<li><a href="#d-${d.date}" class="${has ? "has" : ""}" data-region="${esc(d.region)}" title="${fmtDate(d.date)} · ${esc(d.location)}" aria-label="Day ${i + 1}, ${fmtDate(d.date)}${has ? ", has dishes" : ""}">${i + 1}</a></li>`;
     }).join("")}</ol><p class="chips-note">Tap a day to jump to it. Shaded days have dishes.</p>`;
     return `<div class="view-intro">${chips}</div>` + runHtml(trip.days.map(d => ({ d, items: entries.filter(e => e.date === d.date) })), true);
+  }
+
+  /* Best to worst: mains or sides, filtered by where and which meal. */
+  const MEAL_ORDER = ["breakfast", "lunch", "dinner", "snack", "dessert", "drink"];
+  const cap1 = s => s[0].toUpperCase() + s.slice(1);
+  const rank = { kind: "mains", loc: "all", meal: "all" };
+  function rankRow(n, e, title, sub, score) {
+    const p = (e.photos || [])[0];
+    return `<li><button type="button" class="rank-row" data-id="${esc(e.id)}" aria-label="${n}. ${esc(title)}, ${fmtScore(score)} out of 10, details">
+      <span class="rank-n">${n}</span>
+      <span class="rank-thumb" data-region="${esc(e.region)}">${p ? `<img src="${esc(p.src)}" alt="" loading="lazy" decoding="async">` : ICON.bowl}</span>
+      <span class="rank-text"><b>${esc(title)}</b><small>${sub}</small></span>
+      <span class="rank-score">${fmtScore(score)}<small>/10</small></span></button></li>`;
+  }
+  function rankView() {
+    const locs = [...new Set(entries.map(e => e.region))].sort((a, b) => regionName(a).localeCompare(regionName(b)));
+    const meals = MEAL_ORDER.filter(m => entries.some(e => e.meal === m));
+    if (!locs.includes(rank.loc)) rank.loc = "all";
+    if (!meals.includes(rank.meal)) rank.meal = "all";
+    const pool = entries.filter(e => (rank.loc === "all" || e.region === rank.loc) && (rank.meal === "all" || e.meal === rank.meal));
+    const where = e => [e.place?.name, shortDate(e.date)].filter(Boolean).map(esc).join(" · ");
+    let rows = [], rest = "";
+    if (rank.kind === "mains") {
+      const scored = pool.filter(e => typeof e.rating === "number");
+      rows = scored.map(e => ({ e, title: e.dish, sub: where(e), score: e.rating }));
+      const un = pool.filter(e => typeof e.rating !== "number");
+      if (un.length) rest = `Not scored yet: ${un.map(e => esc(e.dish)).join(", ")}.`;
+    } else {
+      pool.forEach(e => {
+        const sd = e.sides; if (!sd) return;
+        if (typeof sd.rating === "number") rows.push({ e, title: `All sides with the ${e.dish.toLowerCase()}`, sub: esc((sd.items || []).map(sideName).join(", ")) || where(e), score: sd.rating });
+        (sd.items || []).forEach(it => { if (typeof it === "object" && typeof it.rating === "number") rows.push({ e, title: it.name, sub: `With the ${esc(e.dish.toLowerCase())} · ${where(e)}`, score: it.rating }); });
+      });
+    }
+    rows.sort((a, b) => b.score - a.score || a.e.date.localeCompare(b.e.date));
+    const opt = (v, label, cur) => `<option value="${esc(v)}"${v === cur ? " selected" : ""}>${esc(label)}</option>`;
+    const filters = `<div class="filters">
+      <div class="field"><span id="kindLbl">Rank</span><div class="seg" role="group" aria-labelledby="kindLbl">
+        ${[["mains", "Main dishes"], ["sides", "Sides"]].map(([k, l]) => `<button type="button" data-kind="${k}" aria-pressed="${rank.kind === k}">${l}</button>`).join("")}</div></div>
+      <label class="field"><span>Location</span><select data-filter="loc">${opt("all", "Everywhere", rank.loc)}${locs.map(k => opt(k, regionName(k), rank.loc)).join("")}</select></label>
+      <label class="field"><span>Meal</span><select data-filter="meal">${opt("all", "All meals", rank.meal)}${meals.map(m => opt(m, cap1(m), rank.meal)).join("")}</select></label>
+    </div>`;
+    const list = rows.length ? `<ol class="rank">${rows.map((r, i) => rankRow(i + 1, r.e, r.title, r.sub, r.score)).join("")}</ol>`
+      : `<p class="day-empty" style="margin-top:var(--s-6)">${rank.kind === "sides" ? "No scored sides" : "No scored dishes"} for these filters yet.</p>`;
+    return `<div class="view-intro"><h2 class="section-title">Best to worst</h2>${filters}${list}${rest ? `<p class="rank-rest">${rest}</p>` : ""}</div>`;
   }
 
   // Route from the URL hash, then scroll to the leg/day it names (or to the top of the view).
@@ -714,12 +804,22 @@
 
   /* ---------- Events ---------- */
   window.addEventListener("hashchange", go);
-  // Tapping the tab you're already on goes back to the top of that view.
-  $(".tabs").addEventListener("click", ev => {
-    const a = ev.target.closest("a[data-view]");
-    if (a && "#" + a.dataset.view === location.hash) { ev.preventDefault(); window.scrollTo({ top: 0 }); }
+  // Menu: toggle, close on pick / Escape / tap outside. Picking the current view goes back to its top.
+  const menuBtn = $("#menuBtn"), menuList = $("#menuList");
+  const setMenu = on => { menuBtn.setAttribute("aria-expanded", on); menuList.hidden = !on; if (on) (menuList.querySelector("[aria-current]") || menuList.querySelector("a")).focus(); };
+  menuBtn.addEventListener("click", () => setMenu(menuList.hidden));
+  menuList.addEventListener("click", ev => {
+    const a = ev.target.closest("a[data-view]"); if (!a) return;
+    setMenu(false);
+    if ("#" + a.dataset.view === location.hash) { ev.preventDefault(); window.scrollTo({ top: 0 }); }
   });
-  $("#main").addEventListener("click", ev => { const c = ev.target.closest(".dish"); if (c) open(c.dataset.id); });
+  document.addEventListener("keydown", ev => { if (ev.key === "Escape" && !menuList.hidden) { setMenu(false); menuBtn.focus(); } });
+  document.addEventListener("click", ev => { if (!menuList.hidden && !ev.target.closest(".menu")) setMenu(false); });
+  $("#main").addEventListener("click", ev => {
+    const k = ev.target.closest("[data-kind]"); if (k) { rank.kind = k.dataset.kind; render(); return; }
+    const c = ev.target.closest(".dish, .rank-row"); if (c) open(c.dataset.id);
+  });
+  $("#main").addEventListener("change", ev => { const f = ev.target.dataset.filter; if (f) { rank[f] = ev.target.value; render(); $(`[data-filter="${f}"]`).focus(); } });
 
   derive();
   go();
