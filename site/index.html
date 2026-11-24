@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kin Khao</title>
-<meta name="description" content="A photo journal of everything eaten in Thailand, 22 Nov – 8 Dec 2026.">
+<title>Dishspatch</title>
+<meta name="description" content="Dishspatch: dispatches from Thailand, one dish at a time. A scored photo journal of everything eaten, 22 Nov – 8 Dec 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gloock&family=Hanken+Grotesk:wght@400;500;600;700&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
@@ -17,10 +17,49 @@
   .masthead { position: relative; overflow: hidden; padding: var(--s-8) 0 var(--s-6); }
   .masthead .wrap { position: relative; }
   .masthead h1 { font-size: var(--step-5); letter-spacing: -0.02em; }
-  .masthead h1 .thai { display: block; font: 500 var(--step-1)/1.3 "Sarabun", var(--font-body); color: var(--fern); letter-spacing: 0; margin-top: var(--s-2); }
-  .tagline { font-size: var(--step-1); color: var(--ink-soft); margin: var(--s-4) 0 0; max-width: 32ch; }
-  .ledger { margin: var(--s-5) 0 0; font-size: var(--step-0); color: var(--ink); max-width: 60ch; }
-  .ledger strong { font-weight: 700; }
+  .masthead h1 a { color: inherit; text-decoration: none; }
+  .tagline { font-size: var(--step-1); color: var(--ink-soft); margin: var(--s-3) 0 0; max-width: 40ch; }
+  .tabs { display: flex; gap: var(--s-2); margin-top: var(--s-5); }
+  .tabs a { font-weight: 600; font-size: var(--step--1); text-decoration: none; padding: .6em 1.1em; border-radius: var(--pill); border: 1.5px solid var(--rule); background: var(--paper-raised); color: var(--ink); }
+  .tabs a[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+  /* Home */
+  .home section { padding: var(--s-7) 0 0; }
+  .home .section-title { margin-bottom: var(--s-2); }
+  .lede { margin: 0 0 var(--s-5); color: var(--ink-soft); max-width: 62ch; }
+  .tally { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5) var(--s-4); margin: var(--s-5) 0 0; }
+  @media (min-width: 760px) { .tally { grid-template-columns: repeat(4, 1fr); } }
+  .tally div { border-top: 2px solid var(--ink); padding-top: var(--s-3); }
+  .tally dt { font-size: var(--step--1); font-weight: 600; color: var(--ink-faint); }
+  .tally dd { margin: var(--s-1) 0 0; font: 400 var(--step-3)/1.05 var(--font-display); }
+  .tally dd small { display: block; margin-top: var(--s-2); font: 500 var(--step--1)/1.4 var(--font-body); color: var(--ink-soft); }
+  .stops { width: 100%; max-width: 720px; border-collapse: collapse; margin-top: var(--s-6); font-size: var(--step--1); }
+  .stops th, .stops td { text-align: right; padding: .65em .5em; border-bottom: 1px solid var(--rule); }
+  .stops th:first-child, .stops td:first-child { text-align: left; padding-left: 0; }
+  .stops thead th { color: var(--ink-faint); font-weight: 600; }
+  .stops tbody td:first-child { font-weight: 600; }
+  .stops tfoot td { font-weight: 700; border-bottom: 0; }
+  .weights { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); max-width: 720px; }
+  .weights li { display: grid; grid-template-columns: 7.5rem 1fr 3.2rem; gap: var(--s-1) var(--s-4); align-items: center; }
+  .weights .w-name { font-weight: 700; }
+  .weights .w-bar { height: 10px; border-radius: var(--pill); background: var(--paper-sunk); overflow: hidden; }
+  .weights .w-bar i { display: block; height: 100%; width: var(--w); background: var(--fern); border-radius: inherit; }
+  .weights .w-pct { font-weight: 700; text-align: right; }
+  .weights .w-q { grid-column: 1 / -1; color: var(--ink-soft); font-size: var(--step--1); margin-top: calc(-1 * var(--s-1)); }
+  @media (min-width: 640px) { .weights .w-q { grid-column: 2 / -1; } }
+  .score-notes { margin: var(--s-5) 0 0; padding: 0 0 0 1.1em; color: var(--ink-soft); max-width: 66ch; }
+  .score-notes li { margin-bottom: var(--s-2); }
+  .score-notes strong { color: var(--ink); }
+  .daylinks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--rule); }
+  @media (min-width: 760px) { .daylinks { grid-template-columns: 1fr 1fr; column-gap: var(--s-6); } }
+  .daylinks a { display: grid; grid-template-columns: 3.6rem 1fr auto; gap: var(--s-3); align-items: baseline; padding: var(--s-3) 0; border-bottom: 1px solid var(--rule); text-decoration: none; color: inherit; }
+  .daylinks a:hover .dl-date { text-decoration: underline; text-decoration-color: var(--hibiscus); }
+  .daylinks .dl-num { font-weight: 700; font-size: var(--step--1); color: var(--r); }
+  .daylinks .dl-date { font-weight: 600; }
+  .daylinks .dl-where { display: block; font-size: var(--step--1); color: var(--ink-faint); font-weight: 500; }
+  .daylinks .dl-count { font-size: var(--step--1); color: var(--ink-soft); font-weight: 600; white-space: nowrap; }
+  .daylinks .dl-count.none { color: var(--ink-faint); font-weight: 500; }
+  .day { scroll-margin-top: 72px; }
 
   /* Controls */
   .controls { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
@@ -187,9 +226,9 @@
 <body>
 <header class="masthead">
   <div class="wrap">
-    <h1>Kin Khao<span class="thai" lang="th">กินข้าว · have you eaten yet?</span></h1>
+    <h1><a href="#home">Dishspatch</a></h1>
     <p class="tagline" id="tagline"></p>
-    <p class="ledger" id="ledger"></p>
+    <nav class="tabs" aria-label="Sections"><a href="#home" data-view="home">Home</a><a href="#journal" data-view="journal">Journal</a></nav>
   </div>
 </header>
 
@@ -252,14 +291,9 @@
     avg = rated.length ? rated.reduce((s, e) => s + e.rating, 0) / rated.length : null;
     daysWithFood = new Set(entries.map(e => e.date)).size;
     topRating = rated.length ? Math.max(...rated.map(e => e.rating)) : null;
-    $("#ledger").innerHTML = entries.length
-      ? `<strong>${entries.length} ${entries.length === 1 ? "dish" : "dishes"}</strong> across ${daysWithFood} ${daysWithFood === 1 ? "day" : "days"}` +
-        (priced.length ? ` · about <strong>${usdStr(totalUsd)}</strong> spent` : "") +
-        (avg !== null ? ` · averaging <strong>${avg.toFixed(1)}/10</strong>` : "")
-      : "Nothing logged yet. The first bite lands soon.";
   }
 
-  $("#tagline").textContent = `Everything we ate in ${trip.country || "Thailand"}, ${fmtDate(trip.start, { day: "numeric", month: "short" })} – ${fmtDate(trip.end, { day: "numeric", month: "short", year: "numeric" })}.`;
+  $("#tagline").textContent = `Dispatches from ${trip.country || "Thailand"}, one dish at a time. ${fmtDate(trip.start, { day: "numeric", month: "short" })} – ${fmtDate(trip.end, { day: "numeric", month: "short", year: "numeric" })}.`;
 
   /* Route order of regions (consecutive duplicates collapsed) */
   const routeRegions = [];
@@ -268,8 +302,9 @@
   const countBy = r => entries.filter(e => e.region === r).length;
 
   /* ---------- State ---------- */
-  const state = { region: "all", sort: "day" };
-  try { const h = new URLSearchParams(location.hash.slice(1)); if (h.get("r")) state.region = h.get("r"); if (h.get("s")) state.sort = h.get("s"); } catch {}
+  const state = { region: "all", sort: "day", view: "home" };
+  const viewFromHash = () => /^#(journal|d-)/.test(location.hash) ? "journal" : "home";
+  state.view = viewFromHash();
 
   function renderFilters() {
     const chip = (key, label, n, region) =>
@@ -338,6 +373,61 @@
 
   /* ---------- Views ---------- */
   function render() {
+    document.querySelectorAll(".tabs a").forEach(a => { if (a.dataset.view === state.view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    $("#controls").hidden = state.view !== "journal";
+    $("#main").classList.toggle("home", state.view === "home");
+    if (state.view === "home") { $("#main").innerHTML = homeHtml(); return; }
+    renderJournal();
+  }
+
+  function homeHtml() {
+    const top = [...rated].sort((a, b) => b.rating - a.rating || a.date.localeCompare(b.date)).slice(0, 3);
+    // Spend by currency, for the small print under the USD total.
+    const byCur = {};
+    priced.forEach(e => { byCur[e.price.currency] = (byCur[e.price.currency] || 0) + priceTotal(e); });
+    const curLine = Object.keys(byCur).some(c => c !== "USD") ? Object.entries(byCur).map(([c, n]) => money(n, c)).join(" · ") : "";
+    const sidesRated = entries.filter(e => typeof e.sides?.rating === "number");
+    const tally = `<dl class="tally">
+        <div><dt>Dishes logged</dt><dd>${entries.length}<small>across ${daysWithFood} of ${trip.days.length} days</small></dd></div>
+        <div><dt>Average score</dt><dd>${avg !== null ? avg.toFixed(1) : "–"}<small>${avg !== null ? `main dishes, out of 10${sidesRated.length ? ` · sides ${(sidesRated.reduce((s, e) => s + e.sides.rating, 0) / sidesRated.length).toFixed(1)}` : ""}` : "nothing scored yet"}</small></dd></div>
+        <div><dt>Spent on food</dt><dd>${priced.length ? usdStr(totalUsd) : "–"}<small>${priced.length ? `${esc(curLine)}${priced.length < entries.length ? `${curLine ? " · " : ""}${entries.length - priced.length} meal${entries.length - priced.length === 1 ? "" : "s"} unpriced` : ""}` : "no prices logged yet"}</small></dd></div>
+        <div><dt>Best dish</dt><dd>${top[0] ? fmtScore(top[0].rating) : "–"}<small>${top[0] ? esc(top[0].dish) : "waiting on the first score"}</small></dd></div>
+      </dl>`;
+    const stopRows = routeRegions.map(r => {
+      const es = entries.filter(e => e.region === r); if (!es.length) return "";
+      const rs = es.filter(e => typeof e.rating === "number"), ps = es.filter(e => mealUsd(e) !== null);
+      return `<tr data-region="${esc(r)}"><td><span class="region-tag" data-region="${esc(r)}">${esc(regionName(r))}</span></td><td>${es.length}</td>
+        <td>${rs.length ? (rs.reduce((s, e) => s + e.rating, 0) / rs.length).toFixed(1) : "–"}</td><td>${ps.length ? usdStr(ps.reduce((s, e) => s + mealUsd(e), 0)) : "–"}</td></tr>`;
+    }).join("");
+    const stops = stopRows ? `<table class="stops"><thead><tr><th scope="col">Stop</th><th scope="col">Dishes</th><th scope="col">Avg score</th><th scope="col">Spent</th></tr></thead>
+      <tbody>${stopRows}</tbody><tfoot><tr><td>Whole trip</td><td>${entries.length}</td><td>${avg !== null ? avg.toFixed(1) : "–"}</td><td>${priced.length ? usdStr(totalUsd) : "–"}</td></tr></tfoot></table>` : "";
+
+    const Q = { flavour: "Is it well seasoned and balanced? Does it taste good?", texture: "How it feels to eat: bite, crispness, tenderness.", value: "Was it worth what it cost?", presentation: "Did it look good and arrive well put together?" };
+    const weights = `<ul class="weights">${Object.keys(RUBRIC).map(k => `<li><span class="w-name">${k[0].toUpperCase() + k.slice(1)}</span><span class="w-bar"><i style="--w:${pct(k)}"></i></span><span class="w-pct">${pct(k)}</span><span class="w-q">${Q[k] || ""}</span></li>`).join("")}</ul>`;
+
+    const dayLinks = `<ol class="daylinks">${trip.days.map((d, i) => {
+      const n = entries.filter(e => e.date === d.date).length;
+      const label = n ? `${n} ${n === 1 ? "dish" : "dishes"}` : d.date > todayBkk ? "coming up" : "nothing logged";
+      return `<li><a href="#d-${d.date}" data-region="${esc(d.region)}"><span class="dl-num">DAY ${i + 1}</span><span><span class="dl-date">${fmtDate(d.date)}</span><span class="dl-where">${esc(d.location)}</span></span><span class="dl-count${n ? "" : " none"}">${label}</span></a></li>`;
+    }).join("")}</ol>`;
+
+    return `
+      <section><h2 class="section-title">The tally</h2><p class="lede">Everything eaten so far, added up.</p>${tally}${stops}</section>
+      <section><h2 class="section-title">Top 3 meals</h2><p class="lede">The highest-scoring main dishes of the trip so far.</p>
+        ${top.length ? `<div class="best-row">${top.map(card).join("")}</div>` : `<p class="day-empty">No dishes scored yet.</p>`}</section>
+      <section><h2 class="section-title">How scoring works</h2>
+        <p class="lede">Each main dish is scored 1–10 on four questions, decimals allowed. Its score is a weighted average of the four:</p>
+        ${weights}
+        <ul class="score-notes">
+          <li><strong>Sides</strong> get one overall score for everything else on the table. Standout sides can get their own.</li>
+          <li><strong>Ambiance</strong> is scored separately and never counts toward the food score.</li>
+          <li><strong>The scale:</strong> 1–2 bad · 3–4 below par · 5–6 fine · 7–8 genuinely good · 9–10 among the best.</li>
+          <li><strong>Prices</strong> are logged in the local currency, with US dollars alongside.</li>
+        </ul></section>
+      <section><h2 class="section-title">Day by day</h2><p class="lede">Jump to any day of the trip.</p>${dayLinks}</section>`;
+  }
+
+  function renderJournal() {
     renderFilters();
     const list = entries.filter(e => state.region === "all" || e.region === state.region);
     let html = "";
@@ -351,10 +441,6 @@
       html += `<section class="day" data-region="${state.region === "all" ? "" : esc(state.region)}"><div class="day-head"><h2>Best first</h2><span class="day-meta">${sorted.length} ${sorted.length === 1 ? "dish" : "dishes"}</span></div>` +
         (sorted.length ? `<div class="grid">${sorted.map(card).join("")}</div>` : `<p class="day-empty">Nothing from ${esc(regionName(state.region))} yet.</p>`) + `</section>`;
     } else {
-      if (state.region === "all" && rated.length >= 3) {
-        const best = [...rated].sort((a, b) => b.rating - a.rating || a.date.localeCompare(b.date)).slice(0, 3);
-        html += `<section class="best"><h2 class="section-title">Best bites so far</h2><div class="best-row">${best.map(card).join("")}</div></section>`;
-      }
       const ahead = [];
       trip.days.forEach((d, i) => {
         const items = list.filter(e => e.date === d.date);
@@ -643,14 +729,22 @@
   })();
 
   /* ---------- Events ---------- */
-  const syncHash = () => { try { history.replaceState(null, "", `#r=${state.region}&s=${state.sort}`); } catch {} };
-  $("#filters").addEventListener("click", ev => { const b = ev.target.closest("[data-filter]"); if (!b) return; state.region = b.dataset.filter; syncHash(); render(); });
-  document.querySelector(".sort").addEventListener("click", ev => { const b = ev.target.closest("[data-sort]"); if (!b) return; state.sort = b.dataset.sort; syncHash(); render(); });
+  $("#filters").addEventListener("click", ev => { const b = ev.target.closest("[data-filter]"); if (!b) return; state.region = b.dataset.filter; render(); });
+  document.querySelector(".sort").addEventListener("click", ev => { const b = ev.target.closest("[data-sort]"); if (!b) return; state.sort = b.dataset.sort; render(); });
+  function go() {
+    state.view = viewFromHash();
+    if (location.hash.startsWith("#d-")) { state.region = "all"; state.sort = "day"; }
+    render();
+    const target = location.hash.startsWith("#d-") ? document.getElementById(location.hash.slice(1)) : null;
+    if (target) requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+    else window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", go);
   $("#main").addEventListener("click", ev => { const c = ev.target.closest(".dish"); if (c) open(c.dataset.id); });
 
-  $("#footer").innerHTML = `Kin Khao · ${esc(trip.name || "Thailand")} · prices in local currency with US dollars at about ${Object.entries(FX).filter(([c]) => c !== "USD").map(([c, r]) => `${r} ${c}`).join(" / ")} to $1 · <a href="brand.html">Brand kit</a><span id="liveNote"></span>`;
+  $("#footer").innerHTML = `Dishspatch · ${esc(trip.name || "Thailand")} · prices in local currency with US dollars at about ${Object.entries(FX).filter(([c]) => c !== "USD").map(([c, r]) => `${r} ${c}`).join(" / ")} to $1 · <a href="brand.html">Brand kit</a><span id="liveNote"></span>`;
   derive();
-  render();
+  go();
 })();
 </script>
 </body>

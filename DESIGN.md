@@ -1,5 +1,5 @@
 ---
-name: Kin Khao
+name: Dishspatch
 description: Simple tropical brand kit for a Thailand food photo journal.
 colors:
   paper: "#f4eedb"
@@ -87,7 +87,7 @@ components:
     rounded: "{rounded.pill}"
 ---
 
-# Kin Khao design system
+# Dishspatch design system
 
 The live source of truth is `site/brand.css` (CSS custom properties). This file explains them.
 A visual version is at `site/brand.html` (linked from the journal footer).
@@ -102,12 +102,12 @@ Surface mode: **Experience** (a gallery). The interface recedes so the dishes le
 **Light only.** Warm paper `#f4eedb`, canopy ink `#12251a`. There is no dark mode and no theme toggle
 (Matt's call). Don't add one back.
 
-Name: **Kin Khao** (กินข้าว, "eat rice"; *kin khao reu yang?* = "have you eaten yet?", the everyday Thai greeting).
+Name: **Dishspatch**, dish + dispatch. Tagline: "Dispatches from Thailand, one dish at a time." Set in Gloock, no subtitle.
 
 ## Colors
 
 - **Hibiscus**: the one loud accent. Used for the top-rated badge, focus rings and link underlines. Never use it for body text.
-- **Fern / Pandan**: the jungle greens. Used for the Thai subtitle, the active sort control and text selection.
+- **Fern / Pandan**: the jungle greens. Used for the active tab and sort control, score bars and text selection.
 - **Mango / Lagoon**: supporting accents only.
 - **Region colours** give each stop its own hue, used only as a small dot and on the "Day N" label:
   Bangkok = chili red · Chiang Mai = lantern orange (Yi Peng) · Chiang Rai = Blue Temple sapphire ·

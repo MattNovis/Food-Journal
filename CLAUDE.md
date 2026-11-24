@@ -1,4 +1,6 @@
-# Kin Khao: Thailand food journal
+# Dishspatch: Thailand food journal
+
+(The name is "dish" + "dispatch". It was briefly called Kin Khao; that name is retired, don't use it.)
 
 Matt sends a photo + a quick description of something he ate. Turn it into a journal entry, then
 republish the artifact. Keep the reply short: confirm what was logged, and ask only about things that are truly missing.

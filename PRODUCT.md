@@ -1,4 +1,6 @@
-# Product: Kin Khao (Thailand food journal)
+# Product: Dishspatch (Thailand food journal)
+
+Name: **Dishspatch**, dish + dispatch: "dispatches from Thailand, one dish at a time".
 
 **What:** A visual journal of every dish eaten on the Thailand trip (22 Nov – 8 Dec 2026, two travelers),
 published as a private claude.ai Artifact. This repo is the data source.
@@ -14,4 +16,5 @@ place/vendor, price in THB (USD shown at ~33.5), rating out of 10, date and meal
 **Itinerary source:** `atlas-trip-studio/data/trips/thailand-solo` → snapshot in `data/trip.json`.
 
 **Brand:** tropical, kept simple (palette only, no decorative motifs). See DESIGN.md.
-**Surface mode:** Experience (gallery). Thailand only (no multi-trip).
+**Pages:** Home (the tally and per-stop totals, top 3 meals, how scoring works, links to every day) and
+Journal (filters + every day's dishes). **Surface mode:** Experience (gallery). Thailand only (no multi-trip).
