@@ -325,11 +325,51 @@ window.JOURNAL = {
    "price": {
     "currency": "USD",
     "main": 15
-   }
+   },
+   "scores": {
+    "main": {
+     "flavour": 7,
+     "texture": 6.5,
+     "value": 6.5,
+     "presentation": 6
+    }
+   },
+   "ambiance": 2,
+   "rating": 6.7
+  },
+  {
+   "id": "2026-11-23-starlux-pork-congee",
+   "date": "2026-11-23",
+   "meal": "breakfast",
+   "dish": "Pork congee",
+   "description": "STARLUX inflight breakfast. The congee was the star of the show: super tasty, very fragrant and flavorful, with a great texture.",
+   "place": {
+    "name": "STARLUX Airlines",
+    "area": "Inflight"
+   },
+   "region": "transit",
+   "photos": [],
+   "sides": {
+    "rating": 4.5,
+    "items": [
+     "Rest of the breakfast"
+    ],
+    "note": "Standard airline breakfast."
+   },
+   "scores": {
+    "main": {
+     "flavour": 8.5,
+     "texture": 8,
+     "value": 5,
+     "presentation": 4
+    }
+   },
+   "ambiance": 1,
+   "rating": 7.3
   },
   {
    "id": "2026-11-22-starlux-beef-bulgogi",
-   "date": "2026-11-22",
+   "date": "2026-11-23",
    "meal": "dinner",
    "dish": "Beef bulgogi",
    "description": "STARLUX inflight meal. The beef was shockingly tender and flavorful.",
@@ -355,36 +395,6 @@ window.JOURNAL = {
     "main": {
      "flavour": 8.7,
      "texture": 7.6,
-     "value": 5,
-     "presentation": 4
-    }
-   },
-   "ambiance": 1,
-   "rating": 7.3
-  },
-  {
-   "id": "2026-11-23-starlux-pork-congee",
-   "date": "2026-11-23",
-   "meal": "breakfast",
-   "dish": "Pork congee",
-   "description": "STARLUX inflight breakfast. The congee was the star of the show: super tasty, very fragrant and flavorful, with a great texture.",
-   "place": {
-    "name": "STARLUX Airlines",
-    "area": "Inflight"
-   },
-   "region": "transit",
-   "photos": [],
-   "sides": {
-    "rating": 4.5,
-    "items": [
-     "Rest of the breakfast"
-    ],
-    "note": "Standard airline breakfast."
-   },
-   "scores": {
-    "main": {
-     "flavour": 8.5,
-     "texture": 8,
      "value": 5,
      "presentation": 4
     }

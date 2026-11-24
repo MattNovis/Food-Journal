@@ -14,11 +14,20 @@
     "price": {
       "currency": "USD",
       "main": 15
-    }
+    },
+    "scores": {
+      "main": {
+        "flavour": 7,
+        "texture": 6.5,
+        "value": 6.5,
+        "presentation": 6
+      }
+    },
+    "ambiance": 2
   },
   {
     "id": "2026-11-22-starlux-beef-bulgogi",
-    "date": "2026-11-22",
+    "date": "2026-11-23",
     "meal": "dinner",
     "dish": "Beef bulgogi",
     "description": "STARLUX inflight meal. The beef was shockingly tender and flavorful.",

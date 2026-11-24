@@ -115,8 +115,8 @@ which keeps its data in its own db and is synced to the `artifact-planner` branc
   main dishes or sides, filtered by location (region) and meal. Tagline: "Matt's food reviews from his trip to Thailand!"
 - Legs (scripts/sync_trip.py LEGS): Getting there (In) · Bangkok (BKK) · Chiang Mai · Koh Lanta · Bangkok ·
   Seoul / return travel (Out). Dec 9 is a journal-only extra day.
-- Entries so far (all region `transit`): Qdoba chicken bowl at SEA (Nov 22, $15, no sides, no photo/scores yet),
-  STARLUX beef bulgogi (Nov 22), STARLUX pork congee (Nov 23), Taoyuan airport soup dumplings (Nov 24 per Matt,
+- Entries so far (all region `transit`): Qdoba chicken bowl at SEA (Nov 22, $15, no sides, scored, no photo),
+  STARLUX beef bulgogi (Nov 23 per Matt, id still says 11-22), STARLUX pork congee (Nov 23), Taoyuan airport soup dumplings (Nov 24 per Matt,
   id still says 11-23 so its db score doc stays linked; photo, $8.99 USD).
 - Still unknown: prices for the two STARLUX meals (likely included in the fare) and the dumpling stall's name.
 - Matt's real flights: out FAI→SEA→TPE→BKK (lands Nov 24 12:35); BKK→CNX PG1201 Nov 25 10:20; CNX→DMK→KBV
