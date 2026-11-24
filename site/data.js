@@ -104,9 +104,9 @@ window.JOURNAL = {
     "region": "transit",
     "foodHint": null,
     "plan": {
-     "morning": "Depart the US (international flight — times unconfirmed).",
-     "afternoon": "On the plane: switch to Thai time (UTC+7) and sleep on Bangkok's schedule.",
-     "evening": "Pack check (carry-on): passport + photocopy, cards, ~$100 USD to exchange, chargers, dive cert paperwork/eLearning record."
+     "morning": "Matt departs Fairbanks 4:01 PM (AK) via Seattle + Taipei. Scott departs US (time TBC).",
+     "afternoon": "On the plane: switch to Thai time (UTC+7). Download offline maps; install Grab.",
+     "evening": "Carry-on: passport + copy, cards, ~$100 cash, chargers, eLearning record. Long pants + sleeves for temples; warm layer for Doi Inthanon."
     }
    },
    {
@@ -115,20 +115,20 @@ window.JOURNAL = {
     "region": "transit",
     "foodHint": null,
     "plan": {
-     "morning": "In transit — connection.",
-     "afternoon": "In transit. Screenshot the airport hotel address in Thai.",
-     "evening": "Airport hotel must be booked for TONIGHT (night of Nov 23) — you land ~12:20 AM Nov 24."
+     "morning": "In transit.",
+     "afternoon": "Screenshot the Hotel Tranz address (53 Phayathai Rd) and booking 5349.890.979. Message the hotel: arriving ~1 AM.",
+     "evening": "Scott lands BKK ~1 AM (Nov 24) → SIM + ATM in arrivals → taxi or Grab to Hotel Tranz, Phaya Thai (~30–45 min; the Rail Link has stopped by then)."
     }
    },
    {
     "date": "2026-11-24",
     "location": "Bangkok",
     "region": "bangkok",
-    "foodHint": null,
+    "foodHint": "Scott: sleep in at Hotel Tranz (breakfast included).",
     "plan": {
-     "morning": "⚠ BOOKINGS (Nov 21–22): Matt lands BKK 12:35 PM (STARLUX JX 741 via Taipei). The hotel is booked in Bangkok for tonight too, and the Chiang Mai flight is tomorrow morning (Nov 25, 10:20). So tonight is in Bangkok — the Chiang Mai flight and Yi Peng night 1 below need re-planning.",
-     "afternoon": "Meet him in arrivals (allow ~1 h for immigration + bags). Fly together Bangkok → Chiang Mai on a late-afternoon flight (~1 h 15 m), leaving at least 3 h after his landing. Check into the Old City room (4 nights).",
-     "evening": "YI PENG night 1 (events reported Nov 24–26) — a later evening once you've landed: Tha Phae Gate, lantern-lit Old City lanes, Wat Phan Tao's lantern display. Expect crowds — keep phone + cash in a front pocket."
+     "morning": "Scott: sleep in at Hotel Tranz (breakfast included). Matt lands BKK 12:35 PM (Starlux JX 741).",
+     "afternoon": "Meet Matt in arrivals → Airport Rail Link to Phaya Thai (~30 min); drop his bags at Hotel Tranz. Lunch at MBK Center, then the Bangkok Art & Culture Centre next door (free; check hours). Late afternoon: Thai massage near the hotel.",
+     "evening": "Loy Krathong at Mahakan Fort + Wat Saket, 5–10 PM (~30 min by Grab). Backup: boat noodles at Victory Monument (one BTS stop)."
     }
    },
    {
@@ -137,53 +137,53 @@ window.JOURNAL = {
     "region": "chiang-mai",
     "foodHint": null,
     "plan": {
-     "morning": "BOOKED: fly Bangkok → Chiang Mai, Bangkok Airways PG1201, BKK 10:20 → CNX 11:35.",
-     "afternoon": "Wat Chedi Luang + Wat Phra Singh. Wat Chedi Luang has daytime Monk Chat tables (drop-in — check hours).",
-     "evening": "LOY KRATHONG night (Nov 25 per most sources): reported Tha Phae Gate opening ceremony ~6 PM; buy a krathong and float it on the Ping River near Nawarat Bridge."
+     "morning": "Check out of Hotel Tranz. Rail Link from Phaya Thai to BKK ~7:15 AM. Bangkok Airways PG1201 departs 10:20 (desk closes 9:40), lands Chiang Mai 11:35. Check in, Old City (3 nights).",
+     "afternoon": "Wat Chedi Luang (daytime Monk Chat tables) + Wat Phra Singh.",
+     "evening": "Loy Krathong: Tha Phae Gate ceremony ~6 PM; float a krathong at Nawarat Bridge. Mass lantern releases are ticketed (see Bookings)."
     }
    },
    {
     "date": "2026-11-26",
     "location": "Chiang Mai",
     "region": "chiang-mai",
-    "foodHint": "Thai cooking class (half-day, with a market tour).",
+    "foodHint": "Cooking class + market tour.",
     "plan": {
-     "morning": "Thai cooking class (half-day, with a market tour).",
-     "afternoon": "MUAY THAI beginner class at a Chiang Mai gym (drop-in, ~1.5 h).",
-     "evening": "Reported: krathong floating on the Ping River (in front of the Municipality Office) 7–10 PM with fireworks ~7:30 and 9:30 PM."
+     "morning": "Cooking class + market tour.",
+     "afternoon": "Muay Thai beginner class (~1.5 h).",
+     "evening": "Krathongs on the Ping River 7–10 PM; fireworks ~7:30 + 9:30."
     }
    },
    {
     "date": "2026-11-27",
-    "location": "Chiang Rai day trip",
+    "location": "Chiang Rai day trip (or meditation retreat)",
     "region": "chiang-mai",
     "foodHint": null,
     "plan": {
-     "morning": "Early pickup (~7 AM) for the CHIANG RAI temples group tour (~12 h; ~3–3.5 h drive each way).",
-     "afternoon": "WHITE TEMPLE (Wat Rong Khun; fee reportedly 200 THB / ~$6 — check if included) → BLUE TEMPLE (Wat Rong Suea Ten) → usually the Black House.",
-     "evening": "Back in Chiang Mai ~7–8 PM. Pack a small overnight bag; leave the big bag with the hotel for tomorrow night."
+     "morning": "Option A, Chiang Rai: ~7 AM pickup. ~12 h tour, ~3 h drive each way.",
+     "afternoon": "White Temple (200 THB, check if included) → Blue Temple → Black House.",
+     "evening": "Back ~7–8 PM. Pack an overnight bag; hotel keeps the big bags."
     }
    },
    {
     "date": "2026-11-28",
     "location": "Doi Inthanon",
     "region": "chiang-mai",
-    "foodHint": "Home-cooked dinner",
+    "foodHint": "Dinner, early night.",
     "plan": {
-     "morning": "Driver picks up at the Old City hotel ~7 AM → ~1.5–2 h to Doi Inthanon National Park (entry 300 THB / ~$9).",
-     "afternoon": "Mae Klang Waterfall → Borichinda Cave (km 8.5; ~1.5–2 km walk in) → Wachirathan Waterfall. Optional: Pha Dok Siew trail / rice terraces.",
-     "evening": "Karen homestay in Mae Klang Luang (book ahead — no walk-ins). Home-cooked dinner; early night."
+     "morning": "Option A: Driver ~7 AM → park (~2 h). Entry 300 THB.",
+     "afternoon": "Option A: Mae Klang Waterfall → Borichinda Cave (~2 km walk) → Wachirathan Waterfall.",
+     "evening": "Karen homestay, Mae Klang Luang. Dinner, early night."
     }
    },
    {
     "date": "2026-11-29",
     "location": "Doi Inthanon → Chiang Mai",
     "region": "chiang-mai",
-    "foodHint": "SUNDAY WALKING STREET — Ratchadamnoen Rd from Tha Phae Gate, ~4–10:30 PM.",
+    "foodHint": "Sunday Walking Street, Tha Phae Gate, ~4–10:30 PM.",
     "plan": {
-     "morning": "Pre-dawn drive to the summit (2,565 m — very cold). Kew Mae Pan ridge trail (Nov–May; local guide required, ~200 THB / ~$6; ~2–3 h).",
-     "afternoon": "Twin Royal Pagodas (100 THB / ~$3). Drive back via Wat Phra That Doi Kham. Back to the Chiang Mai hotel (2 nights).",
-     "evening": "SUNDAY WALKING STREET — Ratchadamnoen Rd from Tha Phae Gate, ~4–10:30 PM."
+     "morning": "Summit at dawn (2,565 m, cold). Kew Mae Pan trail (guide 200 THB, ~2–3 h).",
+     "afternoon": "Twin Pagodas (100 THB) → Wat Phra That Doi Kham → Chiang Mai hotel (2 nights).",
+     "evening": "Sunday Walking Street, Tha Phae Gate, ~4–10:30 PM."
     }
    },
    {
@@ -192,9 +192,9 @@ window.JOURNAL = {
     "region": "koh-lanta",
     "foodHint": null,
     "plan": {
-     "morning": "⚠ BOOKED: fly Chiang Mai → Krabi via Don Mueang (Nok Air DD123 06:45 → DMK 08:00; DD542 09:40 → Krabi 11:05), then transfer to Lanta. The Chiang Mai plans below (Wat Umong, Monk Chat) no longer fit — re-plan.",
-     "afternoon": "Wat Umong (forest temple with meditation tunnels, near Wat Suan Dok). Pack for the beach.",
-     "evening": "MONK CHAT at Wat Suan Dok, 5–7 PM (Mon/Wed/Fri per a Mar 2026 listing — confirm): informal Q&A with monks about Buddhism, meditation and monastic life. Dress modestly. Early night — 4:45 AM alarm for the flight."
+     "morning": "⚠ BOOKED: Nok Air via Don Mueang — DD123 Chiang Mai 06:45 → DMK 08:00, DD542 → Krabi 11:05, then car to Lanta (2–3 h). The Chiang Mai plans below no longer fit — re-plan.",
+     "afternoon": "Wat Umong. Pack for the beach.",
+     "evening": "Monk Chat, Wat Suan Dok, 5–7 PM (confirm). Cover shoulders + knees. Early night — 4:45 AM alarm."
     }
    },
    {
@@ -203,20 +203,20 @@ window.JOURNAL = {
     "region": "koh-lanta",
     "foodHint": null,
     "plan": {
-     "morning": "⚠ The Krabi flight is now Nov 30 — this morning you're already on Koh Lanta. Re-check the PADI start with Lanta Diver.",
-     "afternoon": "~Noon: Lanta Diver in Saladan (on the way in) — sign up both of you, gear fitting, medical forms, PADI pool session this afternoon (theory done at home via eLearning). Check in on Long Beach (5 nights).",
-     "evening": "Long Beach sunset. Early night — boat day tomorrow."
+     "morning": "⚠ The Krabi flight is now Nov 30 (see Nov 30), so you wake up on Koh Lanta. Re-check the PADI start with Lanta Diver.",
+     "afternoon": "~Noon: Lanta Diver, Saladan — sign up, gear, pool session. Check in, Long Beach (5 nights).",
+     "evening": "Sunset on Long Beach. Early night."
     }
    },
    {
     "date": "2026-12-02",
     "location": "Koh Lanta",
     "region": "koh-lanta",
-    "foodHint": "Lanta Old Town or beach seafood.",
+    "foodHint": "Old Town or beach seafood.",
     "plan": {
-     "morning": "PADI boat day 1 — open-water dives 1 & 2 (max 12 m) at Koh Haa, Koh Bida or Koh Rok. West-coast hotel pickup.",
-     "afternoon": "Back mid-afternoon; logbook + skills review. Marine park fee 600 THB (~$18) per person per boat day.",
-     "evening": "Lanta Old Town or beach seafood. Early night."
+     "morning": "PADI boat day 1: dives 1–2 (12 m). Hotel pickup.",
+     "afternoon": "Logbook + skills review. Park fee 600 THB pp.",
+     "evening": "Old Town or beach seafood. Early night."
     }
    },
    {
@@ -225,8 +225,8 @@ window.JOURNAL = {
     "region": "koh-lanta",
     "foodHint": null,
     "plan": {
-     "morning": "PADI boat day 2 — open-water dives 3 & 4 (max 18 m) + final skills.",
-     "afternoon": "CERTIFIED! E-cards issued on passing.",
+     "morning": "PADI boat day 2: dives 3–4 (18 m) + final skills.",
+     "afternoon": "Certified.",
      "evening": "Celebrate — Long Beach / Klong Khong bars."
     }
    },
@@ -236,31 +236,31 @@ window.JOURNAL = {
     "region": "koh-lanta",
     "foodHint": null,
     "plan": {
-     "morning": "FREE DAY 1 — first dives as certified buddies: a fun-dive boat trip (Koh Haa / Koh Rok), or a Koh Rok snorkel day trip.",
-     "afternoon": "Back mid-afternoon; beach + massage.",
-     "evening": "Optional: evening Muay Thai class at a Lanta gym. Or a sunset bar on Long Beach."
+     "morning": "Free day, pick one (see Bookings):",
+     "afternoon": "Beach + massage.",
+     "evening": "Optional Muay Thai class, or a sunset bar."
     }
    },
    {
     "date": "2026-12-05",
     "location": "Koh Lanta",
     "region": "koh-lanta",
-    "foodHint": "Last Lanta night — beach seafood dinner.",
+    "foodHint": "Last night — seafood dinner.",
     "plan": {
-     "morning": "FREE DAY 2 — island day. Rent a scooter or hire a tuk-tuk: Lanta Old Town on the east coast, then Mu Ko Lanta National Park at the southern tip (lighthouse viewpoint). Sat Dec 5 = Father's Day public holiday — expect it busier.",
-     "afternoon": "Back for a swim. No diving today keeps the 18-hour no-fly rule easy before tomorrow's flight.",
-     "evening": "Last Lanta night — beach seafood dinner. Pack."
+     "morning": "Pick one (see Bookings):",
+     "afternoon": "Swim. No diving (18 h before flying); snorkelling is fine.",
+     "evening": "Last night — seafood dinner. Pack."
     }
    },
    {
     "date": "2026-12-06",
     "location": "Koh Lanta → Bangkok",
     "region": "bangkok",
-    "foodHint": "CHINATOWN (Yaowarat) street-food crawl — a small-group food tour, or DIY on Yaowarat Rd.",
+    "foodHint": "Chinatown street food — tour or DIY on Yaowarat Rd.",
     "plan": {
-     "morning": "Slow morning on the beach. ~10 AM shared van or car to Krabi Airport (2–3 h).",
-     "afternoon": "BOOKED: Thai AirAsia FD 4401, Krabi 15:55 → Suvarnabhumi 17:20.",
-     "evening": "CHINATOWN (Yaowarat) street-food crawl — a small-group food tour, or DIY on Yaowarat Rd."
+     "morning": "Beach morning. ~10 AM van/car to Krabi Airport (2–3 h).",
+     "afternoon": "BOOKED: Thai AirAsia FD 4401, Krabi 15:55 → Suvarnabhumi 17:20. Hotel, 2 nights (riverside or Silom).",
+     "evening": "Chinatown street food — tour or DIY on Yaowarat Rd."
     }
    },
    {
@@ -269,9 +269,9 @@ window.JOURNAL = {
     "region": "bangkok",
     "foodHint": null,
     "plan": {
-     "morning": "GRAND PALACE (opens ~8:30 AM; strict dress code) → WAT PHO (reclining Buddha; massage school on site).",
-     "afternoon": "Ferry across to WAT ARUN; longtail boat through the Thonburi canals.",
-     "evening": "LIVE MUAY THAI at Rajadamnern Stadium (check the December card — nights vary). Note: Mon Dec 7 may be the substitute Father's Day holiday."
+     "morning": "Grand Palace (~8:30 AM, dress code) → Wat Pho.",
+     "afternoon": "Ferry to Wat Arun; longtail through the canals.",
+     "evening": "Muay Thai at Rajadamnern (check the card). Dec 7 may be a holiday."
     }
    },
    {
@@ -280,9 +280,9 @@ window.JOURNAL = {
     "region": "bangkok",
     "foodHint": null,
     "plan": {
-     "morning": "Sleep in; ask for late checkout (or a day-use room to shower before the flight).",
-     "afternoon": "Last massage, MBK or a mall run; spend or exchange leftover baht.",
-     "evening": "Matt: Korean Air KE 658 leaves BKK 9:40 PM — leave for the airport by ~6:30 PM. Then ~11.5 h in Seoul, Seoul → Seattle → Fairbanks, home Dec 9 ~3 PM."
+     "morning": "Sleep in; late checkout.",
+     "afternoon": "Massage, MBK; use up baht.",
+     "evening": "Leave for BKK by 6:30 PM. Matt's flight 9:40 PM (Korean Air KE 658); Scott's 11:15 PM (TBC)."
     }
    },
    {

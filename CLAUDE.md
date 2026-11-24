@@ -98,7 +98,11 @@ If a rating, price or place is missing, log the entry anyway and ask once in the
 
 ## Itinerary changes
 
-`python3 scripts/sync_trip.py ../atlas-trip-studio` re-snapshots the days from Atlas, then rebuild.
+The live travel planner is the **Atlas Thailand Planner** artifact (https://claude.ai/artifact/6dv73B77QfmD29dCw1HVDz),
+which keeps its data in its own db and is synced to the `artifact-planner` branch of atlas-trip-studio
+(see that branch's artifact/README.md). `main` there is older — don't sync from it.
+`git -C ../atlas-trip-studio checkout artifact-planner && git -C ../atlas-trip-studio pull`, then
+`python3 scripts/sync_trip.py ../atlas-trip-studio` re-snapshots the days, then rebuild.
 
 ## Published artifact
 
