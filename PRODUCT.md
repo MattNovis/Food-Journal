@@ -16,7 +16,12 @@ place/vendor, price in THB (USD shown at ~33.5), rating out of 10, date and meal
 **Itinerary source:** `atlas-trip-studio/data/trips/thailand-solo` → snapshot in `data/trip.json`.
 
 **Brand:** tropical, kept simple (palette only, no decorative motifs). See DESIGN.md.
-**Layout:** one page. Header with a leg strip (the six legs from the travel planner, sized by days),
-a sticky bar (back to top · By leg / By day · Jump to a leg or day), then Top 3 meals, the scoring chart,
-and the food grouped by leg or by day. No totals/spend dashboard on the front (Matt's call).
+**Layout:** three tabs in a sticky bar: **Home** (leg strip, Top 3 meals, scoring chart) · **Legs** (leg strip,
+then dishes grouped by leg) · **Day by day** (numbered day buttons, then every day). The URL hash drives the
+view (#home, #legs, #leg-N, #days, #d-YYYY-MM-DD), so the phone's back button works. No totals or spend
+dashboard on the front (Matt's call).
+
+**Legs** (from the real bookings, defined in scripts/sync_trip.py): Getting there (Nov 22–23, incl. Taipei) ·
+Bangkok (Nov 24) · Chiang Mai (Nov 25–29, incl. Chiang Rai + Doi Inthanon) · Koh Lanta (Nov 30 – Dec 5) ·
+Bangkok (Dec 6–8) · Seoul / return travel (Dec 9). On travel days a dish goes to the leg matching where it was eaten.
 **Surface mode:** Experience (gallery). Thailand only (no multi-trip).

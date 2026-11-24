@@ -20,24 +20,38 @@
   .masthead h1 a { color: inherit; text-decoration: none; }
   .tagline { font-size: var(--step-1); color: var(--ink-soft); margin: var(--s-3) 0 0; max-width: 40ch; }
   /* Leg strip (mirrors the travel planner) */
-  .strip { display: flex; gap: 3px; margin-top: var(--s-6); height: 44px; border-radius: var(--radius-md); overflow: hidden; }
+  .strip { display: flex; gap: 3px; margin-top: var(--s-5); height: 44px; border-radius: var(--radius-md); overflow: hidden; }
   .strip a { flex: var(--n) 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 0 6px; background: var(--r);
     color: #fffaec; text-decoration: none; font: 700 var(--step--1)/1.1 var(--font-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .strip a:hover { filter: brightness(1.08); }
   .strip a:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; border-radius: 0; }
-  @media (max-width: 599px) { .strip { height: 36px; } .strip a { font-size: 0; } .strip a::after { content: attr(data-short); font-size: 11px; } }
+  /* Phones: proportional slices get too thin to label, so the legs become an even 3×2 grid. */
+  @media (max-width: 599px) {
+    .strip { display: grid; grid-template-columns: repeat(3, 1fr); height: auto; gap: 4px; border-radius: 0; overflow: visible; }
+    .strip a { height: 44px; border-radius: var(--radius-sm); font-size: 12px; padding: 0 4px; }
+    .strip a .wide { display: none; }
+  }
+  @media (min-width: 600px) { .strip a .narrow { display: none; } }
 
-  /* Sticky bar: back to top, grouping, jump */
+  /* Sticky bar: the three views */
   .bar { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
-  .bar .wrap { display: flex; gap: var(--s-2); align-items: center; padding-top: var(--s-2); padding-bottom: var(--s-2); }
-  .bar-top { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: var(--pill); border: 1.5px solid var(--rule); background: var(--paper-raised); color: var(--ink); }
-  .bar-top svg { width: 18px; height: 18px; }
-  .jump { flex: 1; min-width: 0; display: flex; justify-content: flex-end; }
-  .jump select { width: 100%; max-width: 260px; min-width: 0; height: 40px; padding: 0 .8em; border: 1.5px solid var(--rule); border-radius: var(--pill); background: var(--paper-raised); color: var(--ink); font: 600 var(--step--1)/1 var(--font-body); cursor: pointer; }
-  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-  .sort { display: flex; border: 1.5px solid var(--rule); border-radius: var(--pill); padding: 2px; flex: none; background: var(--paper-raised); }
-  .sort button { appearance: none; border: 0; background: none; color: var(--ink-soft); font: 600 var(--step--1)/1 var(--font-body); padding: .75em .9em; border-radius: var(--pill); cursor: pointer; }
-  .sort button[aria-pressed="true"] { background: var(--fern); color: var(--paper-raised); }
+  .bar .wrap { padding-top: var(--s-2); padding-bottom: var(--s-2); }
+  .tabs { display: flex; border: 1.5px solid var(--rule); border-radius: var(--pill); padding: 3px; background: var(--paper-raised); width: max-content; max-width: 100%; }
+  .tabs a { flex: 1 1 auto; text-align: center; text-decoration: none; color: var(--ink-soft); font: 600 var(--step--1)/1 var(--font-body); padding: .85em 1.15em; border-radius: var(--pill); white-space: nowrap; }
+  .tabs a:hover { color: var(--ink); }
+  .tabs a[aria-current="page"] { background: var(--fern); color: var(--paper-raised); }
+  @media (max-width: 479px) { .tabs { width: 100%; } .tabs a { padding-left: .5em; padding-right: .5em; } }
+  .masthead h1 a { color: inherit; text-decoration: none; }
+  .view-intro { padding-top: var(--s-6); }
+  .view-intro .strip { margin-top: 0; }
+
+  /* Day chips (Day by day view) */
+  .daychips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .daychips a { display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0 .6em; border-radius: var(--radius-sm); border: 1.5px solid var(--rule);
+    background: var(--paper-raised); color: var(--ink); text-decoration: none; font: 700 var(--step--1)/1 var(--font-body); }
+  .daychips a.has { border-color: var(--r); background: color-mix(in srgb, var(--r) 14%, var(--paper-raised)); }
+  .daychips a:hover { border-color: var(--ink-faint); }
+  .chips-note { margin: var(--s-3) 0 0; font-size: var(--step--1); color: var(--ink-faint); }
 
   /* Intro: top 3 + scoring chart */
   .intro section { padding: var(--s-7) 0 0; }
@@ -218,20 +232,18 @@
 <body>
 <header class="masthead" id="top">
   <div class="wrap">
-    <h1>Dishspatch</h1>
+    <h1><a href="#home">Dishspatch</a></h1>
     <p class="tagline" id="tagline"></p>
-    <nav class="strip" id="strip" aria-label="Legs of the trip"></nav>
   </div>
 </header>
 
 <div class="bar" id="bar">
   <div class="wrap">
-    <a class="bar-top" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
-    <div class="sort" role="group" aria-label="Group dishes">
-      <button type="button" data-mode="leg" aria-pressed="true">By leg</button>
-      <button type="button" data-mode="day" aria-pressed="false">By day</button>
-    </div>
-    <label class="jump"><span class="sr">Jump to</span><select id="jump"></select></label>
+    <nav class="tabs" aria-label="Views">
+      <a href="#home" data-view="home">Home</a>
+      <a href="#legs" data-view="legs">Legs</a>
+      <a href="#days" data-view="days">Day by day</a>
+    </nav>
   </div>
 </div>
 
@@ -291,9 +303,19 @@
   /* ---------- Legs & state ---------- */
   const LEGS = (trip.legs || []).map((l, i) => ({ ...l, n: i + 1, id: "leg-" + (i + 1), days: trip.days.filter(d => d.date >= l.from && d.date <= l.to) }));
   const shortDate = iso => fmtDate(iso, { day: "numeric", month: "short" });
-  const legDates = l => shortDate(l.from) + (l.to !== l.from ? " – " + shortDate(l.to) : "");
-  const state = { mode: "leg" };
-  try { const m = localStorage.getItem("ds-mode"); if (m === "day" || m === "leg") state.mode = m; } catch {}
+  const legDates = l => { const a = l.own ? l.own[0] : l.from, b = l.own ? l.own[1] : l.to; return shortDate(a) + (a !== b ? " – " + shortDate(b) : ""); };
+  const owns = (l, date) => l.own ? date >= l.own[0] && date <= l.own[1] : date >= l.from && date <= l.to;
+  // A dish belongs to the leg covering its date whose regions include where it was eaten;
+  // otherwise to the leg that owns that day.
+  function legFor(e) {
+    const cands = LEGS.filter(l => e.date >= l.from && e.date <= l.to);
+    return cands.find(l => (l.regions || [l.region]).includes(e.region)) || LEGS.find(l => owns(l, e.date)) || cands[0];
+  }
+  const dishesIn = l => entries.filter(e => legFor(e) === l);
+  const VIEWS = ["home", "legs", "days"];
+  const state = { view: "home" };
+  // Hash → view: #home, #legs, #leg-N (legs), #days, #d-YYYY-MM-DD (days).
+  const viewFor = h => h.startsWith("leg-") ? "legs" : h.startsWith("d-") ? "days" : VIEWS.includes(h) ? h : "home";
 
   /* ---------- Cards ---------- */
   const ratingHtml = r => `<span class="rating"><b>${Number.isInteger(r) ? r : r.toFixed(1)}</b><span>/10</span></span>`;
@@ -354,16 +376,25 @@
 
   /* ---------- Views ---------- */
   function render() {
-    document.querySelectorAll(".sort button").forEach(b => b.setAttribute("aria-pressed", b.dataset.mode === state.mode));
-    $("#main").innerHTML = introHtml() + `<h2 class="section-title food-title" id="food">${state.mode === "leg" ? "The food, leg by leg" : "The food, day by day"}</h2>` + (state.mode === "leg" ? legsHtml() : dayRun(trip.days));
-    renderJump();
+    document.querySelectorAll(".tabs a").forEach(a => { if (a.dataset.view === state.view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+    $("#main").innerHTML = state.view === "legs" ? legsView() : state.view === "days" ? daysView() : homeView();
   }
 
-  function introHtml() {
+  function stripHtml() {
+    return `<nav class="strip" aria-label="Legs of the trip">${LEGS.map(l => {
+      const own = l.own ? trip.days.filter(d => owns(l, d.date)).length : l.days.length;
+      // Wide screens: slices sized by days, full name unless the slice is thin. Phones: grid with short names.
+      const wide = own < 2 ? l.name.split(/[ /&]/)[0] : l.name;
+      return `<a href="#${l.id}" data-region="${esc(l.region)}" style="--n:${Math.max(own, 1)}" title="${esc(l.name)} · ${legDates(l)}" aria-label="${esc(l.name)}, ${legDates(l)}"><span class="wide">${esc(wide)}</span><span class="narrow">${esc(l.short || l.name)}</span></a>`;
+    }).join("")}</nav>`;
+  }
+
+  function homeView() {
     const top = [...rated].sort((a, b) => b.rating - a.rating || a.date.localeCompare(b.date)).slice(0, 3);
     const Q = { flavour: "Is it well seasoned and balanced? Does it taste good?", texture: "How it feels to eat: bite, crispness, tenderness.", value: "Was it worth what it cost?", presentation: "Did it look good and arrive well put together?" };
     const weights = `<ul class="weights">${Object.keys(RUBRIC).map(k => `<li><span class="w-name">${k[0].toUpperCase() + k.slice(1)}</span><span class="w-bar"><i style="--w:${pct(k)}"></i></span><span class="w-pct">${pct(k)}</span><span class="w-q">${Q[k] || ""}</span></li>`).join("")}</ul>`;
     return `<div class="intro">
+      <section><h2 class="section-title">The trip</h2><p class="lede">Six legs. Tap one to see what was eaten there.</p>${stripHtml()}</section>
       <section><h2 class="section-title">Top 3 meals</h2><p class="lede">The highest-scoring main dishes so far.</p>
         ${top.length ? `<div class="best-row">${top.map(card).join("")}</div>` : `<p class="day-empty">No dishes scored yet.</p>`}</section>
       <section><h2 class="section-title">How scoring works</h2><p class="lede">Each main dish is scored 1–10 on four questions. Its score is a weighted average:</p>${weights}</section>
@@ -371,52 +402,56 @@
   }
 
   // A day with dishes: heading + cards. Days without dishes go in a compact list instead.
-  function dayBlock(d, i) {
-    const items = entries.filter(e => e.date === d.date);
-    return `<section class="day" data-region="${esc(d.region)}" id="d-${d.date}">
+  function dayBlock(d, items, withId) {
+    const i = trip.days.indexOf(d);
+    return `<section class="day" data-region="${esc(d.region)}"${withId ? ` id="d-${d.date}"` : ""}>
       <div class="day-head"><span class="day-num">DAY ${i + 1}</span><h3>${fmtDate(d.date)}</h3><span class="region-tag" data-region="${esc(d.region)}">${esc(d.location)}</span>
       <span class="day-meta">${items.length} ${items.length === 1 ? "dish" : "dishes"}</span></div>
       <div class="grid">${items.map(card).join("")}</div></section>`;
   }
-  function quietRow(d, i) {
+  function quietRow(d, withId) {
+    const i = trip.days.indexOf(d);
     const note = d.date > todayBkk ? (d.foodHint ? `Coming up. On the plan: <em>${esc(d.foodHint)}</em>` : "Coming up.") : "Nothing logged.";
-    return `<li id="d-${d.date}" data-region="${esc(d.region)}"><span class="q-num">DAY ${i + 1}</span><span class="q-date">${fmtDate(d.date)}</span><span class="q-note">${note}</span></li>`;
+    return `<li${withId ? ` id="d-${d.date}"` : ""} data-region="${esc(d.region)}"><span class="q-num">DAY ${i + 1}</span><span class="q-date">${fmtDate(d.date)}</span><span class="q-note">${note}</span></li>`;
   }
-  // Days in order; consecutive days without dishes collapse into one compact list.
-  function dayRun(days) {
+  // rows: [{d, items, quiet}] in order; consecutive quiet days collapse into one list.
+  function runHtml(rows, withId) {
     let html = "", quiet = [];
     const flush = () => { if (quiet.length) { html += `<ol class="quiet">${quiet.join("")}</ol>`; quiet = []; } };
-    days.forEach(d => {
-      const i = trip.days.indexOf(d);
-      if (entries.some(e => e.date === d.date)) { flush(); html += dayBlock(d, i); } else quiet.push(quietRow(d, i));
-    });
+    rows.forEach(r => { if (r.items.length) { flush(); html += dayBlock(r.d, r.items, withId); } else quiet.push(quietRow(r.d, withId)); });
     flush();
     return html;
   }
-  function legsHtml() {
-    return LEGS.map(l => {
-      const n = entries.filter(e => e.date >= l.from && e.date <= l.to).length;
+
+  function legsView() {
+    return `<div class="view-intro">${stripHtml()}</div>` + LEGS.map(l => {
+      const dishes = dishesIn(l);
+      // Days shown in a leg: the days it owns, plus shared travel days where it has dishes.
+      const rows = l.days.map(d => ({ d, items: dishes.filter(e => e.date === d.date) })).filter(r => r.items.length || owns(l, r.d.date));
+      const ownDays = trip.days.filter(d => owns(l, d.date)).length;
       return `<section class="leg" id="${l.id}" data-region="${esc(l.region)}">
         <div class="leg-head"><span class="leg-num">LEG ${l.n}</span><h2>${esc(l.name)}</h2>
-        <span class="leg-meta">${legDates(l)} · ${l.days.length} ${l.days.length === 1 ? "day" : "days"} · ${n ? `${n} ${n === 1 ? "dish" : "dishes"}` : "no dishes yet"}</span></div>
-        ${dayRun(l.days)}</section>`;
+        <span class="leg-meta">${legDates(l)} · ${ownDays} ${ownDays === 1 ? "day" : "days"} · ${dishes.length ? `${dishes.length} ${dishes.length === 1 ? "dish" : "dishes"}` : "no dishes yet"}</span></div>
+        ${runHtml(rows, false)}</section>`;
     }).join("");
   }
 
-  function renderStrip() {
-    const short = { "Getting there": "Travel", "Chiang Mai & Yi Peng": "Chiang Mai", "Chiang Mai & Monk Chat": "CM", "Bangkok & home": "Bangkok", "Doi Inthanon": "Inthanon", "Koh Lanta": "Lanta" };
-    $("#strip").innerHTML = LEGS.map(l => `<a href="#${l.id}" data-region="${esc(l.region)}" style="--n:${l.days.length}" data-short="${esc(short[l.name] || l.name)}" title="${esc(l.name)} · ${legDates(l)}">${esc(l.days.length < 2 ? (short[l.name] || l.name) : l.name)}</a>`).join("");
+  function daysView() {
+    const chips = `<ol class="daychips" aria-label="Jump to a day">${trip.days.map((d, i) => {
+      const has = entries.some(e => e.date === d.date);
+      return `<li><a href="#d-${d.date}" class="${has ? "has" : ""}" data-region="${esc(d.region)}" title="${fmtDate(d.date)} · ${esc(d.location)}" aria-label="Day ${i + 1}, ${fmtDate(d.date)}${has ? ", has dishes" : ""}">${i + 1}</a></li>`;
+    }).join("")}</ol><p class="chips-note">Tap a day to jump to it. Shaded days have dishes.</p>`;
+    return `<div class="view-intro">${chips}</div>` + runHtml(trip.days.map(d => ({ d, items: entries.filter(e => e.date === d.date) })), true);
   }
-  function renderJump() {
-    $("#jump").innerHTML = `<option value="">Jump to…</option>` + LEGS.map(l =>
-      `<optgroup label="Leg ${l.n}: ${esc(l.name)}"><option value="${l.id}">${esc(l.name)} (whole leg)</option>` +
-      l.days.map(d => `<option value="d-${d.date}">Day ${trip.days.indexOf(d) + 1} · ${fmtDate(d.date)}</option>`).join("") + `</optgroup>`).join("");
-  }
-  // In By-day mode there are no leg sections, so leg links go to the leg's first day.
-  function scrollToId(id) {
-    if (id === "top") { window.scrollTo({ top: 0 }); return; }
-    if (id.startsWith("leg-") && state.mode === "day") { const l = LEGS.find(x => x.id === id); if (l) id = "d-" + l.from; }
-    const el = document.getElementById(id); if (el) el.scrollIntoView({ block: "start" });
+
+  // Route from the URL hash, then scroll to the leg/day it names (or to the top of the view).
+  function go() {
+    const h = decodeURIComponent(location.hash.slice(1));
+    state.view = viewFor(h);
+    render();
+    const el = (h.startsWith("leg-") || h.startsWith("d-")) ? document.getElementById(h) : null;
+    if (el) requestAnimationFrame(() => el.scrollIntoView({ block: "start" }));
+    else window.scrollTo({ top: 0 });
   }
 
   /* ---------- Lightbox ---------- */
@@ -684,22 +719,17 @@
   })();
 
   /* ---------- Events ---------- */
-  document.querySelector(".sort").addEventListener("click", ev => {
-    const b = ev.target.closest("[data-mode]"); if (!b || b.dataset.mode === state.mode) return;
-    state.mode = b.dataset.mode; try { localStorage.setItem("ds-mode", state.mode); } catch {}
-    render(); scrollToId("food");
-  });
-  $("#jump").addEventListener("change", ev => { const v = ev.target.value; if (v) scrollToId(v); ev.target.value = ""; });
-  document.addEventListener("click", ev => {
-    const a = ev.target.closest('a[href^="#"]'); if (!a || a.closest("dialog")) return;
-    ev.preventDefault(); scrollToId(a.getAttribute("href").slice(1));
+  window.addEventListener("hashchange", go);
+  // Tapping the tab you're already on goes back to the top of that view.
+  $(".tabs").addEventListener("click", ev => {
+    const a = ev.target.closest("a[data-view]");
+    if (a && "#" + a.dataset.view === location.hash) { ev.preventDefault(); window.scrollTo({ top: 0 }); }
   });
   $("#main").addEventListener("click", ev => { const c = ev.target.closest(".dish"); if (c) open(c.dataset.id); });
 
   $("#footer").innerHTML = `Dishspatch · ${esc(trip.name || "Thailand")} · prices in local currency with US dollars at about ${Object.entries(FX).filter(([c]) => c !== "USD").map(([c, r]) => `${r} ${c}`).join(" / ")} to $1 · <a href="brand.html">Brand kit</a><span id="liveNote"></span>`;
   derive();
-  renderStrip();
-  render();
+  go();
 })();
 </script>
 </body>
