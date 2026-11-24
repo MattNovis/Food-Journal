@@ -93,6 +93,14 @@ def main():
             sr = sides.get("rating")
             if sr is not None and not (0 <= sr <= 10):
                 fail(f"{eid}: sides.rating must be 0–10")
+        # Dessert: like sides but ONE overall score — {"rating"?, "items": [names], "note"?}.
+        dz = e.get("dessert")
+        if dz is not None:
+            if not isinstance(dz.get("items", []), list) or not all(isinstance(x, str) for x in dz.get("items", [])):
+                fail(f"{eid}: dessert.items must be a list of names")
+            dr = dz.get("rating")
+            if dr is not None and not (1 <= dr <= 10):
+                fail(f"{eid}: dessert.rating must be 1–10")
         # Legacy single price in baht → per-item price object.
         if "priceThb" in e:
             e.setdefault("price", {"currency": "THB", "main": e.pop("priceThb")})

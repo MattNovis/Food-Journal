@@ -130,5 +130,44 @@
       "currency": "USD",
       "main": 8.99
     }
+  },
+  {
+    "id": "2026-11-24-starlux-garlic-butter-chicken",
+    "date": "2026-11-24",
+    "meal": "lunch",
+    "dish": "Garlic butter chicken and rice",
+    "description": "Garlic butter chicken and rice.",
+    "place": {
+      "name": "STARLUX Airlines",
+      "area": "Inflight (TPE → BKK)"
+    },
+    "region": "transit",
+    "photos": [
+      {
+        "src": "photos/2026-11-24-starlux-garlic-butter-chicken.jpg",
+        "w": 1600,
+        "h": 1200,
+        "alt": "STARLUX meal tray: garlic butter chicken on multigrain rice with broccoli, kimchi, wood ear mushrooms and pineapple, plus potato salad, fruit, a bread roll and a dessert cup"
+      },
+      {
+        "src": "photos/2026-11-24-starlux-black-sesame-mochi-gelato.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Cup of black sesame x white pearl mochi gelato held up over the tray"
+      }
+    ],
+    "sides": {
+      "items": [
+        "Potato salad",
+        "Fruit",
+        "Bread roll"
+      ]
+    },
+    "dessert": {
+      "items": [
+        "Black sesame mochi gelato"
+      ],
+      "note": "The star of the show."
+    }
   }
 ]
