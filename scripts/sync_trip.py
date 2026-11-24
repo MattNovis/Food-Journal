@@ -64,7 +64,7 @@ def food_hint(day: dict):
 # regions = which dish regions belong to the leg; region = the leg's colour.
 # abbr = label on phones, where the leg's slice of the strip is too thin for the full name.
 LEGS = [
-    {"name": "Getting there", "abbr": "Out", "from": "2026-11-22", "to": "2026-11-24", "own": ["2026-11-22", "2026-11-23"],
+    {"name": "Getting there", "abbr": "In", "from": "2026-11-22", "to": "2026-11-24", "own": ["2026-11-22", "2026-11-23"],
      "regions": ["transit"], "region": "transit"},
     {"name": "Bangkok", "abbr": "BKK", "from": "2026-11-24", "to": "2026-11-25", "own": ["2026-11-24", "2026-11-24"],
      "regions": ["bangkok"], "region": "bangkok"},
@@ -74,7 +74,7 @@ LEGS = [
      "regions": ["koh-lanta"], "region": "koh-lanta"},
     {"name": "Bangkok", "from": "2026-12-06", "to": "2026-12-08", "own": ["2026-12-06", "2026-12-08"],
      "regions": ["bangkok"], "region": "bangkok"},
-    {"name": "Seoul / return travel", "abbr": "SEL", "from": "2026-12-08", "to": "2026-12-09", "own": ["2026-12-09", "2026-12-09"],
+    {"name": "Seoul / return travel", "abbr": "Out", "from": "2026-12-08", "to": "2026-12-09", "own": ["2026-12-09", "2026-12-09"],
      "regions": ["transit"], "region": "transit"},
 ]
 

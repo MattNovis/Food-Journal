@@ -295,7 +295,7 @@
     topRating = rated.length ? Math.max(...rated.map(e => e.rating)) : null;
   }
 
-  $("#tagline").textContent = `Dispatches from ${trip.country || "Thailand"}, one dish at a time. ${fmtDate(trip.start, { day: "numeric", month: "short" })} – ${fmtDate(trip.end, { day: "numeric", month: "short", year: "numeric" })}.`;
+  $("#tagline").textContent = "Matt's food reviews from his trip to Thailand!";
 
   /* ---------- Legs & state ---------- */
   const LEGS = (trip.legs || []).map((l, i) => ({ ...l, n: i + 1, id: "leg-" + (i + 1), days: trip.days.filter(d => d.date >= l.from && d.date <= l.to) }));

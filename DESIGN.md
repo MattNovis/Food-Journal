@@ -102,7 +102,7 @@ Surface mode: **Experience** (a gallery). The interface recedes so the dishes le
 **Light only.** Warm paper `#f4eedb`, canopy ink `#12251a`. There is no dark mode and no theme toggle
 (Matt's call). Don't add one back.
 
-Name: **Dishspatch**, dish + dispatch. Tagline: "Dispatches from Thailand, one dish at a time." Set in Gloock, no subtitle.
+Name: **Dishspatch**, dish + dispatch. Tagline: "Matt's food reviews from his trip to Thailand!" Set in Gloock, no subtitle.
 
 ## Colors
 

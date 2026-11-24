@@ -15,7 +15,7 @@ window.JOURNAL = {
   "legs": [
    {
     "name": "Getting there",
-    "abbr": "Out",
+    "abbr": "In",
     "from": "2026-11-22",
     "to": "2026-11-24",
     "own": [
@@ -84,7 +84,7 @@ window.JOURNAL = {
    },
    {
     "name": "Seoul / return travel",
-    "abbr": "SEL",
+    "abbr": "Out",
     "from": "2026-12-08",
     "to": "2026-12-09",
     "own": [
