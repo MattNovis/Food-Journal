@@ -530,7 +530,7 @@ window.JOURNAL = {
    "description": "Thai golden moon mochi tea.",
    "place": {
     "name": "Bear House",
-    "area": "Bangkok mall"
+    "area": "MBK Center, Bangkok"
    },
    "region": "bangkok",
    "price": {
