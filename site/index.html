@@ -25,12 +25,9 @@
     color: #fffaec; text-decoration: none; font: 700 var(--step--1)/1.1 var(--font-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .strip a:hover { filter: brightness(1.08); }
   .strip a:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; border-radius: 0; }
-  /* Phones: proportional slices get too thin to label, so the legs become an even 3×2 grid. */
-  @media (max-width: 599px) {
-    .strip { display: grid; grid-template-columns: repeat(3, 1fr); height: auto; gap: 4px; border-radius: 0; overflow: visible; }
-    .strip a { height: 44px; border-radius: var(--radius-sm); font-size: 12px; padding: 0 4px; }
-    .strip a .wide { display: none; }
-  }
+  /* Phones: same proportional bar, thin slices use their abbreviation. */
+  .strip a { min-width: 30px; }
+  @media (max-width: 599px) { .strip { height: 40px; } .strip a { font-size: 11px; padding: 0 3px; } .strip a .wide { display: none; } }
   @media (min-width: 600px) { .strip a .narrow { display: none; } }
 
   /* Sticky bar: the three views */
@@ -385,7 +382,7 @@
       const own = l.own ? trip.days.filter(d => owns(l, d.date)).length : l.days.length;
       // Wide screens: slices sized by days, full name unless the slice is thin. Phones: grid with short names.
       const wide = own < 2 ? l.name.split(/[ /&]/)[0] : l.name;
-      return `<a href="#${l.id}" data-region="${esc(l.region)}" style="--n:${Math.max(own, 1)}" title="${esc(l.name)} · ${legDates(l)}" aria-label="${esc(l.name)}, ${legDates(l)}"><span class="wide">${esc(wide)}</span><span class="narrow">${esc(l.short || l.name)}</span></a>`;
+      return `<a href="#${l.id}" data-region="${esc(l.region)}" style="--n:${Math.max(own, 1)}" title="${esc(l.name)} · ${legDates(l)}" aria-label="${esc(l.name)}, ${legDates(l)}"><span class="wide">${esc(wide)}</span><span class="narrow">${esc(l.abbr || l.name)}</span></a>`;
     }).join("")}</nav>`;
   }
 

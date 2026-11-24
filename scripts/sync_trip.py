@@ -62,10 +62,11 @@ def food_hint(day: dict):
 # from/to = days a leg's dishes can fall on (travel days overlap two legs; a dish goes to the
 # leg matching its region). own = the days the leg owns, so each day is listed once.
 # regions = which dish regions belong to the leg; region = the leg's colour.
+# abbr = label on phones, where the leg's slice of the strip is too thin for the full name.
 LEGS = [
-    {"name": "Getting there", "short": "Getting there", "from": "2026-11-22", "to": "2026-11-24", "own": ["2026-11-22", "2026-11-23"],
+    {"name": "Getting there", "abbr": "Out", "from": "2026-11-22", "to": "2026-11-24", "own": ["2026-11-22", "2026-11-23"],
      "regions": ["transit"], "region": "transit"},
-    {"name": "Bangkok", "from": "2026-11-24", "to": "2026-11-25", "own": ["2026-11-24", "2026-11-24"],
+    {"name": "Bangkok", "abbr": "BKK", "from": "2026-11-24", "to": "2026-11-25", "own": ["2026-11-24", "2026-11-24"],
      "regions": ["bangkok"], "region": "bangkok"},
     {"name": "Chiang Mai", "from": "2026-11-25", "to": "2026-11-30", "own": ["2026-11-25", "2026-11-29"],
      "regions": ["chiang-mai", "chiang-rai", "doi-inthanon"], "region": "chiang-mai"},
@@ -73,7 +74,7 @@ LEGS = [
      "regions": ["koh-lanta"], "region": "koh-lanta"},
     {"name": "Bangkok", "from": "2026-12-06", "to": "2026-12-08", "own": ["2026-12-06", "2026-12-08"],
      "regions": ["bangkok"], "region": "bangkok"},
-    {"name": "Seoul / return travel", "short": "Seoul / return", "from": "2026-12-08", "to": "2026-12-09", "own": ["2026-12-09", "2026-12-09"],
+    {"name": "Seoul / return travel", "abbr": "SEL", "from": "2026-12-08", "to": "2026-12-09", "own": ["2026-12-09", "2026-12-09"],
      "regions": ["transit"], "region": "transit"},
 ]
 

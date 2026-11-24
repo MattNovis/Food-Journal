@@ -15,7 +15,7 @@ window.JOURNAL = {
   "legs": [
    {
     "name": "Getting there",
-    "short": "Getting there",
+    "abbr": "Out",
     "from": "2026-11-22",
     "to": "2026-11-24",
     "own": [
@@ -29,6 +29,7 @@ window.JOURNAL = {
    },
    {
     "name": "Bangkok",
+    "abbr": "BKK",
     "from": "2026-11-24",
     "to": "2026-11-25",
     "own": [
@@ -83,7 +84,7 @@ window.JOURNAL = {
    },
    {
     "name": "Seoul / return travel",
-    "short": "Seoul / return",
+    "abbr": "SEL",
     "from": "2026-12-08",
     "to": "2026-12-09",
     "own": [
