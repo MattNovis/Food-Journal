@@ -144,7 +144,6 @@
   .wiz-step { margin: 0; font-size: var(--step--1); font-weight: 600; color: var(--ink-faint); }
   .wiz-q { margin: 0; color: var(--ink-soft); }
   .share { display: inline-block; font-weight: 600; color: var(--fern); }
-  .wiz-anchor { margin: 0; font-size: var(--step--1); color: var(--ink-faint); }
   .wiz-msg { margin: 0; font-size: var(--step--1); color: var(--ink-soft); min-height: 1.2em; }
   .scale { display: grid; gap: var(--s-1); }
   .scale-row { display: flex; align-items: center; gap: var(--s-4); }
@@ -156,8 +155,11 @@
     font: 400 var(--step-2)/1 var(--font-display); text-align: center; -moz-appearance: textfield; }
   .scale-num input::-webkit-outer-spin-button, .scale-num input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   .scale-num input:focus-visible { outline: 2px solid var(--hibiscus); outline-offset: 1px; }
-  .ticks { position: relative; height: 1.2em; font-size: var(--step--1); color: var(--ink-faint); }
-  .ticks span { position: absolute; left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--i) / 9); transform: translateX(-50%); }
+  .ticks { position: relative; height: 36px; }
+  .ticks button { position: absolute; top: 0; left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--i) / 9); transform: translateX(-50%);
+    appearance: none; border: 0; background: none; min-width: 28px; height: 36px; padding: 0; border-radius: var(--radius-sm);
+    font: 600 var(--step--1)/1 var(--font-body); color: var(--ink-faint); cursor: pointer; }
+  .ticks button:hover { color: var(--ink); background: var(--paper-sunk); }
   @media (max-width: 479px) {
     .scale:not(.compact) .scale-row { flex-direction: column-reverse; align-items: stretch; gap: var(--s-2); }
     .scale:not(.compact) .scale-num { align-self: flex-start; }
@@ -447,7 +449,6 @@
     derive(); render();
   }
 
-  const ANCHOR = "1–2 bad · 3–4 below par · 5–6 fine · 7–8 genuinely good · 9–10 among the best";
   function steps(e) {
     const st = [
       { key: "flavour", title: "Flavour", q: "Is it well seasoned and balanced? Does it taste good?" },
@@ -483,7 +484,7 @@
       <div class="scale-row">
         <div class="track">
           <input type="range" min="1" max="10" step="0.1" value="${set ? cur : 5.5}" aria-label="${esc(name)} score, 1 to 10">
-          ${compact ? "" : `<div class="ticks" aria-hidden="true">${Array.from({ length: 10 }, (_, k) => `<span style="--i:${k}">${k + 1}</span>`).join("")}</div>`}
+          ${compact ? "" : `<div class="ticks">${Array.from({ length: 10 }, (_, k) => `<button type="button" style="--i:${k}" data-jump="${k + 1}" aria-label="Set ${esc(name)} to ${k + 1}">${k + 1}</button>`).join("")}</div>`}
         </div>
         <label class="scale-num"><input type="number" min="1" max="10" step="0.1" inputmode="decimal" value="${set ? cur.toFixed(1) : ""}" placeholder="–" aria-label="${esc(name)} exact score"><span>/10</span></label>
       </div>
@@ -501,7 +502,7 @@
         : scaleRow(s.key, v[s.key]);
       const ready = s.multi || s.optional || isScore(v[s.key]);
       inner = `<p class="wiz-step">${i + 1} of ${total} · ${esc(e.dish)}</p>
-        <h2 id="lbTitle">${s.title}</h2><p class="wiz-q">${s.q}${RUBRIC[s.key] ? ` <strong class="share">${pct(s.key)} of the score</strong>` : ""}</p>${field}<p class="wiz-anchor">${ANCHOR}</p>
+        <h2 id="lbTitle">${s.title}</h2><p class="wiz-q">${s.q}${RUBRIC[s.key] ? ` <strong class="share">${pct(s.key)} of the score</strong>` : ""}</p>${field}
         <div class="wiz-nav"><button type="button" class="ghost" data-nav="back">${i ? "Back" : "Cancel"}</button>
         <span class="wiz-right">${s.optional && !s.multi ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}
         <button type="button" class="primary" data-nav="next" ${ready ? "" : "disabled"}>Next</button></span></div>`;
@@ -539,6 +540,8 @@
   }
   dlg.addEventListener("click", ev => {
     if (!wiz) return;
+    const j = ev.target.closest("[data-jump]");
+    if (j) { setScale(j.closest(".scale"), +j.dataset.jump); return; }
     const c = ev.target.closest("[data-clear]");
     if (c) {
       const f = c.dataset.clear; delete wiz.v.sideItems[f];
