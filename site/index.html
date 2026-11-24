@@ -162,6 +162,14 @@
   .multi-head { display: flex; justify-content: space-between; align-items: baseline; }
   .clear { appearance: none; border: 0; background: none; color: var(--ink-faint); font: 600 var(--step--1)/1 var(--font-body); cursor: pointer; text-decoration: underline; text-underline-offset: .2em; }
   @media (max-width: 819px) { .lb.scoring .lb-photo { min-height: 0; height: 120px; } .lb.scoring .lb-photo img { height: 120px; object-fit: cover; } }
+  .price-form { display: grid; gap: var(--s-2); }
+  .prow { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: var(--s-1) 0; border-bottom: 1px solid var(--rule); }
+  .prow span { font-weight: 600; }
+  .prow input, .prow select { width: 8.5em; padding: .5em .6em; border: 1.5px solid var(--rule); border-radius: var(--radius-sm); background: var(--paper); color: var(--ink); font: 500 var(--step-0)/1.2 var(--font-body); text-align: right; }
+  .prow select { text-align: left; }
+  .price-list { list-style: none; margin: 0; padding: 0; }
+  .price-list li { display: flex; justify-content: space-between; gap: var(--s-3); padding: .2em 0; }
+  .price-list li.total { border-top: 1px solid var(--rule); margin-top: .2em; padding-top: .35em; font-weight: 700; }
   .multi { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
   .multi li { display: grid; gap: var(--s-2); }
   .multi li > span { font-weight: 600; }
@@ -208,15 +216,23 @@
   const { trip } = J;
   const BASE = J.entries || [];
   let entries = BASE;
-  const RATE = trip.thbPerUsd || 33.5;
   const $ = (s, el = document) => el.querySelector(s);
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const dayIndex = Object.fromEntries(trip.days.map((d, i) => [d.date, i]));
   const dayOf = date => trip.days[dayIndex[date]];
   const fmtDate = (iso, opts = { weekday: "short", day: "numeric", month: "short" }) =>
     new Date(iso + "T12:00:00").toLocaleDateString("en-GB", opts);
-  const baht = n => "฿" + Math.round(n).toLocaleString("en-US");
-  const usd = n => "$" + (n / RATE < 10 ? (n / RATE).toFixed(2) : Math.round(n / RATE).toLocaleString("en-US"));
+  /* Money: each meal's prices are in one local currency; USD shown beside at a fixed approximate rate. */
+  const FX = J.fx || { USD: 1, THB: 33.5, TWD: 32.9 };
+  const SYM = { THB: "฿", TWD: "NT$", USD: "$" };
+  const money = (n, cur) => { const d = cur === "USD" || n % 1 ? 2 : 0; return (SYM[cur] || cur + " ") + n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }); };
+  const toUsd = (n, cur) => n / (FX[cur] || 1);
+  const usdStr = n => "$" + (n < 10 ? n.toFixed(2) : Math.round(n).toLocaleString("en-US"));
+  const pricePair = (n, cur) => cur === "USD" ? `<span class="price">${money(n, "USD")}</span>`
+    : `<span class="price">${money(n, cur)}<small>${usdStr(toUsd(n, cur))}</small></span>`;
+  const isAmount = v => typeof v === "number" && Number.isFinite(v) && v >= 0 && v < 1e7;
+  const priceTotal = e => { const p = e.price; if (!p) return null; const vals = [p.main, ...Object.values(p.sides || {})].filter(isAmount); return vals.length ? vals.reduce((a, b) => a + b, 0) : null; };
+  const mealUsd = e => { const t = priceTotal(e); return t === null ? null : toUsd(t, e.price.currency); };
   const todayBkk = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Bangkok" });
 
   /* ---------- Icons (authored, one stroke weight) ---------- */
@@ -228,17 +244,17 @@
 
   /* ---------- Derived data ---------- */
   const regionName = k => trip.regions[k] || k;
-  let priced, rated, totalThb, avg, daysWithFood, topRating;
+  let priced, rated, totalUsd, avg, daysWithFood, topRating;
   function derive() {
-    priced = entries.filter(e => typeof e.priceThb === "number");
+    priced = entries.filter(e => mealUsd(e) !== null);
     rated = entries.filter(e => typeof e.rating === "number");
-    totalThb = priced.reduce((s, e) => s + e.priceThb, 0);
+    totalUsd = priced.reduce((s, e) => s + mealUsd(e), 0);
     avg = rated.length ? rated.reduce((s, e) => s + e.rating, 0) / rated.length : null;
     daysWithFood = new Set(entries.map(e => e.date)).size;
     topRating = rated.length ? Math.max(...rated.map(e => e.rating)) : null;
     $("#ledger").innerHTML = entries.length
       ? `<strong>${entries.length} ${entries.length === 1 ? "dish" : "dishes"}</strong> across ${daysWithFood} ${daysWithFood === 1 ? "day" : "days"}` +
-        (priced.length ? ` · <strong>${baht(totalThb)}</strong> spent (about ${usd(totalThb)})` : "") +
+        (priced.length ? ` · about <strong>${usdStr(totalUsd)}</strong> spent` : "") +
         (avg !== null ? ` · averaging <strong>${avg.toFixed(1)}/10</strong>` : "")
       : "Nothing logged yet. The first bite lands soon.";
   }
@@ -265,7 +281,15 @@
 
   /* ---------- Cards ---------- */
   const ratingHtml = r => `<span class="rating"><b>${Number.isInteger(r) ? r : r.toFixed(1)}</b><span>/10</span></span>`;
-  const priceHtml = e => typeof e.priceThb === "number" ? `<span class="price">${baht(e.priceThb)}<small>${usd(e.priceThb)}</small></span>` : "";
+  const priceHtml = e => { const t = priceTotal(e); return t === null ? "" : pricePair(t, e.price.currency); };
+  function priceFacts(e) {
+    const p = e.price, rows = [];
+    if (isAmount(p.main)) rows.push([e.dish, p.main]);
+    Object.entries(p.sides || {}).forEach(([n, a]) => { if (isAmount(a)) rows.push([n, a]); });
+    const list = rows.map(([n, a]) => `<li><span>${esc(n)}</span>${pricePair(a, p.currency)}</li>`).join("");
+    const total = rows.length > 1 ? `<li class="total"><span>Total</span>${pricePair(priceTotal(e), p.currency)}</li>` : "";
+    return `<ul class="price-list">${list}${total}</ul>${p.note ? `<small>${esc(p.note)}</small>` : ""}`;
+  }
 
   const fmtScore = r => Number.isInteger(r) ? String(r) : r.toFixed(1);
   const sideName = it => typeof it === "string" ? it : it.name;
@@ -337,10 +361,10 @@
         if (state.region !== "all" && !items.length) return;
         const future = d.date > todayBkk;
         if (!items.length && future) { ahead.push(d); return; }
-        const spent = items.filter(e => typeof e.priceThb === "number").reduce((s, e) => s + e.priceThb, 0);
+        const spent = items.reduce((s, e) => s + (mealUsd(e) ?? 0), 0);
         html += `<section class="day" data-region="${esc(d.region)}" id="d-${d.date}">
           <div class="day-head"><span class="day-num">DAY ${i + 1}</span><h2>${fmtDate(d.date)}</h2><span class="region-tag" data-region="${esc(d.region)}">${esc(d.location)}</span>
-          ${items.length ? `<span class="day-meta">${items.length} ${items.length === 1 ? "dish" : "dishes"}${spent ? " · " + baht(spent) : ""}</span>` : ""}</div>
+          ${items.length ? `<span class="day-meta">${items.length} ${items.length === 1 ? "dish" : "dishes"}${spent ? " · about " + usdStr(spent) : ""}</span>` : ""}</div>
           ${items.length ? `<div class="grid">${items.map(card).join("")}</div>`
             : `<p class="day-empty">Nothing logged for this day${d.foodHint ? `. On the plan: <em>${esc(d.foodHint)}</em>` : "."}</p>`}
         </section>`;
@@ -367,7 +391,7 @@
         ((e.sides.items || []).length ? `${typeof e.sides.rating === "number" ? " · " : ""}${esc(e.sides.items.map(sideName).join(", "))}` : "") +
         (e.sides.note ? `<br>${esc(e.sides.note)}` : "") + sidesDetail(e.sides)] : null,
       typeof e.ambiance === "number" ? ["Ambiance", `<strong>${fmtScore(e.ambiance)}/10</strong> <small>(not part of the food score)</small>`] : null,
-      typeof e.priceThb === "number" ? ["Paid", priceHtml(e) + (e.priceNote ? ` <small>(${esc(e.priceNote)})</small>` : "")] : null,
+      priceTotal(e) !== null ? ["Paid", priceFacts(e)] : null,
       day ? ["Trip day", `Day ${dayIndex[e.date] + 1} · ${esc(day.location)}`] : null,
     ].filter(Boolean);
     dlg.innerHTML = `<button class="lb-close" type="button" aria-label="Close">${ICON.close}</button>
@@ -423,7 +447,16 @@
       });
     }
     if (isScore(sc.ambiance)) x.ambiance = sc.ambiance;
+    const pr = cleanPrice(sc.price); if (pr) x.price = { ...(x.price || {}), ...pr };
     return x;
+  }
+  function cleanPrice(p) {
+    if (!p || typeof p !== "object" || !FX[p.currency]) return null;
+    const out = { currency: p.currency };
+    if (isAmount(p.main)) out.main = p.main;
+    const sides = Object.fromEntries(Object.entries(p.sides || {}).filter(([, a]) => isAmount(a)));
+    if (Object.keys(sides).length) out.sides = sides;
+    return out.main !== undefined || out.sides ? out : null;
   }
   function refresh() {
     entries = BASE.map(e => dbScores[e.id] ? applyScores(e, dbScores[e.id]) : e);
@@ -440,6 +473,7 @@
     if (e.sides) st.push({ key: "sidesRating", title: "Sides", q: "One score for everything else on the table.", optional: true });
     if ((e.sides?.items || []).length) st.push({ key: "sideItems", title: "Standout sides", q: "Score any side worth calling out. Skip the rest.", optional: true, multi: true });
     st.push({ key: "ambiance", title: "Ambiance", q: "The setting. Shown separately; it never counts toward the food score.", optional: true });
+    st.push({ key: "price", title: "Prices", q: "Optional. What did each item cost? Leave any blank.", optional: true, kind: "price" });
     return st;
   }
   let wiz = null;
@@ -455,6 +489,10 @@
         sidesRating: prev.sidesRating ?? (e.scores?.main && isScore(e.sides?.rating) ? e.sides.rating : undefined),
         sideItems: { ...sideItems, ...(prev.sideItems || {}) },
         ambiance: prev.ambiance ?? e.ambiance,
+        price: (() => {
+          const base = cleanPrice(prev.price) || cleanPrice(e.price) || {};
+          return { currency: base.currency || (e.region === "transit" ? "USD" : "THB"), main: base.main, sides: { ...(base.sides || {}) } };
+        })(),
       },
     };
     drawWizard();
@@ -478,14 +516,23 @@
     let inner;
     if (i < st.length) {
       const s = st[i];
-      const field = s.multi
+      const pv = v.price;
+      const amt = a => isAmount(a) ? String(a) : "";
+      const priceForm = `<div class="price-form">
+          <label class="prow"><span>Currency</span><select data-pcur>${Object.keys(FX).map(c => `<option value="${c}" ${c === pv.currency ? "selected" : ""}>${c} (${SYM[c] || c})</option>`).join("")}</select></label>
+          <label class="prow"><span>${esc(e.dish)}</span><input type="text" inputmode="decimal" data-pfor="" value="${amt(pv.main)}" placeholder="–" aria-label="${esc(e.dish)} price"></label>
+          ${(e.sides?.items || []).map(it => { const n = sideName(it); return `<label class="prow"><span>${esc(n)}</span><input type="text" inputmode="decimal" data-pfor="${esc(n)}" value="${amt(pv.sides[n])}" placeholder="–" aria-label="${esc(n)} price"></label>`; }).join("")}
+          <p class="wiz-q" data-ptotal></p>
+        </div>`;
+      const field = s.kind === "price" ? priceForm : s.multi
         ? `<ul class="multi">${e.sides.items.map(it => { const n = sideName(it); return `<li><div class="multi-head"><span>${esc(n)}</span><button type="button" class="clear" data-clear="${esc(n)}" ${isScore(v.sideItems[n]) ? "" : "hidden"}>Clear</button></div>${scaleRow(n, v.sideItems[n], true)}</li>`; }).join("")}</ul>`
         : scaleRow(s.key, v[s.key]);
       const ready = s.multi || s.optional || isScore(v[s.key]);
+      wiz.pricing = s.kind === "price";
       inner = `<p class="wiz-step">${i + 1} of ${total} · ${esc(e.dish)}</p>
         <h2 id="lbTitle">${s.title}</h2><p class="wiz-q">${s.q}${RUBRIC[s.key] ? ` <strong class="share">${pct(s.key)} of the score</strong>` : ""}</p>${field}
         <div class="wiz-nav"><button type="button" class="ghost" data-nav="back">${i ? "Back" : "Cancel"}</button>
-        <span class="wiz-right">${s.optional && !s.multi ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}
+        <span class="wiz-right">${s.optional && !s.multi && !s.kind ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}
         <button type="button" class="primary" data-nav="next" ${ready ? "" : "disabled"}>Next</button></span></div>`;
     } else {
       const ok = Object.keys(RUBRIC).every(k => isScore(v[k]));
@@ -494,12 +541,14 @@
         <dl class="facts">${Object.keys(RUBRIC).map(k => `<dt>${k[0].toUpperCase() + k.slice(1)} <small>${pct(k)}</small></dt><dd>${isScore(v[k]) ? v[k].toFixed(1) : "–"}</dd>`).join("")}
         ${isScore(v.sidesRating) ? `<dt>Sides</dt><dd>${v.sidesRating.toFixed(1)}</dd>` : ""}
         ${Object.entries(v.sideItems).filter(([, r]) => isScore(r)).map(([n, r]) => `<dt>${esc(n)}</dt><dd>${r.toFixed(1)}</dd>`).join("")}
-        ${isScore(v.ambiance) ? `<dt>Ambiance</dt><dd>${v.ambiance.toFixed(1)} <small>(not in the food score)</small></dd>` : ""}</dl>
+        ${isScore(v.ambiance) ? `<dt>Ambiance</dt><dd>${v.ambiance.toFixed(1)} <small>(not in the food score)</small></dd>` : ""}
+        ${(() => { const pe = { dish: e.dish, price: cleanPrice(v.price) }; return pe.price ? `<dt>Paid</dt><dd>${priceFacts(pe)}</dd>` : ""; })()}</dl>
         <p class="wiz-msg" role="status"></p>
         <div class="wiz-nav"><button type="button" class="ghost" data-nav="back">Back</button><button type="button" class="primary" data-nav="save" ${ok ? "" : "disabled"}>Save scores</button></div>`;
     }
     dlg.querySelector(".lb").classList.add("scoring");
     body.innerHTML = inner;
+    if (wiz.pricing) showPriceTotal();
     body.querySelector('.scale input[type="range"], .primary')?.focus({ preventScroll: true });
   }
   async function saveScores() {
@@ -511,6 +560,7 @@
     const items = Object.fromEntries(Object.entries(v.sideItems).filter(([, r]) => isScore(r)));
     if (Object.keys(items).length) doc.sideItems = items;
     if (isScore(v.ambiance)) doc.ambiance = v.ambiance;
+    const pr = cleanPrice(v.price); if (pr) doc.price = pr;
     try {
       await db.doc("scores/" + e.id).set(doc);
       dbScores[e.id] = doc; wiz = null; refresh(); open(e.id);
@@ -545,8 +595,22 @@
     if (s.multi) { const c = [...dlg.querySelectorAll("[data-clear]")].find(x => x.dataset.clear === f); if (c) c.hidden = false; }
     const next = dlg.querySelector("[data-nav=next]"); if (next) next.disabled = false;
   }
+  function showPriceTotal() {
+    const el = dlg.querySelector("[data-ptotal]"); if (!el) return;
+    const pr = cleanPrice(wiz.v.price);
+    el.innerHTML = pr ? `Total ${priceHtml({ price: pr })}` : "";
+  }
+  dlg.addEventListener("change", ev => {
+    if (wiz && ev.target.matches("[data-pcur]")) { wiz.v.price.currency = ev.target.value; showPriceTotal(); }
+  });
   dlg.addEventListener("input", ev => {
     if (!wiz) return;
+    if (ev.target.matches("[data-pfor]")) {
+      const raw = ev.target.value.replace(/[^0-9.]/g, ""), n = raw === "" ? undefined : Math.round(parseFloat(raw) * 100) / 100;
+      const f = ev.target.dataset.pfor, val = isAmount(n) ? n : undefined;
+      if (f === "") wiz.v.price.main = val; else if (val === undefined) delete wiz.v.price.sides[f]; else wiz.v.price.sides[f] = val;
+      showPriceTotal(); return;
+    }
     const box = ev.target.closest(".scale"); if (!box) return;
     if (ev.target.type === "range") setScale(box, toScore(ev.target.value), "range");
     else { const n = toScore(ev.target.value); if (ev.target.value !== "" && n !== undefined && parseFloat(ev.target.value) >= 1 && parseFloat(ev.target.value) <= 10) setScale(box, n, "number"); }
@@ -584,7 +648,7 @@
   document.querySelector(".sort").addEventListener("click", ev => { const b = ev.target.closest("[data-sort]"); if (!b) return; state.sort = b.dataset.sort; syncHash(); render(); });
   $("#main").addEventListener("click", ev => { const c = ev.target.closest(".dish"); if (c) open(c.dataset.id); });
 
-  $("#footer").innerHTML = `Kin Khao · ${esc(trip.name || "Thailand")} · prices in baht, dollars at ~${RATE} THB to $1 · <a href="brand.html">Brand kit</a><span id="liveNote"></span>`;
+  $("#footer").innerHTML = `Kin Khao · ${esc(trip.name || "Thailand")} · prices in local currency with US dollars at about ${Object.entries(FX).filter(([c]) => c !== "USD").map(([c, r]) => `${r} ${c}`).join(" / ")} to $1 · <a href="brand.html">Brand kit</a><span id="liveNote"></span>`;
   derive();
   render();
 })();

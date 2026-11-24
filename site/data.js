@@ -4,7 +4,6 @@ window.JOURNAL = {
   "country": "Thailand",
   "start": "2026-11-22",
   "end": "2026-12-08",
-  "thbPerUsd": 33.5,
   "regions": {
    "transit": "Travel",
    "bangkok": "Bangkok",
@@ -208,6 +207,11 @@ window.JOURNAL = {
   "texture": 20,
   "value": 20,
   "presentation": 10
+ },
+ "fx": {
+  "USD": 1,
+  "THB": 33.5,
+  "TWD": 32.9
  },
  "entries": [
   {

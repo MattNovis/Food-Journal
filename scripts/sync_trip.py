@@ -78,7 +78,6 @@ def main():
         "country": meta["country"],
         "start": meta["start"],
         "end": meta["end"],
-        "thbPerUsd": 33.5,
         "regions": REGION_NAMES,
         "days": out_days,
     }

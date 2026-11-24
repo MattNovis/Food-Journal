@@ -32,6 +32,16 @@ def dish_score(qs, eid, label):
     return math.floor(sum(qs[k] * w for k, w in RUBRIC.items()) * 10 / sum(RUBRIC.values()) + 0.5) / 10
 
 
+# Local currency per US dollar (approximate, fixed for the trip). THB from the Atlas plan (Nov 11);
+# TWD from converters around Nov 19, 2026. Add a currency here before using it in an entry.
+FX = {"USD": 1, "THB": 33.5, "TWD": 32.9}
+
+
+def check_amount(v, eid, label):
+    if not isinstance(v, (int, float)) or v < 0:
+        fail(f"{eid}: {label} must be a non-negative number")
+
+
 MEALS = {"breakfast", "lunch", "dinner", "snack", "dessert", "drink"}
 
 
@@ -83,8 +93,19 @@ def main():
             sr = sides.get("rating")
             if sr is not None and not (0 <= sr <= 10):
                 fail(f"{eid}: sides.rating must be 0–10")
-        if e.get("priceThb") is not None and e["priceThb"] < 0:
-            fail(f"{eid}: negative price")
+        # Legacy single price in baht → per-item price object.
+        if "priceThb" in e:
+            e.setdefault("price", {"currency": "THB", "main": e.pop("priceThb")})
+            if e.get("priceNote"):
+                e["price"]["note"] = e.pop("priceNote")
+        pr = e.get("price")
+        if pr is not None:
+            if pr.get("currency") not in FX:
+                fail(f"{eid}: price.currency must be one of {list(FX)}")
+            if "main" in pr:
+                check_amount(pr["main"], eid, "price.main")
+            for n, a in (pr.get("sides") or {}).items():
+                check_amount(a, eid, f"price.sides[{n}]")
         for p in e.get("photos", []):
             if not re.fullmatch(r"photos/[a-z0-9-]+\.jpg", p["src"]):
                 fail(f"{eid}: bad photo path {p['src']}")
@@ -96,7 +117,7 @@ def main():
             fail(f"{eid}: unknown region {e['region']}")
     order = {m: i for i, m in enumerate(["breakfast", "lunch", "snack", "dinner", "dessert", "drink"])}
     entries.sort(key=lambda e: (e["date"], e.get("time") or "", order.get(e.get("meal"), 9)))
-    bundle = {"trip": trip, "rubric": RUBRIC, "entries": entries}
+    bundle = {"trip": trip, "rubric": RUBRIC, "fx": FX, "entries": entries}
     js = "window.JOURNAL = " + json.dumps(bundle, ensure_ascii=False, indent=1) + ";\n"
     (ROOT / "site/data.js").write_text(js)
     print(f"build: {len(entries)} entries, {sum(len(e.get('photos', [])) for e in entries)} photos → site/data.js")
