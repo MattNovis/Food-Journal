@@ -143,6 +143,7 @@
   .wiz-nav .ghost { border: 1.5px solid var(--rule); background: none; color: var(--ink); }
   .wiz-step { margin: 0; font-size: var(--step--1); font-weight: 600; color: var(--ink-faint); }
   .wiz-q { margin: 0; color: var(--ink-soft); }
+  .share { display: inline-block; font-weight: 600; color: var(--fern); }
   .wiz-anchor { margin: 0; font-size: var(--step--1); color: var(--ink-faint); }
   .wiz-msg { margin: 0; font-size: var(--step--1); color: var(--ink-soft); min-height: 1.2em; }
   .scale { display: grid; gap: var(--s-1); }
@@ -157,6 +158,10 @@
   .scale-num input:focus-visible { outline: 2px solid var(--hibiscus); outline-offset: 1px; }
   .ticks { position: relative; height: 1.2em; font-size: var(--step--1); color: var(--ink-faint); }
   .ticks span { position: absolute; left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--i) / 9); transform: translateX(-50%); }
+  @media (max-width: 479px) {
+    .scale:not(.compact) .scale-row { flex-direction: column-reverse; align-items: stretch; gap: var(--s-2); }
+    .scale:not(.compact) .scale-num { align-self: flex-start; }
+  }
   .scale.compact .scale-num input { font-size: var(--step-1); width: 3em; }
   .wiz-right { display: flex; gap: var(--s-2); }
   .multi-head { display: flex; justify-content: space-between; align-items: baseline; }
@@ -294,12 +299,14 @@
   };
 
   const RUBRIC = J.rubric || { flavour: 3, value: 2, texture: 2, presentation: 1 };
+  // Each question's share of the dish score, e.g. "37.5%".
+  const pct = k => `${+(RUBRIC[k] / Object.values(RUBRIC).reduce((a, b) => a + b, 0) * 100).toFixed(1)}%`;
   function breakdown(e) {
     const sc = e.scores; if (!sc || !sc.main) return "";
     const keys = Object.keys(RUBRIC);
     const cap = k => k[0].toUpperCase() + k.slice(1);
     const row = (label, qs, total) => qs ? `<tr><th scope="row">${label}</th>${keys.map(k => `<td>${fmtScore(qs[k])}</td>`).join("")}<td class="total">${fmtScore(total)}</td></tr>` : "";
-    return `<table class="breakdown"><thead><tr><th></th>${keys.map(k => `<th scope="col" title="${cap(k)}, weight ×${RUBRIC[k]}"><span class="full">${cap(k)}</span><span class="short">${({ flavour: "Flavour", value: "Value", texture: "Texture", presentation: "Pres." })[k] || cap(k)}</span><br><span style="font-weight:400">×${RUBRIC[k]}</span></th>`).join("")}<th scope="col">Score</th></tr></thead>
+    return `<table class="breakdown"><thead><tr><th></th>${keys.map(k => `<th scope="col" title="${cap(k)}, ${pct(k)} of the score"><span class="full">${cap(k)}</span><span class="short">${({ flavour: "Flavour", value: "Value", texture: "Texture", presentation: "Pres." })[k] || cap(k)}</span><br><span style="font-weight:400">${pct(k)}</span></th>`).join("")}<th scope="col">Score</th></tr></thead>
       <tbody>${row("Main", sc.main, e.rating)}</tbody></table>`;
   }
 
@@ -494,7 +501,7 @@
         : scaleRow(s.key, v[s.key]);
       const ready = s.multi || s.optional || isScore(v[s.key]);
       inner = `<p class="wiz-step">${i + 1} of ${total} · ${esc(e.dish)}</p>
-        <h2 id="lbTitle">${s.title}</h2><p class="wiz-q">${s.q}</p>${field}<p class="wiz-anchor">${ANCHOR}</p>
+        <h2 id="lbTitle">${s.title}</h2><p class="wiz-q">${s.q}${RUBRIC[s.key] ? ` <strong class="share">${pct(s.key)} of the score</strong>` : ""}</p>${field}<p class="wiz-anchor">${ANCHOR}</p>
         <div class="wiz-nav"><button type="button" class="ghost" data-nav="back">${i ? "Back" : "Cancel"}</button>
         <span class="wiz-right">${s.optional && !s.multi ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}
         <button type="button" class="primary" data-nav="next" ${ready ? "" : "disabled"}>Next</button></span></div>`;
@@ -502,7 +509,7 @@
       const ok = Object.keys(RUBRIC).every(k => isScore(v[k]));
       inner = `<p class="wiz-step">${total} of ${total} · ${esc(e.dish)}</p><h2 id="lbTitle">Check and save</h2>
         ${ok ? `<div>${ratingHtml(weighted(v))} <span class="wiz-q">main dish</span></div>` : `<p class="wiz-q">Flavour, value, texture and presentation are all needed.</p>`}
-        <dl class="facts">${Object.keys(RUBRIC).map(k => `<dt>${k[0].toUpperCase() + k.slice(1)} ×${RUBRIC[k]}</dt><dd>${isScore(v[k]) ? v[k].toFixed(1) : "–"}</dd>`).join("")}
+        <dl class="facts">${Object.keys(RUBRIC).map(k => `<dt>${k[0].toUpperCase() + k.slice(1)} <small>${pct(k)}</small></dt><dd>${isScore(v[k]) ? v[k].toFixed(1) : "–"}</dd>`).join("")}
         ${isScore(v.sidesRating) ? `<dt>Sides</dt><dd>${v.sidesRating.toFixed(1)}</dd>` : ""}
         ${Object.entries(v.sideItems).filter(([, r]) => isScore(r)).map(([n, r]) => `<dt>${esc(n)}</dt><dd>${r.toFixed(1)}</dd>`).join("")}
         ${isScore(v.ambiance) ? `<dt>Ambiance</dt><dd>${v.ambiance.toFixed(1)} <small>(not in the food score)</small></dd>` : ""}</dl>

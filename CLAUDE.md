@@ -79,7 +79,8 @@ When republishing, OMIT `capabilities` so the stored declaration carries over.
 Matt sends: `dumplings 9 7 9 7 / sides 6 (cucumbers 7, cabbage 4) / amb 4`.
 Main dish = four numbers in order **Flavour, Value, Texture, Presentation**, each 1.0–10.0
 (one decimal allowed, e.g. 8.6 — the page's sliders work in 0.1 steps).
-Main score = (Flavour×3 + Value×2 + Texture×2 + Presentation×1) ÷ 8.
+Main score = (Flavour×3 + Value×2 + Texture×2 + Presentation×1) ÷ 8, i.e. Flavour 37.5%, Value 25%,
+Texture 25%, Presentation 12.5%. Always describe the weights to Matt as percentages.
 Sides = ONE overall 1–10; individual sides get their own score only when he calls them out.
 Sides and ambiance are optional. If he sends a single number for the main, ask once for the four.
 Anchors: 1–2 bad · 3–4 below par · 5–6 fine/as expected · 7–8 genuinely good · 9–10 among the best.
