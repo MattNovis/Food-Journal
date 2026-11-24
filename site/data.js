@@ -473,10 +473,7 @@ window.JOURNAL = {
    ],
    "sides": {
     "items": [
-     {
-      "name": "Potato salad",
-      "note": "weirdly citrusy"
-     },
+     "Potato salad",
      "Fruit",
      "Bread roll"
     ],
