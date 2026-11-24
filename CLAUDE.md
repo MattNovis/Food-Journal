@@ -128,8 +128,9 @@ which keeps its data in its own db and is synced to the `artifact-planner` branc
   STARLUX beef bulgogi (Nov 23 per Matt, id still says 11-22), STARLUX pork congee (Nov 23), Taoyuan airport soup dumplings (Nov 24 per Matt,
   id still says 11-23 so its db score doc stays linked; photo, $8.99 USD), STARLUX garlic butter chicken TPE→BKK
   (Nov 24 lunch, dessert black sesame mochi gelato, scored). Thai tea (Nov 24 14:49, drink, Bangkok, ฿45,
-  cup logo ปู่อู๋ คอฟฟี่, score pending). Braised duck noodles (Nov 24, first street food, unnamed stall, ฿60) +
-  lychee tea (drink, OWL cup, ฿24, 15:54), scores pending. Thai golden moon mochi tea (drink, Bear House at MBK Center (Matt wrote "BHK"), ฿179), score pending. Dish photos with several pictures swipe (carousel with arrows).
+  cup logo ปู่อู๋ คอฟฟี่, scored). Braised duck noodles (Nov 24, first street food, unnamed stall, ฿60) +
+  lychee tea (drink, OWL cup, ฿24, 15:54), scored. Thai golden moon mochi tea (drink, Bear House at MBK Center (Matt wrote "BHK"), ฿179), scored. Chicken tikka masala dinner (Nov 24, ฿220, naan + rice, dessert mango sticky rice;
+  restaurant name + scores pending). Dish photos with several pictures swipe (carousel with arrows).
 - Still unknown: prices for the two STARLUX meals (likely included in the fare) and the dumpling stall's name.
 - Matt's real flights: out FAI→SEA→TPE→BKK (lands Nov 24 12:35); BKK→CNX PG1201 Nov 25 10:20; CNX→DMK→KBV
   Nok Air Nov 30 6:45; KBV→BKK FD 4401 Dec 6 15:55; home BKK Dec 8 21:40 KE658 → Seoul (11h25) → SEA → FAI Dec 9.

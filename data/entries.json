@@ -206,7 +206,10 @@
         "h": 1600,
         "alt": "Iced Thai tea in a plastic cup with a moustache logo, held up in a hotel room"
       }
-    ]
+    ],
+    "scores": {
+      "overall": 8.1
+    }
   },
   {
     "id": "2026-11-24-braised-duck-noodles",
@@ -230,7 +233,16 @@
         "h": 1600,
         "alt": "Bowl of egg noodles with duck, bean sprouts, pickled ginger, chives and chillies, with a plate of duck on rice behind"
       }
-    ]
+    ],
+    "scores": {
+      "main": {
+        "flavour": 7.8,
+        "texture": 7,
+        "value": 9,
+        "presentation": 7
+      }
+    },
+    "ambiance": 3
   },
   {
     "id": "2026-11-24-lychee-tea",
@@ -256,7 +268,10 @@
         "h": 1600,
         "alt": "Iced lychee tea in an OWL-branded cup held over the street"
       }
-    ]
+    ],
+    "scores": {
+      "overall": 7.3
+    }
   },
   {
     "id": "2026-11-24-golden-moon-mochi-tea",
@@ -279,6 +294,45 @@
         "w": 1200,
         "h": 1600,
         "alt": "Two Bear House mochi milk teas held up at a table in a mall"
+      }
+    ],
+    "scores": {
+      "overall": 6.8
+    }
+  },
+  {
+    "id": "2026-11-24-chicken-tikka-masala",
+    "date": "2026-11-24",
+    "meal": "dinner",
+    "dish": "Chicken tikka masala",
+    "description": "It was decent but didn't knock my socks off. Passage to India easily beats this iteration.",
+    "place": {
+      "name": "Indian restaurant",
+      "area": "Bangkok"
+    },
+    "region": "bangkok",
+    "price": {
+      "currency": "THB",
+      "main": 220
+    },
+    "sides": {
+      "items": [
+        "Garlic naan",
+        "Rice"
+      ]
+    },
+    "dessert": {
+      "items": [
+        "Mango sticky rice"
+      ],
+      "note": "Star of the show. Perfect amount of sweetness and incredible juicy ripe mango."
+    },
+    "photos": [
+      {
+        "src": "photos/2026-11-24-chicken-tikka-masala.jpg",
+        "w": 1600,
+        "h": 1200,
+        "alt": "Tray with chicken tikka masala, a mound of rice flecked with carrot, and garlic naan"
       }
     ]
   }
