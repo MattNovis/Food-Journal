@@ -247,16 +247,25 @@ window.JOURNAL = {
     "name": "STARLUX Airlines",
     "area": "Inflight"
    },
-   "rating": 7.8,
    "region": "transit",
    "photos": [],
    "sides": {
-    "rating": 5.1,
+    "rating": 4.5,
     "items": [
      "Rest of the breakfast"
     ],
     "note": "Standard airline breakfast."
-   }
+   },
+   "scores": {
+    "main": {
+     "flavour": 8.5,
+     "texture": 8,
+     "value": 5,
+     "presentation": 4
+    }
+   },
+   "ambiance": 1,
+   "rating": 7.3
   },
   {
    "id": "2026-11-23-taoyuan-soup-dumplings",
@@ -268,7 +277,6 @@ window.JOURNAL = {
     "name": "Taiwan airport layover",
     "area": "Taoyuan, Taiwan"
    },
-   "rating": 8.4,
    "region": "transit",
    "photos": [
     {
@@ -279,7 +287,7 @@ window.JOURNAL = {
     }
    ],
    "sides": {
-    "rating": 6.8,
+    "rating": 7,
     "items": [
      "Hot and sour soup",
      "Smashed cucumbers",
@@ -287,7 +295,21 @@ window.JOURNAL = {
      "Milk tea"
     ],
     "note": "Good but nothing special. The soup was good and tasted like pepper, the cucumbers were a good fresh addition, and the hot cabbage was mid."
-   }
+   },
+   "scores": {
+    "main": {
+     "flavour": 9,
+     "texture": 8,
+     "value": 7,
+     "presentation": 8
+    }
+   },
+   "ambiance": 5,
+   "price": {
+    "currency": "USD",
+    "main": 8.99
+   },
+   "rating": 8.3
   }
  ]
 };
