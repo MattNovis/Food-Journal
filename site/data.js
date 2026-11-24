@@ -12,6 +12,44 @@ window.JOURNAL = {
    "doi-inthanon": "Doi Inthanon",
    "koh-lanta": "Koh Lanta"
   },
+  "legs": [
+   {
+    "name": "Getting there",
+    "from": "2026-11-22",
+    "to": "2026-11-23",
+    "region": "transit"
+   },
+   {
+    "name": "Chiang Mai & Yi Peng",
+    "from": "2026-11-24",
+    "to": "2026-11-27",
+    "region": "chiang-mai"
+   },
+   {
+    "name": "Doi Inthanon",
+    "from": "2026-11-28",
+    "to": "2026-11-29",
+    "region": "doi-inthanon"
+   },
+   {
+    "name": "Chiang Mai & Monk Chat",
+    "from": "2026-11-30",
+    "to": "2026-11-30",
+    "region": "chiang-mai"
+   },
+   {
+    "name": "Koh Lanta",
+    "from": "2026-12-01",
+    "to": "2026-12-05",
+    "region": "koh-lanta"
+   },
+   {
+    "name": "Bangkok & home",
+    "from": "2026-12-06",
+    "to": "2026-12-08",
+    "region": "bangkok"
+   }
+  ],
   "days": [
    {
     "date": "2026-11-22",

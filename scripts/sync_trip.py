@@ -55,6 +55,18 @@ def food_hint(day: dict):
     return None
 
 
+# Legs of the trip, mirroring the travel planner's share page
+# (atlas-trip-studio/scripts/share-page.js → LEGS['thailand-solo']). Update both together.
+LEGS = [
+    {"name": "Getting there", "from": "2026-11-22", "to": "2026-11-23", "region": "transit"},
+    {"name": "Chiang Mai & Yi Peng", "from": "2026-11-24", "to": "2026-11-27", "region": "chiang-mai"},
+    {"name": "Doi Inthanon", "from": "2026-11-28", "to": "2026-11-29", "region": "doi-inthanon"},
+    {"name": "Chiang Mai & Monk Chat", "from": "2026-11-30", "to": "2026-11-30", "region": "chiang-mai"},
+    {"name": "Koh Lanta", "from": "2026-12-01", "to": "2026-12-05", "region": "koh-lanta"},
+    {"name": "Bangkok & home", "from": "2026-12-06", "to": "2026-12-08", "region": "bangkok"},
+]
+
+
 def first_line(text: str) -> str:
     return (text or "").split("\n")[0].strip()
 
@@ -79,6 +91,7 @@ def main():
         "start": meta["start"],
         "end": meta["end"],
         "regions": REGION_NAMES,
+        "legs": LEGS,
         "days": out_days,
     }
     (ROOT / "data/trip.json").write_text(json.dumps(trip, indent=2, ensure_ascii=False) + "\n")

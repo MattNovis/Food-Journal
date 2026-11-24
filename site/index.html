@@ -19,26 +19,30 @@
   .masthead h1 { font-size: var(--step-5); letter-spacing: -0.02em; }
   .masthead h1 a { color: inherit; text-decoration: none; }
   .tagline { font-size: var(--step-1); color: var(--ink-soft); margin: var(--s-3) 0 0; max-width: 40ch; }
-  .tabs { display: flex; gap: var(--s-2); margin-top: var(--s-5); }
-  .tabs a { font-weight: 600; font-size: var(--step--1); text-decoration: none; padding: .6em 1.1em; border-radius: var(--pill); border: 1.5px solid var(--rule); background: var(--paper-raised); color: var(--ink); }
-  .tabs a[aria-current="page"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  /* Leg strip (mirrors the travel planner) */
+  .strip { display: flex; gap: 3px; margin-top: var(--s-6); height: 44px; border-radius: var(--radius-md); overflow: hidden; }
+  .strip a { flex: var(--n) 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 0 6px; background: var(--r);
+    color: #fffaec; text-decoration: none; font: 700 var(--step--1)/1.1 var(--font-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .strip a:hover { filter: brightness(1.08); }
+  .strip a:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; border-radius: 0; }
+  @media (max-width: 599px) { .strip { height: 36px; } .strip a { font-size: 0; } .strip a::after { content: attr(data-short); font-size: 11px; } }
 
-  /* Home */
-  .home section { padding: var(--s-7) 0 0; }
-  .home .section-title { margin-bottom: var(--s-2); }
+  /* Sticky bar: back to top, grouping, jump */
+  .bar { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+  .bar .wrap { display: flex; gap: var(--s-2); align-items: center; padding-top: var(--s-2); padding-bottom: var(--s-2); }
+  .bar-top { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: var(--pill); border: 1.5px solid var(--rule); background: var(--paper-raised); color: var(--ink); }
+  .bar-top svg { width: 18px; height: 18px; }
+  .jump { flex: 1; min-width: 0; display: flex; justify-content: flex-end; }
+  .jump select { width: 100%; max-width: 260px; min-width: 0; height: 40px; padding: 0 .8em; border: 1.5px solid var(--rule); border-radius: var(--pill); background: var(--paper-raised); color: var(--ink); font: 600 var(--step--1)/1 var(--font-body); cursor: pointer; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .sort { display: flex; border: 1.5px solid var(--rule); border-radius: var(--pill); padding: 2px; flex: none; background: var(--paper-raised); }
+  .sort button { appearance: none; border: 0; background: none; color: var(--ink-soft); font: 600 var(--step--1)/1 var(--font-body); padding: .75em .9em; border-radius: var(--pill); cursor: pointer; }
+  .sort button[aria-pressed="true"] { background: var(--fern); color: var(--paper-raised); }
+
+  /* Intro: top 3 + scoring chart */
+  .intro section { padding: var(--s-7) 0 0; }
+  .intro .section-title { margin-bottom: var(--s-2); }
   .lede { margin: 0 0 var(--s-5); color: var(--ink-soft); max-width: 62ch; }
-  .tally { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-5) var(--s-4); margin: var(--s-5) 0 0; }
-  @media (min-width: 760px) { .tally { grid-template-columns: repeat(4, 1fr); } }
-  .tally div { border-top: 2px solid var(--ink); padding-top: var(--s-3); }
-  .tally dt { font-size: var(--step--1); font-weight: 600; color: var(--ink-faint); }
-  .tally dd { margin: var(--s-1) 0 0; font: 400 var(--step-3)/1.05 var(--font-display); }
-  .tally dd small { display: block; margin-top: var(--s-2); font: 500 var(--step--1)/1.4 var(--font-body); color: var(--ink-soft); }
-  .stops { width: 100%; max-width: 720px; border-collapse: collapse; margin-top: var(--s-6); font-size: var(--step--1); }
-  .stops th, .stops td { text-align: right; padding: .65em .5em; border-bottom: 1px solid var(--rule); }
-  .stops th:first-child, .stops td:first-child { text-align: left; padding-left: 0; }
-  .stops thead th { color: var(--ink-faint); font-weight: 600; }
-  .stops tbody td:first-child { font-weight: 600; }
-  .stops tfoot td { font-weight: 700; border-bottom: 0; }
   .weights { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); max-width: 720px; }
   .weights li { display: grid; grid-template-columns: 7.5rem 1fr 3.2rem; gap: var(--s-1) var(--s-4); align-items: center; }
   .weights .w-name { font-weight: 700; }
@@ -47,29 +51,24 @@
   .weights .w-pct { font-weight: 700; text-align: right; }
   .weights .w-q { grid-column: 1 / -1; color: var(--ink-soft); font-size: var(--step--1); margin-top: calc(-1 * var(--s-1)); }
   @media (min-width: 640px) { .weights .w-q { grid-column: 2 / -1; } }
-  .score-notes { margin: var(--s-5) 0 0; padding: 0 0 0 1.1em; color: var(--ink-soft); max-width: 66ch; }
-  .score-notes li { margin-bottom: var(--s-2); }
-  .score-notes strong { color: var(--ink); }
-  .daylinks { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--rule); }
-  @media (min-width: 760px) { .daylinks { grid-template-columns: 1fr 1fr; column-gap: var(--s-6); } }
-  .daylinks a { display: grid; grid-template-columns: 3.6rem 1fr auto; gap: var(--s-3); align-items: baseline; padding: var(--s-3) 0; border-bottom: 1px solid var(--rule); text-decoration: none; color: inherit; }
-  .daylinks a:hover .dl-date { text-decoration: underline; text-decoration-color: var(--hibiscus); }
-  .daylinks .dl-num { font-weight: 700; font-size: var(--step--1); color: var(--r); }
-  .daylinks .dl-date { font-weight: 600; }
-  .daylinks .dl-where { display: block; font-size: var(--step--1); color: var(--ink-faint); font-weight: 500; }
-  .daylinks .dl-count { font-size: var(--step--1); color: var(--ink-soft); font-weight: 600; white-space: nowrap; }
-  .daylinks .dl-count.none { color: var(--ink-faint); font-weight: 500; }
-  .day { scroll-margin-top: 72px; }
+  .food-title { padding-top: var(--s-8); margin: 0; scroll-margin-top: 64px; }
 
-  /* Controls */
-  .controls { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
-  .controls .wrap { display: flex; gap: var(--s-3); align-items: center; padding-top: var(--s-3); padding-bottom: var(--s-3); }
-  .filters { display: flex; gap: var(--s-2); overflow-x: auto; scrollbar-width: none; flex: 1; padding: 2px; margin: -2px; }
-  .filters::-webkit-scrollbar { display: none; }
-  .chip .n { color: inherit; opacity: .6; font-weight: 500; }
-  .sort { display: flex; border: 1.5px solid var(--rule); border-radius: var(--pill); padding: 2px; flex: none; background: var(--paper-raised); }
-  .sort button { appearance: none; border: 0; background: none; color: var(--ink-soft); font: 600 var(--step--1)/1 var(--font-body); padding: .55em .9em; border-radius: var(--pill); cursor: pointer; }
-  .sort button[aria-pressed="true"] { background: var(--fern); color: var(--paper-raised); }
+  /* Legs */
+  .leg { padding-top: var(--s-7); scroll-margin-top: 64px; }
+  .leg-head { display: grid; gap: var(--s-1); margin-bottom: var(--s-2); }
+  .leg-num { font-weight: 700; font-size: var(--step--1); color: var(--r); letter-spacing: .04em; }
+  .leg-head h2 { font-size: var(--step-3); }
+  .leg-meta { color: var(--ink-faint); font-size: var(--step--1); font-weight: 600; }
+  .day-head h3 { font: 400 var(--step-3)/1.05 var(--font-display); margin: 0; }
+  .leg .day-head h3 { font-size: var(--step-2); }
+  .day { scroll-margin-top: 64px; }
+  .quiet { list-style: none; margin: var(--s-5) 0 0; padding: 0; border-top: 1px solid var(--rule); }
+  .quiet li { display: grid; grid-template-columns: 3.6rem 7rem 1fr; gap: var(--s-1) var(--s-3); align-items: baseline; padding: var(--s-3) 0; border-bottom: 1px solid var(--rule); scroll-margin-top: 64px; font-size: var(--step--1); }
+  .quiet .q-num { font-weight: 700; color: var(--r); }
+  .quiet .q-date { font-weight: 600; color: var(--ink); }
+  .quiet .q-note { color: var(--ink-soft); }
+  .quiet .q-note em { font-style: normal; color: var(--ink); }
+  @media (max-width: 519px) { .quiet li { grid-template-columns: 3.6rem 1fr; } .quiet .q-note { grid-column: 2; } }
 
   /* Best bites */
   .best { padding: var(--s-7) 0 var(--s-4); }
@@ -91,13 +90,6 @@
   @media (min-width: 560px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 940px) { .grid { grid-template-columns: repeat(3, 1fr); } }
 
-  /* Still to come */
-  .ahead { padding-top: var(--s-7); }
-  .ahead-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--rule); }
-  .ahead-list li { display: grid; grid-template-columns: 7.5rem 1fr; gap: var(--s-1) var(--s-4); padding: var(--s-3) 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
-  .ahead-list .d { font-weight: 600; }
-  .ahead-list .hint { grid-column: 2; color: var(--ink-soft); font-size: var(--step--1); }
-  @media (max-width: 520px) { .ahead-list li { grid-template-columns: 1fr; } .ahead-list .hint { grid-column: 1; } }
 
   /* Dish card */
   .dish { display: flex; flex-direction: column; gap: var(--s-3); cursor: pointer; color: inherit; text-align: left; background: none; border: 0; padding: 0; font: inherit; }
@@ -224,21 +216,22 @@
 </style>
 </head>
 <body>
-<header class="masthead">
+<header class="masthead" id="top">
   <div class="wrap">
-    <h1><a href="#home">Dishspatch</a></h1>
+    <h1>Dishspatch</h1>
     <p class="tagline" id="tagline"></p>
-    <nav class="tabs" aria-label="Sections"><a href="#home" data-view="home">Home</a><a href="#journal" data-view="journal">Journal</a></nav>
+    <nav class="strip" id="strip" aria-label="Legs of the trip"></nav>
   </div>
 </header>
 
-<div class="controls" id="controls">
+<div class="bar" id="bar">
   <div class="wrap">
-    <div class="filters" id="filters" role="group" aria-label="Filter by place"></div>
-    <div class="sort" role="group" aria-label="Order">
-      <button type="button" data-sort="day" aria-pressed="true">By day</button>
-      <button type="button" data-sort="best" aria-pressed="false">Best first</button>
+    <a class="bar-top" href="#top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+    <div class="sort" role="group" aria-label="Group dishes">
+      <button type="button" data-mode="leg" aria-pressed="true">By leg</button>
+      <button type="button" data-mode="day" aria-pressed="false">By day</button>
     </div>
+    <label class="jump"><span class="sr">Jump to</span><select id="jump"></select></label>
   </div>
 </div>
 
@@ -295,24 +288,12 @@
 
   $("#tagline").textContent = `Dispatches from ${trip.country || "Thailand"}, one dish at a time. ${fmtDate(trip.start, { day: "numeric", month: "short" })} – ${fmtDate(trip.end, { day: "numeric", month: "short", year: "numeric" })}.`;
 
-  /* Route order of regions (consecutive duplicates collapsed) */
-  const routeRegions = [];
-  trip.days.forEach(d => { if (!routeRegions.includes(d.region) && d.region !== "transit") routeRegions.push(d.region); });
-  if (entries.some(e => e.region === "transit")) routeRegions.unshift("transit");
-  const countBy = r => entries.filter(e => e.region === r).length;
-
-  /* ---------- State ---------- */
-  const state = { region: "all", sort: "day", view: "home" };
-  const viewFromHash = () => /^#(journal|d-)/.test(location.hash) ? "journal" : "home";
-  state.view = viewFromHash();
-
-  function renderFilters() {
-    const chip = (key, label, n, region) =>
-      `<button type="button" class="chip" ${region ? `data-region="${region}"` : ""} data-filter="${key}" aria-pressed="${state.region === key}">${esc(label)}${n !== null ? ` <span class="n">${n}</span>` : ""}</button>`;
-    $("#filters").innerHTML = chip("all", "All", entries.length || null) +
-      routeRegions.map(r => chip(r, regionName(r), countBy(r) || null, r)).join("");
-    document.querySelectorAll(".sort button").forEach(b => b.setAttribute("aria-pressed", b.dataset.sort === state.sort));
-  }
+  /* ---------- Legs & state ---------- */
+  const LEGS = (trip.legs || []).map((l, i) => ({ ...l, n: i + 1, id: "leg-" + (i + 1), days: trip.days.filter(d => d.date >= l.from && d.date <= l.to) }));
+  const shortDate = iso => fmtDate(iso, { day: "numeric", month: "short" });
+  const legDates = l => shortDate(l.from) + (l.to !== l.from ? " – " + shortDate(l.to) : "");
+  const state = { mode: "leg" };
+  try { const m = localStorage.getItem("ds-mode"); if (m === "day" || m === "leg") state.mode = m; } catch {}
 
   /* ---------- Cards ---------- */
   const ratingHtml = r => `<span class="rating"><b>${Number.isInteger(r) ? r : r.toFixed(1)}</b><span>/10</span></span>`;
@@ -373,95 +354,69 @@
 
   /* ---------- Views ---------- */
   function render() {
-    document.querySelectorAll(".tabs a").forEach(a => { if (a.dataset.view === state.view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
-    $("#controls").hidden = state.view !== "journal";
-    $("#main").classList.toggle("home", state.view === "home");
-    if (state.view === "home") { $("#main").innerHTML = homeHtml(); return; }
-    renderJournal();
+    document.querySelectorAll(".sort button").forEach(b => b.setAttribute("aria-pressed", b.dataset.mode === state.mode));
+    $("#main").innerHTML = introHtml() + `<h2 class="section-title food-title" id="food">${state.mode === "leg" ? "The food, leg by leg" : "The food, day by day"}</h2>` + (state.mode === "leg" ? legsHtml() : dayRun(trip.days));
+    renderJump();
   }
 
-  function homeHtml() {
+  function introHtml() {
     const top = [...rated].sort((a, b) => b.rating - a.rating || a.date.localeCompare(b.date)).slice(0, 3);
-    // Spend by currency, for the small print under the USD total.
-    const byCur = {};
-    priced.forEach(e => { byCur[e.price.currency] = (byCur[e.price.currency] || 0) + priceTotal(e); });
-    const curLine = Object.keys(byCur).some(c => c !== "USD") ? Object.entries(byCur).map(([c, n]) => money(n, c)).join(" · ") : "";
-    const sidesRated = entries.filter(e => typeof e.sides?.rating === "number");
-    const tally = `<dl class="tally">
-        <div><dt>Dishes logged</dt><dd>${entries.length}<small>across ${daysWithFood} of ${trip.days.length} days</small></dd></div>
-        <div><dt>Average score</dt><dd>${avg !== null ? avg.toFixed(1) : "–"}<small>${avg !== null ? `main dishes, out of 10${sidesRated.length ? ` · sides ${(sidesRated.reduce((s, e) => s + e.sides.rating, 0) / sidesRated.length).toFixed(1)}` : ""}` : "nothing scored yet"}</small></dd></div>
-        <div><dt>Spent on food</dt><dd>${priced.length ? usdStr(totalUsd) : "–"}<small>${priced.length ? `${esc(curLine)}${priced.length < entries.length ? `${curLine ? " · " : ""}${entries.length - priced.length} meal${entries.length - priced.length === 1 ? "" : "s"} unpriced` : ""}` : "no prices logged yet"}</small></dd></div>
-        <div><dt>Best dish</dt><dd>${top[0] ? fmtScore(top[0].rating) : "–"}<small>${top[0] ? esc(top[0].dish) : "waiting on the first score"}</small></dd></div>
-      </dl>`;
-    const stopRows = routeRegions.map(r => {
-      const es = entries.filter(e => e.region === r); if (!es.length) return "";
-      const rs = es.filter(e => typeof e.rating === "number"), ps = es.filter(e => mealUsd(e) !== null);
-      return `<tr data-region="${esc(r)}"><td><span class="region-tag" data-region="${esc(r)}">${esc(regionName(r))}</span></td><td>${es.length}</td>
-        <td>${rs.length ? (rs.reduce((s, e) => s + e.rating, 0) / rs.length).toFixed(1) : "–"}</td><td>${ps.length ? usdStr(ps.reduce((s, e) => s + mealUsd(e), 0)) : "–"}</td></tr>`;
-    }).join("");
-    const stops = stopRows ? `<table class="stops"><thead><tr><th scope="col">Stop</th><th scope="col">Dishes</th><th scope="col">Avg score</th><th scope="col">Spent</th></tr></thead>
-      <tbody>${stopRows}</tbody><tfoot><tr><td>Whole trip</td><td>${entries.length}</td><td>${avg !== null ? avg.toFixed(1) : "–"}</td><td>${priced.length ? usdStr(totalUsd) : "–"}</td></tr></tfoot></table>` : "";
-
     const Q = { flavour: "Is it well seasoned and balanced? Does it taste good?", texture: "How it feels to eat: bite, crispness, tenderness.", value: "Was it worth what it cost?", presentation: "Did it look good and arrive well put together?" };
     const weights = `<ul class="weights">${Object.keys(RUBRIC).map(k => `<li><span class="w-name">${k[0].toUpperCase() + k.slice(1)}</span><span class="w-bar"><i style="--w:${pct(k)}"></i></span><span class="w-pct">${pct(k)}</span><span class="w-q">${Q[k] || ""}</span></li>`).join("")}</ul>`;
-
-    const dayLinks = `<ol class="daylinks">${trip.days.map((d, i) => {
-      const n = entries.filter(e => e.date === d.date).length;
-      const label = n ? `${n} ${n === 1 ? "dish" : "dishes"}` : d.date > todayBkk ? "coming up" : "nothing logged";
-      return `<li><a href="#d-${d.date}" data-region="${esc(d.region)}"><span class="dl-num">DAY ${i + 1}</span><span><span class="dl-date">${fmtDate(d.date)}</span><span class="dl-where">${esc(d.location)}</span></span><span class="dl-count${n ? "" : " none"}">${label}</span></a></li>`;
-    }).join("")}</ol>`;
-
-    return `
-      <section><h2 class="section-title">The tally</h2><p class="lede">Everything eaten so far, added up.</p>${tally}${stops}</section>
-      <section><h2 class="section-title">Top 3 meals</h2><p class="lede">The highest-scoring main dishes of the trip so far.</p>
+    return `<div class="intro">
+      <section><h2 class="section-title">Top 3 meals</h2><p class="lede">The highest-scoring main dishes so far.</p>
         ${top.length ? `<div class="best-row">${top.map(card).join("")}</div>` : `<p class="day-empty">No dishes scored yet.</p>`}</section>
-      <section><h2 class="section-title">How scoring works</h2>
-        <p class="lede">Each main dish is scored 1–10 on four questions, decimals allowed. Its score is a weighted average of the four:</p>
-        ${weights}
-        <ul class="score-notes">
-          <li><strong>Sides</strong> get one overall score for everything else on the table. Standout sides can get their own.</li>
-          <li><strong>Ambiance</strong> is scored separately and never counts toward the food score.</li>
-          <li><strong>The scale:</strong> 1–2 bad · 3–4 below par · 5–6 fine · 7–8 genuinely good · 9–10 among the best.</li>
-          <li><strong>Prices</strong> are logged in the local currency, with US dollars alongside.</li>
-        </ul></section>
-      <section><h2 class="section-title">Day by day</h2><p class="lede">Jump to any day of the trip.</p>${dayLinks}</section>`;
+      <section><h2 class="section-title">How scoring works</h2><p class="lede">Each main dish is scored 1–10 on four questions. Its score is a weighted average:</p>${weights}</section>
+    </div>`;
   }
 
-  function renderJournal() {
-    renderFilters();
-    const list = entries.filter(e => state.region === "all" || e.region === state.region);
-    let html = "";
+  // A day with dishes: heading + cards. Days without dishes go in a compact list instead.
+  function dayBlock(d, i) {
+    const items = entries.filter(e => e.date === d.date);
+    return `<section class="day" data-region="${esc(d.region)}" id="d-${d.date}">
+      <div class="day-head"><span class="day-num">DAY ${i + 1}</span><h3>${fmtDate(d.date)}</h3><span class="region-tag" data-region="${esc(d.region)}">${esc(d.location)}</span>
+      <span class="day-meta">${items.length} ${items.length === 1 ? "dish" : "dishes"}</span></div>
+      <div class="grid">${items.map(card).join("")}</div></section>`;
+  }
+  function quietRow(d, i) {
+    const note = d.date > todayBkk ? (d.foodHint ? `Coming up. On the plan: <em>${esc(d.foodHint)}</em>` : "Coming up.") : "Nothing logged.";
+    return `<li id="d-${d.date}" data-region="${esc(d.region)}"><span class="q-num">DAY ${i + 1}</span><span class="q-date">${fmtDate(d.date)}</span><span class="q-note">${note}</span></li>`;
+  }
+  // Days in order; consecutive days without dishes collapse into one compact list.
+  function dayRun(days) {
+    let html = "", quiet = [];
+    const flush = () => { if (quiet.length) { html += `<ol class="quiet">${quiet.join("")}</ol>`; quiet = []; } };
+    days.forEach(d => {
+      const i = trip.days.indexOf(d);
+      if (entries.some(e => e.date === d.date)) { flush(); html += dayBlock(d, i); } else quiet.push(quietRow(d, i));
+    });
+    flush();
+    return html;
+  }
+  function legsHtml() {
+    return LEGS.map(l => {
+      const n = entries.filter(e => e.date >= l.from && e.date <= l.to).length;
+      return `<section class="leg" id="${l.id}" data-region="${esc(l.region)}">
+        <div class="leg-head"><span class="leg-num">LEG ${l.n}</span><h2>${esc(l.name)}</h2>
+        <span class="leg-meta">${legDates(l)} · ${l.days.length} ${l.days.length === 1 ? "day" : "days"} · ${n ? `${n} ${n === 1 ? "dish" : "dishes"}` : "no dishes yet"}</span></div>
+        ${dayRun(l.days)}</section>`;
+    }).join("");
+  }
 
-    if (!entries.length) {
-      html += `<section class="welcome"><h2>The table is set</h2><p>Dishes appear here day by day as they're logged: photo, what it was, where, what it cost and a score out of 10.</p></section>`;
-    }
-
-    if (state.sort === "best") {
-      const sorted = [...list].sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1) || a.date.localeCompare(b.date));
-      html += `<section class="day" data-region="${state.region === "all" ? "" : esc(state.region)}"><div class="day-head"><h2>Best first</h2><span class="day-meta">${sorted.length} ${sorted.length === 1 ? "dish" : "dishes"}</span></div>` +
-        (sorted.length ? `<div class="grid">${sorted.map(card).join("")}</div>` : `<p class="day-empty">Nothing from ${esc(regionName(state.region))} yet.</p>`) + `</section>`;
-    } else {
-      const ahead = [];
-      trip.days.forEach((d, i) => {
-        const items = list.filter(e => e.date === d.date);
-        if (state.region !== "all" && !items.length) return;
-        const future = d.date > todayBkk;
-        if (!items.length && future) { ahead.push(d); return; }
-        const spent = items.reduce((s, e) => s + (mealUsd(e) ?? 0), 0);
-        html += `<section class="day" data-region="${esc(d.region)}" id="d-${d.date}">
-          <div class="day-head"><span class="day-num">DAY ${i + 1}</span><h2>${fmtDate(d.date)}</h2><span class="region-tag" data-region="${esc(d.region)}">${esc(d.location)}</span>
-          ${items.length ? `<span class="day-meta">${items.length} ${items.length === 1 ? "dish" : "dishes"}${spent ? " · about " + usdStr(spent) : ""}</span>` : ""}</div>
-          ${items.length ? `<div class="grid">${items.map(card).join("")}</div>`
-            : `<p class="day-empty">Nothing logged for this day${d.foodHint ? `. On the plan: <em>${esc(d.foodHint)}</em>` : "."}</p>`}
-        </section>`;
-      });
-      if (ahead.length) {
-        html += `<section class="ahead"><h2 class="section-title">Still to come</h2><ol class="ahead-list">` +
-          ahead.map(d => `<li data-region="${esc(d.region)}"><span class="d">${fmtDate(d.date)}</span><span class="region-tag" data-region="${esc(d.region)}">${esc(d.location)}</span>${d.foodHint ? `<span class="hint">${esc(d.foodHint)}</span>` : ""}</li>`).join("") +
-          `</ol></section>`;
-      }
-    }
-    $("#main").innerHTML = html;
+  function renderStrip() {
+    const short = { "Getting there": "Travel", "Chiang Mai & Yi Peng": "Chiang Mai", "Chiang Mai & Monk Chat": "CM", "Bangkok & home": "Bangkok", "Doi Inthanon": "Inthanon", "Koh Lanta": "Lanta" };
+    $("#strip").innerHTML = LEGS.map(l => `<a href="#${l.id}" data-region="${esc(l.region)}" style="--n:${l.days.length}" data-short="${esc(short[l.name] || l.name)}" title="${esc(l.name)} · ${legDates(l)}">${esc(l.days.length < 2 ? (short[l.name] || l.name) : l.name)}</a>`).join("");
+  }
+  function renderJump() {
+    $("#jump").innerHTML = `<option value="">Jump to…</option>` + LEGS.map(l =>
+      `<optgroup label="Leg ${l.n}: ${esc(l.name)}"><option value="${l.id}">${esc(l.name)} (whole leg)</option>` +
+      l.days.map(d => `<option value="d-${d.date}">Day ${trip.days.indexOf(d) + 1} · ${fmtDate(d.date)}</option>`).join("") + `</optgroup>`).join("");
+  }
+  // In By-day mode there are no leg sections, so leg links go to the leg's first day.
+  function scrollToId(id) {
+    if (id === "top") { window.scrollTo({ top: 0 }); return; }
+    if (id.startsWith("leg-") && state.mode === "day") { const l = LEGS.find(x => x.id === id); if (l) id = "d-" + l.from; }
+    const el = document.getElementById(id); if (el) el.scrollIntoView({ block: "start" });
   }
 
   /* ---------- Lightbox ---------- */
@@ -729,22 +684,22 @@
   })();
 
   /* ---------- Events ---------- */
-  $("#filters").addEventListener("click", ev => { const b = ev.target.closest("[data-filter]"); if (!b) return; state.region = b.dataset.filter; render(); });
-  document.querySelector(".sort").addEventListener("click", ev => { const b = ev.target.closest("[data-sort]"); if (!b) return; state.sort = b.dataset.sort; render(); });
-  function go() {
-    state.view = viewFromHash();
-    if (location.hash.startsWith("#d-")) { state.region = "all"; state.sort = "day"; }
-    render();
-    const target = location.hash.startsWith("#d-") ? document.getElementById(location.hash.slice(1)) : null;
-    if (target) requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
-    else window.scrollTo(0, 0);
-  }
-  window.addEventListener("hashchange", go);
+  document.querySelector(".sort").addEventListener("click", ev => {
+    const b = ev.target.closest("[data-mode]"); if (!b || b.dataset.mode === state.mode) return;
+    state.mode = b.dataset.mode; try { localStorage.setItem("ds-mode", state.mode); } catch {}
+    render(); scrollToId("food");
+  });
+  $("#jump").addEventListener("change", ev => { const v = ev.target.value; if (v) scrollToId(v); ev.target.value = ""; });
+  document.addEventListener("click", ev => {
+    const a = ev.target.closest('a[href^="#"]'); if (!a || a.closest("dialog")) return;
+    ev.preventDefault(); scrollToId(a.getAttribute("href").slice(1));
+  });
   $("#main").addEventListener("click", ev => { const c = ev.target.closest(".dish"); if (c) open(c.dataset.id); });
 
   $("#footer").innerHTML = `Dishspatch · ${esc(trip.name || "Thailand")} · prices in local currency with US dollars at about ${Object.entries(FX).filter(([c]) => c !== "USD").map(([c, r]) => `${r} ${c}`).join(" / ")} to $1 · <a href="brand.html">Brand kit</a><span id="liveNote"></span>`;
   derive();
-  go();
+  renderStrip();
+  render();
 })();
 </script>
 </body>

@@ -16,5 +16,7 @@ place/vendor, price in THB (USD shown at ~33.5), rating out of 10, date and meal
 **Itinerary source:** `atlas-trip-studio/data/trips/thailand-solo` → snapshot in `data/trip.json`.
 
 **Brand:** tropical, kept simple (palette only, no decorative motifs). See DESIGN.md.
-**Pages:** Home (the tally and per-stop totals, top 3 meals, how scoring works, links to every day) and
-Journal (filters + every day's dishes). **Surface mode:** Experience (gallery). Thailand only (no multi-trip).
+**Layout:** one page. Header with a leg strip (the six legs from the travel planner, sized by days),
+a sticky bar (back to top · By leg / By day · Jump to a leg or day), then Top 3 meals, the scoring chart,
+and the food grouped by leg or by day. No totals/spend dashboard on the front (Matt's call).
+**Surface mode:** Experience (gallery). Thailand only (no multi-trip).
