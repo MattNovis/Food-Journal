@@ -14,9 +14,6 @@ colors:
   pandan: "#a9cf5b"
   fern: "#2e6a45"
   lagoon: "#1b8c93"
-  canopy: "#0d1d15"
-  canopy-raised: "#15291f"
-  canopy-ink: "#f2ecd6"
   region-bangkok: "#d8432e"
   region-chiang-mai: "#d9861c"
   region-chiang-rai: "#3566c8"
@@ -102,9 +99,8 @@ palette alone (warm paper, jungle-green ink, a hibiscus accent), not from decora
 Keep it restrained: no illustrations, patterns or ornamental shapes.
 Surface mode: **Experience** (a gallery). The interface recedes so the dishes lead.
 
-Two themes, chosen by the viewer's system setting or the toggle:
-- **Daylight**: warm paper `#f4eedb`, canopy ink `#12251a`.
-- **Canopy**: night jungle `#0d1d15`, cream ink `#f2ecd6`, with brighter accents.
+**Light only.** Warm paper `#f4eedb`, canopy ink `#12251a`. There is no dark mode and no theme toggle
+(Matt's call). Don't add one back.
 
 Name: **Kin Khao** (กินข้าว, "eat rice"; *kin khao reu yang?* = "have you eaten yet?", the everyday Thai greeting).
 
