@@ -88,7 +88,8 @@
   @media (min-width: 760px) { .best-row { grid-template-columns: 1.4fr 1fr 1fr; } }
 
   /* Days */
-  main { padding-bottom: var(--s-8); }
+  /* main is also .wrap, whose padding shorthand would zero this — so target both. Extra room for phone home bars. */
+  main.wrap { padding-bottom: calc(var(--s-8) + 24px + env(safe-area-inset-bottom, 0px)); }
   .day { padding: var(--s-7) 0 0; }
   .day-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-4); margin-bottom: var(--s-5); padding-bottom: var(--s-3); border-bottom: 1px solid var(--rule); }
   .day-head h2 { font-size: var(--step-3); }
