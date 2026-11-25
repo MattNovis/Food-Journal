@@ -89,6 +89,19 @@
   /* Intro: top 3 + scoring chart */
   .intro section { padding: var(--s-7) 0 0; }
   .intro .section-title { margin-bottom: var(--s-2); }
+  /* Home: quick link to yesterday's meals (or the latest day with food). */
+  .yday { display: grid; grid-template-columns: 1fr auto; gap: var(--s-1) var(--s-4); align-items: center; padding: var(--s-4) var(--s-5);
+    border: 1.5px solid var(--rule); border-left: 6px solid var(--r); border-radius: var(--radius-md); background: var(--paper-raised);
+    color: var(--ink); text-decoration: none; transition: border-color .2s var(--ease-out); }
+  .yday:hover { border-color: var(--r); }
+  .yday:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .yday-k { grid-column: 1 / -1; font: 700 var(--step--1)/1.2 var(--font-body); color: var(--ink-faint); text-transform: uppercase; letter-spacing: .06em; }
+  .yday-date { font: 400 var(--step-3)/1.05 var(--font-display); }
+  .yday-go { grid-row: 2 / span 2; grid-column: 2; font: 600 var(--step--1)/1 var(--font-body); color: var(--fern); white-space: nowrap; }
+  .yday-where { margin: 0; color: var(--ink-soft); font-size: var(--step--1); }
+  .yday-thumbs { grid-column: 1 / -1; display: flex; gap: var(--s-2); margin-top: var(--s-2); overflow: hidden; }
+  @media (max-width: 599px) { .yday { padding: var(--s-4); } .yday-date { font-size: var(--step-2); } .yday-thumbs img { width: 48px; height: 48px; } }
+  .yday-thumbs img { width: 56px; height: 56px; flex: none; object-fit: cover; border-radius: var(--radius-sm); }
   .lede { margin: 0 0 var(--s-5); color: var(--ink-soft); max-width: 62ch; }
   .weights { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); max-width: 720px; }
   .weights li { display: grid; grid-template-columns: 7.5rem 1fr 3.2rem; gap: var(--s-1) var(--s-4); align-items: center; }
@@ -457,11 +470,31 @@
     }).join("")}</nav>`;
   }
 
+  // Yesterday (Bangkok time); if nothing was logged then, the most recent earlier day with food.
+  function ydayHtml() {
+    const y = new Date(todayBkk + "T12:00:00Z"); y.setUTCDate(y.getUTCDate() - 1);
+    const yIso = y.toISOString().slice(0, 10);
+    const date = [...new Set(entries.map(e => e.date))].filter(d => d <= yIso).sort().pop();
+    if (!date) return "";
+    const items = entries.filter(e => e.date === date);
+    const places = [...new Set(items.map(e => e.place?.name || e.place?.area || regionName(e.region)).filter(Boolean))];
+    const regions = [...new Set(items.map(e => e.region))];
+    const thumbs = items.flatMap(e => (e.photos || []).slice(0, 1)).slice(0, 6);
+    const n = items.length;
+    return `<section><a class="yday" href="#d-${date}" data-region="${esc(regions[regions.length - 1])}">
+        <span class="yday-k">${date === yIso ? "Meals from yesterday" : "Latest meals"}</span>
+        <span class="yday-date">${fmtDate(date, { weekday: "long", day: "numeric", month: "long" })}</span>
+        <span class="yday-go">${n} ${n === 1 ? "item" : "items"} →</span>
+        <p class="yday-where">${esc(regions.map(regionName).join(" · "))} — ${esc(places.join(", "))}</p>
+        ${thumbs.length ? `<span class="yday-thumbs" aria-hidden="true">${thumbs.map(p => `<img src="${esc(p.src)}" alt="" loading="lazy" decoding="async">`).join("")}</span>` : ""}
+      </a></section>`;
+  }
   function homeView() {
     const top = [...rated].sort((a, b) => b.rating - a.rating || a.date.localeCompare(b.date)).slice(0, 3);
     const Q = { flavour: "Is it well seasoned and balanced? Does it taste good?", texture: "How it feels to eat: bite, crispness, tenderness.", value: "Was it worth what it cost?", presentation: "Did it look good and arrive well put together?" };
     const weights = `<ul class="weights">${Object.keys(RUBRIC).map(k => `<li><span class="w-name">${k[0].toUpperCase() + k.slice(1)}</span><span class="w-bar"><i style="--w:${pct(k)}"></i></span><span class="w-pct">${pct(k)}</span><span class="w-q">${Q[k] || ""}</span></li>`).join("")}</ul>`;
     return `<div class="intro">
+      ${ydayHtml()}
       <section><h2 class="section-title">The trip</h2><p class="lede">Six legs. Tap one to see what was eaten there.</p>${stripHtml()}</section>
       <section><h2 class="section-title">Top 3 meals</h2><p class="lede">The highest-scoring main dishes so far.</p>
         ${top.length ? `<div class="best-row">${top.map(card).join("")}</div>` : `<p class="day-empty">No dishes scored yet.</p>`}</section>

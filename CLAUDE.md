@@ -120,7 +120,7 @@ which keeps its data in its own db and is synced to the `artifact-planner` branc
 ## Current state (handoff, Nov 24 2026)
 
 - Page: Dishspatch, light only, no footer. Hamburger menu (top right of a sticky bar ABOVE the Dishspatch masthead) with Home · Legs · Day by day · Best to worst
-  (URL hash routing: #home #legs #days #rank). Home = leg strip, Top 3 meals, scoring chart. Best to worst ranks
+  (URL hash routing: #home #legs #days #rank). Home = "Meals from yesterday" quick link (date, locations, thumbs → #d-<date>; falls back to "Latest meals"), leg strip, Top 3 meals, scoring chart. Best to worst ranks
   main dishes, sides, desserts or drinks, filtered by location (region) and meal. Tagline: "Matt's food reviews from his trip to Thailand!"
 - Legs (scripts/sync_trip.py LEGS): Getting there (In) · Bangkok (BKK) · Chiang Mai · Koh Lanta · Bangkok ·
   Seoul / return travel (Out). Dec 9 is a journal-only extra day.
