@@ -494,8 +494,8 @@
     const Q = { flavour: "Is it well seasoned and balanced? Does it taste good?", texture: "How it feels to eat: bite, crispness, tenderness.", value: "Was it worth what it cost?", presentation: "Did it look good and arrive well put together?" };
     const weights = `<ul class="weights">${Object.keys(RUBRIC).map(k => `<li><span class="w-name">${k[0].toUpperCase() + k.slice(1)}</span><span class="w-bar"><i style="--w:${pct(k)}"></i></span><span class="w-pct">${pct(k)}</span><span class="w-q">${Q[k] || ""}</span></li>`).join("")}</ul>`;
     return `<div class="intro">
-      ${ydayHtml()}
       <section><h2 class="section-title">The trip</h2><p class="lede">Six legs. Tap one to see what was eaten there.</p>${stripHtml()}</section>
+      ${ydayHtml()}
       <section><h2 class="section-title">Top 3 meals</h2><p class="lede">The highest-scoring main dishes so far.</p>
         ${top.length ? `<div class="best-row">${top.map(card).join("")}</div>` : `<p class="day-empty">No dishes scored yet.</p>`}</section>
       <section><h2 class="section-title">How scoring works</h2><p class="lede">Each main dish is scored 1–10 on four questions. Its score is a weighted average:</p>${weights}</section>
