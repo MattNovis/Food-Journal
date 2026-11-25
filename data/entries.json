@@ -346,5 +346,77 @@
       }
     },
     "ambiance": 4
+  },
+  {
+    "id": "2026-11-25-pork-noodles",
+    "date": "2026-11-25",
+    "meal": "dinner",
+    "dish": "Pork noodle soup",
+    "description": "Light but flavorful broth, tender noodles, tons of good fixings. There are these little pickled hot peppers that are so fire.",
+    "place": {
+      "name": "Yi Peng International Lantern Festival",
+      "area": "Chiang Mai"
+    },
+    "region": "chiang-mai",
+    "dessert": {
+      "items": [
+        "Riceless mango sticky rice"
+      ],
+      "note": "They ran out of rice lol, so it was just mango with coconut sauce. Still very tasty."
+    },
+    "photos": [
+      {
+        "src": "photos/2026-11-25-pork-noodles.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Paper bowl of pork noodle soup with meatballs, bean sprouts and chopsticks, held over a gravel path"
+      },
+      {
+        "src": "photos/2026-11-25-mango-coconut.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Paper bowl of ripe mango chunks over coconut sauce, no sticky rice"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-25-thai-tea",
+    "date": "2026-11-25",
+    "meal": "drink",
+    "dish": "Thai tea",
+    "description": "I could drink a million gallons of Thai tea.",
+    "place": {
+      "name": "Yi Peng International Lantern Festival",
+      "area": "Chiang Mai"
+    },
+    "region": "chiang-mai",
+    "photos": [
+      {
+        "src": "photos/2026-11-25-thai-tea.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Paper cup of iced Thai milk tea held over the festival grounds"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-25-khao-soi-chicken",
+    "date": "2026-11-25",
+    "meal": "dinner",
+    "dish": "Khao soi chicken",
+    "description": "Chicken drumstick, yellow-curry-adjacent. Noodles and sauce were good, and it had crunchy noodles. Tasty but didn't wow me; a little oily.",
+    "place": {
+      "name": "Yi Peng International Lantern Festival",
+      "area": "Chiang Mai"
+    },
+    "region": "chiang-mai",
+    "photos": [
+      {
+        "src": "photos/2026-11-25-khao-soi.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Paper bowl of khao soi with a chicken drumstick, crispy noodles, lime and green onion"
+      }
+    ]
   }
 ]
