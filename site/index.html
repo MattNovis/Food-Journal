@@ -231,11 +231,11 @@
   .lb.scoring .lb-nav, .lb.scoring .lb-dots { display: none; }
 
   .todo { align-self: flex-start; font-size: var(--step--1); font-weight: 600; color: var(--hibiscus); }
-  .score-btn, .wiz-nav button { appearance: none; font: 600 var(--step--1)/1 var(--font-body); padding: .8em 1.2em; border-radius: var(--pill); cursor: pointer; }
+  .score-btn, .wiz-nav button, .mk-add button { appearance: none; font: 600 var(--step--1)/1 var(--font-body); padding: .8em 1.2em; border-radius: var(--pill); cursor: pointer; }
   .score-btn, .wiz-nav .primary { border: 0; background: var(--fern); color: var(--paper-raised); align-self: flex-start; }
   .wiz-nav .primary:disabled { opacity: .45; cursor: not-allowed; }
   .wiz-nav { display: flex; gap: var(--s-2); justify-content: space-between; margin-top: auto; padding-top: var(--s-2); }
-  .wiz-nav .ghost { border: 1.5px solid var(--rule); background: none; color: var(--ink); }
+  .wiz-nav .ghost, .mk-add .ghost { border: 1.5px solid var(--rule); background: none; color: var(--ink); }
   .wiz-step { margin: 0; font-size: var(--step--1); font-weight: 600; color: var(--ink-faint); }
   .wiz-q { margin: 0; color: var(--ink-soft); }
   .share { display: inline-block; font-weight: 600; color: var(--fern); }
@@ -279,6 +279,22 @@
   .multi { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s-4); }
   .multi li { display: grid; gap: var(--s-2); }
   .multi li > span { font-weight: 600; }
+  /* Street market: items best to worst, each with its note, price and score. */
+  .market-list { list-style: none; margin: 0; padding: 0; counter-reset: mk; }
+  .market-list li { counter-increment: mk; display: grid; grid-template-columns: 1.6em 1fr auto 2.6em; align-items: baseline; gap: var(--s-1) var(--s-3); padding: var(--s-2) 0; border-top: 1px solid var(--rule); }
+  .market-list li::before { content: counter(mk); color: var(--ink-faint); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .market-list .mk-name { display: grid; gap: 2px; min-width: 0; }
+  .market-list .mk-name small { color: var(--ink-soft); font-size: var(--step--1); }
+  .market-list .mk-score { font: 400 var(--step-1)/1 var(--font-display); text-align: right; font-variant-numeric: tabular-nums; }
+  .market-list .price small { display: block; }
+  .mk-form li { padding-bottom: var(--s-3); border-bottom: 1px solid var(--rule); }
+  .mk-in { width: 100%; min-width: 0; padding: .5em .6em; border: 1.5px solid var(--rule); border-radius: var(--radius-sm); background: var(--paper); color: var(--ink); font: 500 var(--step-0)/1.2 var(--font-body); }
+  .mk-in:focus-visible { outline: 2px solid var(--fern); outline-offset: 1px; border-color: var(--fern); }
+  .mk-title { font-weight: 700; border-color: transparent; background: transparent; padding-left: 0; }
+  .mk-title:hover { border-color: var(--rule); padding-left: .6em; }
+  .mk-title:focus { padding-left: .6em; }
+  .multi-head:has(.mk-title) { align-items: center; gap: var(--s-3); }
+  .mk-add { display: flex; gap: var(--s-2); margin-top: var(--s-4); }
 
   @media (max-width: 599px) {
     .controls .wrap { flex-wrap: wrap; }
@@ -354,15 +370,20 @@
 
   /* ---------- Derived data ---------- */
   const regionName = k => trip.regions[k] || k;
-  let priced, rated, totalUsd, avg, daysWithFood, topRating;
+  let priced, rated, totalUsd, avgRating, daysWithFood, topRating;
   // Drinks get ONE overall score (scores.overall) instead of the four-question rubric.
   const isDrink = e => e.meal === "drink";
-  const hasScore = e => isDrink(e) ? typeof e.scores?.overall === "number" : !!e.scores?.main;
+  // Street markets: many small items, each one flat 1–10 + a blurb; the market's score is their average.
+  const isMarket = e => e.meal === "market";
+  const avg = vals => Math.floor(vals.reduce((a, b) => a + b, 0) * 10 / vals.length + 0.5) / 10;  // must match avg_score() in build.py
+  const ratedItems = e => (e.items || []).filter(it => typeof it.rating === "number");
+  const byScore = e => [...ratedItems(e)].sort((a, b) => b.rating - a.rating);
+  const hasScore = e => isMarket(e) ? ratedItems(e).length > 0 : isDrink(e) ? typeof e.scores?.overall === "number" : !!e.scores?.main;
   function derive() {
     priced = entries.filter(e => mealUsd(e) !== null);
-    rated = entries.filter(e => typeof e.rating === "number" && !isDrink(e));  // meals only; drinks rank separately
+    rated = entries.filter(e => typeof e.rating === "number" && !isDrink(e) && !isMarket(e));  // meals only; drinks and markets rank separately
     totalUsd = priced.reduce((s, e) => s + mealUsd(e), 0);
-    avg = rated.length ? rated.reduce((s, e) => s + e.rating, 0) / rated.length : null;
+    avgRating = rated.length ? rated.reduce((s, e) => s + e.rating, 0) / rated.length : null;
     daysWithFood = new Set(entries.map(e => e.date)).size;
     topRating = rated.length ? Math.max(...rated.map(e => e.rating)) : null;
   }
@@ -412,6 +433,20 @@
     const items = (sd.items || []).map(sideName).join(", ");
     return `<p class="sides">Sides ${score}${score && items ? " · " : ""}${esc(items)}</p>`;
   };
+  const marketLine = e => {
+    if (!isMarket(e)) return "";
+    const top = byScore(e), n = (e.items || []).length;
+    const shown = top.slice(0, 3).map(it => `${esc(it.name)} <b>${fmtScore(it.rating)}</b>`).join(" · ");
+    return `<p class="sides">${n} ${n === 1 ? "item" : "items"}${shown ? ` · ${shown}` : ` · ${esc(e.items.map(it => it.name).join(", "))}`}${top.length > 3 ? ` · +${n - 3} more` : ""}</p>`;
+  };
+  // A market's items, best to worst (unscored last), each with its blurb and price.
+  const marketList = e => {
+    const unrated = (e.items || []).filter(it => typeof it.rating !== "number");
+    const cur = e.price?.currency, pr = e.price?.sides || {};
+    const li = it => `<li><span class="mk-name"><b>${esc(it.name)}</b>${it.note ? `<small>${esc(it.note)}</small>` : ""}</span>
+      ${isAmount(pr[it.name]) ? pricePair(pr[it.name], cur) : "<span></span>"}<span class="mk-score">${typeof it.rating === "number" ? fmtScore(it.rating) : "–"}</span></li>`;
+    return `<ol class="market-list">${[...byScore(e), ...unrated].map(li).join("")}</ol>`;
+  };
   // Dessert: like sides, but one score only (no per-item scores).
   const dessertItems = e => (e.dessert?.items || []).map(sideName);
   const dessertLine = e => {
@@ -446,6 +481,7 @@
       ${e.thaiName ? `<p class="thai" lang="th">${esc(e.thaiName)}</p>` : ""}
       <p class="where">${e.place?.name ? `<span class="place">${esc(e.place.name)}</span>` : ""}<span class="region-tag" data-region="${esc(e.region)}">${esc(e.place?.area || regionName(e.region))}</span></p>
       ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}
+      ${marketLine(e)}
       ${sidesLine(e)}
       ${dessertLine(e)}
       ${canScore && !hasScore(e) ? `<span class="todo">Needs ${isDrink(e) ? "a score" : "scores"}</span>` : ""}
@@ -498,7 +534,8 @@
       ${ydayHtml()}
       <section><h2 class="section-title">Top 3 meals</h2><p class="lede">The highest-scoring main dishes so far.</p>
         ${top.length ? `<div class="best-row">${top.map(card).join("")}</div>` : `<p class="day-empty">No dishes scored yet.</p>`}</section>
-      <section><h2 class="section-title">How scoring works</h2><p class="lede">Each main dish is scored 1–10 on four questions. Its score is a weighted average:</p>${weights}</section>
+      <section><h2 class="section-title">How scoring works</h2><p class="lede">Each main dish is scored 1–10 on four questions. Its score is a weighted average:</p>${weights}
+        <p class="lede">Drinks get one score. At street markets every item gets its own score and a quick note; the market's score is the average of its items. Ambiance is scored separately and never counts toward food.</p></section>
     </div>`;
   }
 
@@ -546,7 +583,7 @@
   }
 
   /* Best to worst: mains or sides, filtered by where and which meal. */
-  const MEAL_ORDER = ["breakfast", "lunch", "dinner", "snack", "dessert", "drink"];
+  const MEAL_ORDER = ["breakfast", "lunch", "dinner", "market", "snack", "dessert", "drink"];
   const cap1 = s => s[0].toUpperCase() + s.slice(1);
   const rank = { kind: "mains", loc: "all", meal: "all" };
   function rankRow(n, e, title, sub, score) {
@@ -565,8 +602,13 @@
     const pool = entries.filter(e => (rank.loc === "all" || e.region === rank.loc) && (rank.meal === "all" || e.meal === rank.meal));
     const where = e => [e.place?.name, shortDate(e.date)].filter(Boolean).map(esc).join(" · ");
     let rows = [], rest = "";
-    if (rank.kind === "mains") {
-      const meals = pool.filter(e => !isDrink(e));
+    if (rank.kind === "market") {
+      const mk = pool.filter(isMarket);
+      mk.forEach(e => byScore(e).forEach(it => rows.push({ e, title: it.name, sub: [it.note ? esc(it.note) : "", where(e)].filter(Boolean).join(" · "), score: it.rating })));
+      const un = mk.flatMap(e => e.items.filter(it => typeof it.rating !== "number").map(it => it.name));
+      if (un.length) rest = `Not scored yet: ${un.map(esc).join(", ")}.`;
+    } else if (rank.kind === "mains") {
+      const meals = pool.filter(e => !isDrink(e) && !isMarket(e));
       rows = meals.filter(e => typeof e.rating === "number").map(e => ({ e, title: e.dish, sub: where(e), score: e.rating }));
       const un = meals.filter(e => typeof e.rating !== "number");
       if (un.length) rest = `Not scored yet: ${un.map(e => esc(e.dish)).join(", ")}.`;
@@ -591,12 +633,12 @@
     const opt = (v, label, cur) => `<option value="${esc(v)}"${v === cur ? " selected" : ""}>${esc(label)}</option>`;
     const filters = `<div class="filters">
       <div class="field"><span id="kindLbl">Rank</span><div class="seg" role="group" aria-labelledby="kindLbl">
-        ${[["mains", "Main dishes"], ["sides", "Sides"], ["desserts", "Desserts"], ["drinks", "Drinks"]].map(([k, l]) => `<button type="button" data-kind="${k}" aria-pressed="${rank.kind === k}">${l}</button>`).join("")}</div></div>
+        ${[["mains", "Main dishes"], ["market", "Market"], ["sides", "Sides"], ["desserts", "Desserts"], ["drinks", "Drinks"]].map(([k, l]) => `<button type="button" data-kind="${k}" aria-pressed="${rank.kind === k}">${l}</button>`).join("")}</div></div>
       <label class="field"><span>Location</span><select data-filter="loc">${opt("all", "Everywhere", rank.loc)}${locs.map(k => opt(k, regionName(k), rank.loc)).join("")}</select></label>
       <label class="field"><span>Meal</span><select data-filter="meal">${opt("all", "All meals", rank.meal)}${meals.map(m => opt(m, cap1(m), rank.meal)).join("")}</select></label>
     </div>`;
     const list = rows.length ? `<ol class="rank">${rows.map((r, i) => rankRow(i + 1, r.e, r.title, r.sub, r.score)).join("")}</ol>`
-      : `<p class="day-empty" style="margin-top:var(--s-6)">${({ sides: "No scored sides", desserts: "No scored desserts", drinks: "No scored drinks" })[rank.kind] || "No scored dishes"} for these filters yet.</p>`;
+      : `<p class="day-empty" style="margin-top:var(--s-6)">${({ market: "No scored market food", sides: "No scored sides", desserts: "No scored desserts", drinks: "No scored drinks" })[rank.kind] || "No scored dishes"} for these filters yet.</p>`;
     return `<div class="view-intro"><h2 class="section-title">Best to worst</h2>${filters}${list}${rest ? `<p class="rank-rest">${rest}</p>` : ""}</div>`;
   }
 
@@ -626,7 +668,8 @@
         (dessertItems(e).length ? `${typeof e.dessert.rating === "number" ? " · " : ""}${esc(dessertItems(e).join(", "))}` : "") +
         (e.dessert.note ? `<br>${esc(e.dessert.note)}` : "")] : null,
       typeof e.ambiance === "number" ? ["Ambiance", `<strong>${fmtScore(e.ambiance)}/10</strong> <small>(not part of the food score)</small>`] : null,
-      priceTotal(e) !== null || e.price?.note ? ["Paid", priceFacts(e)] : null,
+      isMarket(e) ? (priceTotal(e) !== null || e.price?.note ? ["Paid", (priceTotal(e) !== null ? `Total ${priceHtml(e)}` : "") + (e.price.note ? `${priceTotal(e) !== null ? "<br>" : ""}<small>${esc(e.price.note)}</small>` : "")] : null)
+        : priceTotal(e) !== null || e.price?.note ? ["Paid", priceFacts(e)] : null,
       day ? ["Trip day", `Day ${dayIndex[e.date] + 1} · ${esc(day.location)}`] : null,
     ].filter(Boolean);
     dlg.innerHTML = `<button class="lb-close" type="button" aria-label="Close">${ICON.close}</button>
@@ -641,9 +684,10 @@
           <span class="region-tag" data-region="${esc(e.region)}">${esc(regionName(e.region))}</span>
           <h2 id="lbTitle">${esc(e.dish)}</h2>
           ${e.thaiName ? `<p class="thai" lang="th">${esc(e.thaiName)}</p>` : ""}
-          ${typeof e.rating === "number" ? `<div>${ratingHtml(e.rating)} <span style="color:var(--ink-faint);font-size:var(--step--1);font-weight:600">${isDrink(e) ? "overall" : "main dish"}</span></div>` : ""}
+          ${typeof e.rating === "number" ? `<div>${ratingHtml(e.rating)} <span style="color:var(--ink-faint);font-size:var(--step--1);font-weight:600">${isMarket(e) ? `average of ${ratedItems(e).length} ${ratedItems(e).length === 1 ? "item" : "items"}` : isDrink(e) ? "overall" : "main dish"}</span></div>` : ""}
           ${e.description ? `<p class="desc">${esc(e.description)}</p>` : ""}
           ${breakdown(e)}
+          ${isMarket(e) ? marketList(e) : ""}
           ${canScore ? `<button type="button" class="score-btn" data-score="${esc(e.id)}">${hasScore(e) ? "Edit scores" : "Score it"}</button>` : ""}
           <dl class="facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
         </div>
@@ -678,7 +722,8 @@
 
   /* ---------- Live scores (artifact db) ----------
      Scores entered on the page live in db collection "scores", one doc per entry id:
-     { main: {flavour, texture, value, presentation}, sidesRating, sideItems: {name: n}, ambiance }.
+     { main: {flavour, texture, value, presentation}, sidesRating, sideItems: {name: n}, ambiance }
+     or, for markets, { marketItems: [{name, rating?, note?}], ambiance, price }.
      They override the repo data; Claude folds them back into data/entries.json. */
   let db = null, canScore = false, dbScores = {};
   // Scores are 1.0–10.0 in steps of 0.1.
@@ -692,6 +737,11 @@
       const main = Object.fromEntries(Object.keys(RUBRIC).map(k => [k, sc.main[k]]));
       x.scores = { ...(x.scores || {}), main };
       x.rating = weighted(main);
+    }
+    if (isMarket(x) && Array.isArray(sc.marketItems)) {
+      const its = sc.marketItems.filter(it => it && typeof it.name === "string" && it.name.trim())
+        .map(it => ({ name: it.name.trim(), ...(isScore(it.rating) ? { rating: it.rating } : {}), ...(typeof it.note === "string" && it.note.trim() ? { note: it.note.trim() } : {}) }));
+      if (its.length) { x.items = its; const rs = its.filter(it => isScore(it.rating)).map(it => it.rating); if (rs.length) x.rating = avg(rs); else delete x.rating; }
     }
     if (isDrink(x) && isScore(sc.overall)) { x.scores = { ...(x.scores || {}), overall: sc.overall }; x.rating = sc.overall; }
     if (isScore(sc.sidesRating)) x.sides = { items: [], ...(x.sides || {}), rating: sc.sidesRating };
@@ -723,6 +773,11 @@
   }
 
   function steps(e) {
+    if (isMarket(e)) return [
+      { key: "items", title: "Score each item", q: "One score from 1 to 10 and a quick note for each. Add anything that's missing at the bottom.", kind: "market", optional: true },
+      { key: "ambiance", title: "Ambiance", q: "The setting. Shown separately; it never counts toward the food score.", optional: true },
+      { key: "price", title: "Prices", q: "Optional. What did each item cost? Leave any blank.", optional: true, kind: "price" },
+    ];
     if (isDrink(e)) return [
       { key: "overall", title: "Overall", q: "One score for the drink." },
       { key: "ambiance", title: "Ambiance", q: "The setting. Shown separately; it never counts toward the score.", optional: true },
@@ -752,6 +807,7 @@
       v: {
         ...(e.scores?.main || {}), ...(prev.main || {}),
         overall: prev.overall ?? e.scores?.overall,
+        items: (e.items || []).map(it => ({ name: it.name, rating: it.rating, note: it.note || "" })),
         sidesRating: prev.sidesRating ?? (e.scores?.main && isScore(e.sides?.rating) ? e.sides.rating : undefined),
         sideItems: { ...sideItems, ...(prev.sideItems || {}) },
         dessertRating: prev.dessertRating ?? e.dessert?.rating,
@@ -765,29 +821,30 @@
     };
     drawWizard();
   }
-  const scaleRow = (name, cur, compact) => {
+  const scaleRow = (name, cur, compact, label = name) => {
     const set = isScore(cur);
     return `<div class="scale${set ? "" : " unset"}${compact ? " compact" : ""}" data-for="${esc(name)}">
       <div class="scale-row">
         <div class="track">
-          <input type="range" min="1" max="10" step="0.1" value="${set ? cur : 5.5}" aria-label="${esc(name)} score, 1 to 10">
+          <input type="range" min="1" max="10" step="0.1" value="${set ? cur : 5.5}" aria-label="${esc(label)} score, 1 to 10">
           ${compact ? "" : `<div class="ticks">${Array.from({ length: 10 }, (_, k) => `<button type="button" style="--i:${k}" data-jump="${k + 1}" aria-label="Set ${esc(name)} to ${k + 1}">${k + 1}</button>`).join("")}</div>`}
         </div>
-        <label class="scale-num"><input type="number" min="1" max="10" step="0.1" inputmode="decimal" value="${set ? cur.toFixed(1) : ""}" placeholder="–" aria-label="${esc(name)} exact score"><span>/10</span></label>
+        <label class="scale-num"><input type="number" min="1" max="10" step="0.1" inputmode="decimal" value="${set ? cur.toFixed(1) : ""}" placeholder="–" aria-label="${esc(label)} exact score"><span>/10</span></label>
       </div>
     </div>`;
   };
   // Bottom bar: Cancel (+ Skip) on the left; ‹ Save › on the right, so a single change can be saved from any step.
-  const mainDone = () => isDrink(wiz.e) ? isScore(wiz.v.overall) : Object.keys(RUBRIC).every(k => isScore(wiz.v[k]));
+  const mainDone = () => isMarket(wiz.e) ? wiz.v.items.some(it => it.name.trim() && isScore(it.rating))
+    : isDrink(wiz.e) ? isScore(wiz.v.overall) : Object.keys(RUBRIC).every(k => isScore(wiz.v[k]));
   const ARROW = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d}"/></svg>`;
   function navBar(nextReady) {
     const { st, i } = wiz, s = st[i];
     const last = i >= st.length;
     return `<div class="wiz-nav"><span class="wiz-left"><button type="button" class="ghost" data-nav="cancel">Cancel</button>
-        ${s && s.optional && !s.multi && s.kind !== "price" ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}</span>
+        ${s && s.optional && !s.multi && s.kind !== "price" && s.kind !== "market" ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}</span>
       <span class="wiz-right">
         <button type="button" class="ghost arrow" data-nav="back" aria-label="Previous" ${i ? "" : "disabled"}>${ARROW("M15 5l-7 7 7 7")}</button>
-        <button type="button" class="primary" data-nav="save" ${mainDone() ? "" : "disabled"} title="${mainDone() ? "Save scores" : isDrink(wiz.e) ? "Give it an overall score first" : "Flavour, texture, value and presentation are needed first"}">Save</button>
+        <button type="button" class="primary" data-nav="save" ${mainDone() ? "" : "disabled"} title="${mainDone() ? "Save scores" : isMarket(wiz.e) ? "Score at least one item first" : isDrink(wiz.e) ? "Give it an overall score first" : "Flavour, texture, value and presentation are needed first"}">Save</button>
         <button type="button" class="ghost arrow" data-nav="next" aria-label="Next" ${!last && nextReady ? "" : "disabled"}>${ARROW("M9 5l7 7-7 7")}</button>
       </span></div>`;
   }
@@ -802,14 +859,21 @@
       const amt = a => isAmount(a) ? String(a) : "";
       const priceForm = `<div class="price-form">
           <label class="prow"><span>Currency</span><select data-pcur>${Object.keys(FX).map(c => `<option value="${c}" ${c === pv.currency ? "selected" : ""}>${c} (${SYM[c] || c})</option>`).join("")}</select></label>
-          <label class="prow"><span>${esc(e.dish)}</span><input type="text" inputmode="decimal" data-pfor="" value="${amt(pv.main)}" placeholder="–" aria-label="${esc(e.dish)} price"></label>
-          ${[...(e.sides?.items || []), ...(e.dessert?.items || [])].map(it => { const n = sideName(it); return `<label class="prow"><span>${esc(n)}</span><input type="text" inputmode="decimal" data-pfor="${esc(n)}" value="${amt(pv.sides[n])}" placeholder="–" aria-label="${esc(n)} price"></label>`; }).join("")}
+          ${isMarket(e) ? "" : `<label class="prow"><span>${esc(e.dish)}</span><input type="text" inputmode="decimal" data-pfor="" value="${amt(pv.main)}" placeholder="–" aria-label="${esc(e.dish)} price"></label>`}
+          ${(isMarket(e) ? v.items.filter(it => it.name.trim()).map(it => it.name.trim()) : [...(e.sides?.items || []), ...(e.dessert?.items || [])]).map(it => { const n = sideName(it); return `<label class="prow"><span>${esc(n)}</span><input type="text" inputmode="decimal" data-pfor="${esc(n)}" value="${amt(pv.sides[n])}" placeholder="–" aria-label="${esc(n)} price"></label>`; }).join("")}
           <p class="wiz-q" data-ptotal></p>
         </div>`;
       const dessertField = (dessertItems(e).length ? `<p class="wiz-q"><strong>${esc(dessertItems(e).join(", "))}</strong></p>`
           : `<label class="prow"><span>What was it?</span><input type="text" data-dname value="${esc(v.dessertName || "")}" placeholder="e.g. Mango sticky rice" aria-label="Dessert name" style="width:14em;text-align:left"></label>`)
         + scaleRow("Dessert", v.dessertRating);
-      const field = s.kind === "price" ? priceForm : s.kind === "dessert" ? dessertField : s.multi
+      const marketForm = `<ul class="multi mk-form">${v.items.map((it, k) => `<li>
+          <div class="multi-head"><input type="text" class="mk-in mk-title" data-iname="${k}" value="${esc(it.name)}" placeholder="Item name" aria-label="Item ${k + 1} name">
+            <button type="button" class="clear" data-iremove="${k}" aria-label="Remove ${esc(it.name || "this item")}">Remove</button></div>
+          ${scaleRow("i:" + k, it.rating, true, it.name || `Item ${k + 1}`)}
+          <input type="text" class="mk-in" data-inote="${k}" value="${esc(it.note)}" placeholder="Quick note (optional)" aria-label="${esc(it.name || "Item")} note">
+        </li>`).join("")}</ul>
+        <form class="mk-add" data-iadd><input type="text" class="mk-in" name="n" placeholder="Add an item" aria-label="New item name"><button type="submit" class="ghost">Add</button></form>`;
+      const field = s.kind === "market" ? marketForm : s.kind === "price" ? priceForm : s.kind === "dessert" ? dessertField : s.multi
         ? `<ul class="multi">${e.sides.items.map(it => { const n = sideName(it); return `<li><div class="multi-head"><span>${esc(n)}</span><button type="button" class="clear" data-clear="${esc(n)}" ${isScore(v.sideItems[n]) ? "" : "hidden"}>Clear</button></div>${scaleRow(n, v.sideItems[n], true)}</li>`; }).join("")}</ul>`
         : scaleRow(s.key, v[s.key]);
       const ready = s.multi || s.optional || isScore(v[s.key]);
@@ -818,15 +882,16 @@
         <h2 id="lbTitle">${s.title}</h2><p class="wiz-q">${s.q}${RUBRIC[s.key] ? ` <strong class="share">${pct(s.key)} of the score</strong>` : ""}</p>${field}
         ${navBar(ready)}`;
     } else {
-      const ok = mainDone(), drink = isDrink(e);
+      const ok = mainDone(), drink = isDrink(e), market = isMarket(e);
+      const mRated = market ? v.items.filter(it => it.name.trim() && isScore(it.rating)).sort((a, b) => b.rating - a.rating) : [];
       inner = `<p class="wiz-step">${total} of ${total} · ${esc(e.dish)}</p><h2 id="lbTitle">Check and save</h2>
-        ${ok ? `<div>${ratingHtml(drink ? v.overall : weighted(v))} <span class="wiz-q">${drink ? "overall" : "main dish"}</span></div>` : `<p class="wiz-q">${drink ? "An overall score is needed." : "Flavour, value, texture and presentation are all needed."}</p>`}
-        <dl class="facts">${drink ? "" : Object.keys(RUBRIC).map(k => `<dt>${k[0].toUpperCase() + k.slice(1)} <small>${pct(k)}</small></dt><dd>${isScore(v[k]) ? v[k].toFixed(1) : "–"}</dd>`).join("")}
+        ${ok ? `<div>${ratingHtml(market ? avg(mRated.map(it => it.rating)) : drink ? v.overall : weighted(v))} <span class="wiz-q">${market ? `average of ${mRated.length} ${mRated.length === 1 ? "item" : "items"}` : drink ? "overall" : "main dish"}</span></div>` : `<p class="wiz-q">${market ? "Score at least one item." : drink ? "An overall score is needed." : "Flavour, value, texture and presentation are all needed."}</p>`}
+        <dl class="facts">${market ? mRated.map(it => `<dt>${esc(it.name)}</dt><dd>${it.rating.toFixed(1)}</dd>`).join("") : drink ? "" : Object.keys(RUBRIC).map(k => `<dt>${k[0].toUpperCase() + k.slice(1)} <small>${pct(k)}</small></dt><dd>${isScore(v[k]) ? v[k].toFixed(1) : "–"}</dd>`).join("")}
         ${isScore(v.sidesRating) ? `<dt>Sides</dt><dd>${v.sidesRating.toFixed(1)}</dd>` : ""}
         ${Object.entries(v.sideItems).filter(([, r]) => isScore(r)).map(([n, r]) => `<dt>${esc(n)}</dt><dd>${r.toFixed(1)}</dd>`).join("")}
         ${isScore(v.dessertRating) ? `<dt>Dessert${dessertItems(e).length || v.dessertName ? ` <small>${esc(dessertItems(e).join(", ") || v.dessertName)}</small>` : ""}</dt><dd>${v.dessertRating.toFixed(1)}</dd>` : ""}
         ${isScore(v.ambiance) ? `<dt>Ambiance</dt><dd>${v.ambiance.toFixed(1)} <small>(not in the food score)</small></dd>` : ""}
-        ${(() => { const pe = { dish: e.dish, price: cleanPrice(v.price) }; return pe.price ? `<dt>Paid</dt><dd>${priceFacts(pe)}</dd>` : ""; })()}</dl>
+        ${(() => { const pe = { dish: e.dish, price: cleanPrice(market ? marketPrice() : v.price) }; return pe.price ? `<dt>Paid</dt><dd>${market ? `Total ${priceHtml(pe)}` : priceFacts(pe)}</dd>` : ""; })()}</dl>
         <p class="wiz-msg" role="status"></p>
         ${navBar(false)}`;
     }
@@ -835,13 +900,19 @@
     if (wiz.pricing) showPriceTotal();
     body.querySelector('.scale input[type="range"], [data-nav=save]:not(:disabled)')?.focus({ preventScroll: true });
   }
+  // Market prices are keyed by item name; drop prices of items that were renamed or removed.
+  function marketPrice() {
+    const names = new Set(wiz.v.items.map(it => it.name.trim()).filter(Boolean));
+    return { currency: wiz.v.price.currency, sides: Object.fromEntries(Object.entries(wiz.v.price.sides).filter(([n]) => names.has(n))) };
+  }
   async function saveScores() {
     const { e, v } = wiz;
     const btn = dlg.querySelector("[data-nav=save]");
     let msg = dlg.querySelector(".wiz-msg");
     if (!msg) { msg = document.createElement("p"); msg.className = "wiz-msg"; msg.setAttribute("role", "status"); dlg.querySelector(".wiz-nav").before(msg); }
     btn.disabled = true; msg.textContent = "Saving…";
-    const doc = isDrink(e) ? { overall: v.overall, updatedAt: new Date().toISOString() }
+    const doc = isMarket(e) ? { marketItems: v.items.filter(it => it.name.trim()).map(it => ({ name: it.name.trim(), ...(isScore(it.rating) ? { rating: it.rating } : {}), ...(it.note.trim() ? { note: it.note.trim() } : {}) })), updatedAt: new Date().toISOString() }
+      : isDrink(e) ? { overall: v.overall, updatedAt: new Date().toISOString() }
       : { main: Object.fromEntries(Object.keys(RUBRIC).map(k => [k, v[k]])), updatedAt: new Date().toISOString() };
     if (isScore(v.sidesRating)) doc.sidesRating = v.sidesRating;
     const items = Object.fromEntries(Object.entries(v.sideItems).filter(([, r]) => isScore(r)));
@@ -849,7 +920,7 @@
     if (isScore(v.dessertRating)) doc.dessertRating = v.dessertRating;
     if (v.dessertName && v.dessertName.trim()) doc.dessertName = v.dessertName.trim();
     if (isScore(v.ambiance)) doc.ambiance = v.ambiance;
-    const pr = cleanPrice(v.price); if (pr) doc.price = pr;
+    const pr = cleanPrice(isMarket(e) ? marketPrice() : v.price); if (pr) doc.price = pr;
     try {
       await db.doc("scores/" + e.id).set(doc);
       dbScores[e.id] = doc; wiz = null; refresh(); open(e.id);
@@ -862,6 +933,8 @@
     if (!wiz) return;
     const j = ev.target.closest("[data-jump]");
     if (j) { setScale(j.closest(".scale"), +j.dataset.jump); return; }
+    const rm = ev.target.closest("[data-iremove]");
+    if (rm) { wiz.v.items.splice(+rm.dataset.iremove, 1); drawWizard(); return; }
     const c = ev.target.closest("[data-clear]");
     if (c) {
       const f = c.dataset.clear; delete wiz.v.sideItems[f];
@@ -878,7 +951,8 @@
   });
   function setScale(box, val, from) {
     const f = box.dataset.for, s = wiz.st[wiz.i];
-    if (s.multi) wiz.v.sideItems[f] = val; else wiz.v[s.key] = val;
+    if (s.kind === "market") wiz.v.items[+f.slice(2)].rating = val;
+    else if (s.multi) wiz.v.sideItems[f] = val; else wiz.v[s.key] = val;
     box.classList.remove("unset");
     if (from !== "range") box.querySelector('input[type="range"]').value = val;
     if (from !== "number") box.querySelector('input[type="number"]').value = val.toFixed(1);
@@ -897,6 +971,8 @@
   dlg.addEventListener("input", ev => {
     if (!wiz) return;
     if (ev.target.matches("[data-dname]")) { wiz.v.dessertName = ev.target.value; return; }
+    if (ev.target.matches("[data-iname]")) { wiz.v.items[+ev.target.dataset.iname].name = ev.target.value; const sv = dlg.querySelector("[data-nav=save]"); if (sv) sv.disabled = !mainDone(); return; }
+    if (ev.target.matches("[data-inote]")) { wiz.v.items[+ev.target.dataset.inote].note = ev.target.value; return; }
     if (ev.target.matches("[data-pfor]")) {
       const raw = ev.target.value.replace(/[^0-9.]/g, ""), n = raw === "" ? undefined : Math.round(parseFloat(raw) * 100) / 100;
       const f = ev.target.dataset.pfor, val = isAmount(n) ? n : undefined;
@@ -919,6 +995,13 @@
     if (wiz && ev.key === "Enter" && ev.target.closest(".scale")) { ev.preventDefault(); const nx = dlg.querySelector("[data-nav=next]:not(:disabled)"); if (nx) nx.click(); }
   });
   dlg.addEventListener("click", ev => { const b = ev.target.closest("[data-score]"); if (b) startScoring(b.dataset.score); });
+  dlg.addEventListener("submit", ev => {
+    if (!wiz || !ev.target.matches("[data-iadd]")) return;
+    ev.preventDefault();
+    const name = ev.target.elements.n.value.trim(); if (!name) return;
+    wiz.v.items.push({ name, rating: undefined, note: "" }); drawWizard();
+    dlg.querySelector(`[data-iname="${wiz.v.items.length - 1}"]`)?.closest("li").querySelector('input[type="range"]')?.focus();
+  });
   dlg.addEventListener("close", () => { wiz = null; });
 
   (async () => {

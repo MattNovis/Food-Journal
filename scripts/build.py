@@ -42,7 +42,12 @@ def check_amount(v, eid, label):
         fail(f"{eid}: {label} must be a non-negative number")
 
 
-MEALS = {"breakfast", "lunch", "dinner", "snack", "dessert", "drink"}
+MEALS = {"breakfast", "lunch", "dinner", "snack", "dessert", "drink", "market"}
+
+
+def avg_score(vals):
+    # Round half up to one decimal — must match avg() in site/index.html.
+    return math.floor(sum(vals) * 10 / len(vals) + 0.5) / 10
 
 
 def fail(msg):
@@ -76,6 +81,29 @@ def main():
                 e["rating"] = sc["overall"]
         elif "overall" in sc:
             fail(f"{eid}: scores.overall is for drinks only (meal: drink)")
+        if e.get("meal") == "market":
+            # Street market: many small items, each ONE flat 1–10 score + a blurb.
+            # The market's score is the average of its scored items.
+            if sc:
+                fail(f"{eid}: markets score each item (items[].rating), not scores")
+            items = e.get("items")
+            if not isinstance(items, list) or not items:
+                fail(f"{eid}: a market needs items: [{{name, rating?, note?}}]")
+            seen = set()
+            for it in items:
+                if not isinstance(it, dict) or not it.get("name"):
+                    fail(f"{eid}: market items must be objects with a name")
+                if it["name"] in seen:
+                    fail(f"{eid}: duplicate market item {it['name']}")
+                seen.add(it["name"])
+                ir = it.get("rating")
+                if ir is not None and not (isinstance(ir, (int, float)) and 1 <= ir <= 10):
+                    fail(f"{eid}: market item '{it['name']}' rating must be 1–10")
+            rs = [it["rating"] for it in items if isinstance(it.get("rating"), (int, float))]
+            if rs:
+                e["rating"] = avg_score(rs)
+        elif "items" in e:
+            fail(f"{eid}: items are for markets only (meal: market)")
         if "main" in sc:
             e["rating"] = dish_score(sc["main"], eid, "main")
         if "sides" in sc:
@@ -133,7 +161,7 @@ def main():
         e.setdefault("region", dates[e["date"]]["region"])
         if e["region"] not in trip["regions"]:
             fail(f"{eid}: unknown region {e['region']}")
-    order = {m: i for i, m in enumerate(["breakfast", "lunch", "snack", "dinner", "dessert", "drink"])}
+    order = {m: i for i, m in enumerate(["breakfast", "lunch", "snack", "dinner", "market", "dessert", "drink"])}
     entries.sort(key=lambda e: (e["date"], e.get("time") or "", order.get(e.get("meal"), 9)))
     bundle = {"trip": trip, "rubric": RUBRIC, "fx": FX, "entries": entries}
     js = "window.JOURNAL = " + json.dumps(bundle, ensure_ascii=False, indent=1) + ";\n"

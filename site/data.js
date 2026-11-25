@@ -758,6 +758,41 @@ window.JOURNAL = {
    }
   },
   {
+   "id": "2026-11-25-street-market",
+   "date": "2026-11-25",
+   "meal": "market",
+   "dish": "Street market",
+   "place": {
+    "name": "Street market",
+    "area": "Chiang Mai"
+   },
+   "region": "chiang-mai",
+   "items": [
+    {
+     "name": "Thai tea"
+    },
+    {
+     "name": "Thai sausage"
+    },
+    {
+     "name": "Salmon sashimi"
+    },
+    {
+     "name": "Sausage bites (original, vermicelli and sour)"
+    },
+    {
+     "name": "Caramel loaf"
+    },
+    {
+     "name": "Grasshoppers"
+    },
+    {
+     "name": "Grapes"
+    }
+   ],
+   "photos": []
+  },
+  {
    "id": "2026-11-25-thai-tea",
    "date": "2026-11-25",
    "meal": "drink",
