@@ -616,10 +616,9 @@ window.JOURNAL = {
    "time": "14:49",
    "meal": "drink",
    "dish": "Thai tea",
-   "thaiName": "ชาไทย",
    "description": "Thai tea!",
    "place": {
-    "name": "ปู่อู๋ คอฟฟี่",
+    "name": "Pu Ou Coffee",
     "area": "Bangkok"
    },
    "region": "bangkok",
@@ -646,7 +645,6 @@ window.JOURNAL = {
    "time": "15:54",
    "meal": "drink",
    "dish": "Lychee tea",
-   "thaiName": "ชาลิ้นจี่",
    "description": "With the braised duck noodles.",
    "place": {
     "name": "OWL",
