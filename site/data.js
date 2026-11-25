@@ -691,7 +691,11 @@ window.JOURNAL = {
      "h": 1600,
      "alt": "White bowl of chicken rice porridge topped with greens, green onion, chilli flakes and a cherry tomato on a marble table"
     }
-   ]
+   ],
+   "price": {
+    "currency": "THB",
+    "note": "Included with the hotel room"
+   }
   },
   {
    "id": "2026-11-25-pork-noodles",
@@ -723,7 +727,11 @@ window.JOURNAL = {
      "h": 1600,
      "alt": "Paper bowl of ripe mango chunks over coconut sauce, no sticky rice"
     }
-   ]
+   ],
+   "price": {
+    "currency": "THB",
+    "note": "Included with the festival ticket"
+   }
   },
   {
    "id": "2026-11-25-khao-soi-chicken",
@@ -743,7 +751,11 @@ window.JOURNAL = {
      "h": 1600,
      "alt": "Paper bowl of khao soi with a chicken drumstick, crispy noodles, lime and green onion"
     }
-   ]
+   ],
+   "price": {
+    "currency": "THB",
+    "note": "Included with the festival ticket"
+   }
   },
   {
    "id": "2026-11-25-thai-tea",
@@ -763,7 +775,11 @@ window.JOURNAL = {
      "h": 1600,
      "alt": "Paper cup of iced Thai milk tea held over the festival grounds"
     }
-   ]
+   ],
+   "price": {
+    "currency": "THB",
+    "note": "Included with the festival ticket"
+   }
   }
  ]
 };

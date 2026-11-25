@@ -396,7 +396,7 @@
     Object.entries(p.sides || {}).forEach(([n, a]) => { if (isAmount(a)) rows.push([n, a]); });
     const list = rows.map(([n, a]) => `<li><span>${esc(n)}</span>${pricePair(a, p.currency)}</li>`).join("");
     const total = rows.length > 1 ? `<li class="total"><span>Total</span>${pricePair(priceTotal(e), p.currency)}</li>` : "";
-    return `<ul class="price-list">${list}${total}</ul>${p.note ? `<small>${esc(p.note)}</small>` : ""}`;
+    return `${list ? `<ul class="price-list">${list}${total}</ul>` : ""}${p.note ? `<small>${esc(p.note)}</small>` : ""}`;
   }
 
   const fmtScore = r => Number.isInteger(r) ? String(r) : r.toFixed(1);
@@ -626,7 +626,7 @@
         (dessertItems(e).length ? `${typeof e.dessert.rating === "number" ? " · " : ""}${esc(dessertItems(e).join(", "))}` : "") +
         (e.dessert.note ? `<br>${esc(e.dessert.note)}` : "")] : null,
       typeof e.ambiance === "number" ? ["Ambiance", `<strong>${fmtScore(e.ambiance)}/10</strong> <small>(not part of the food score)</small>`] : null,
-      priceTotal(e) !== null ? ["Paid", priceFacts(e)] : null,
+      priceTotal(e) !== null || e.price?.note ? ["Paid", priceFacts(e)] : null,
       day ? ["Trip day", `Day ${dayIndex[e.date] + 1} · ${esc(day.location)}`] : null,
     ].filter(Boolean);
     dlg.innerHTML = `<button class="lb-close" type="button" aria-label="Close">${ICON.close}</button>
