@@ -669,6 +669,31 @@ window.JOURNAL = {
    "rating": 7.3
   },
   {
+   "id": "2026-11-25-chicken-rice-porridge",
+   "date": "2026-11-25",
+   "meal": "breakfast",
+   "dish": "Chicken and rice porridge",
+   "description": "Hotel breakfast. Tasty. I love the fixings they have for Thai food. Very different from an American breakfast, but tasty nonetheless.",
+   "place": {
+    "name": "Hotel Tranz",
+    "area": "Phaya Thai, Bangkok"
+   },
+   "region": "bangkok",
+   "sides": {
+    "items": [
+     "Short rib soup"
+    ]
+   },
+   "photos": [
+    {
+     "src": "photos/2026-11-25-chicken-rice-porridge.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "White bowl of chicken rice porridge topped with greens, green onion, chilli flakes and a cherry tomato on a marble table"
+    }
+   ]
+  },
+  {
    "id": "2026-11-25-pork-noodles",
    "date": "2026-11-25",
    "meal": "dinner",
