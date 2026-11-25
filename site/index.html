@@ -298,6 +298,12 @@
   .mk-title:hover { border-color: var(--rule); padding-left: .6em; }
   .mk-title:focus { padding-left: .6em; }
   .multi-head:has(.mk-title) { align-items: center; gap: var(--s-3); }
+  .mk-extra { display: grid; gap: var(--s-2); justify-items: start; }
+  .mk-note { field-sizing: content; min-height: 2.4em; resize: none; line-height: 1.35; }
+  .mk-price { position: relative; width: 7.5em; }
+  .mk-price span { position: absolute; left: .6em; top: 50%; transform: translateY(-50%); color: var(--ink-faint); font-weight: 600; pointer-events: none; }
+  .mk-price .mk-in { padding-left: 1.7em; text-align: right; }
+  .mk-foot { display: grid; gap: var(--s-2); margin-top: var(--s-4); }
   .mk-add { display: flex; gap: var(--s-2); margin-top: var(--s-4); }
 
   @media (max-width: 599px) {
@@ -781,9 +787,8 @@
 
   function steps(e) {
     if (isMarket(e)) return [
-      { key: "items", title: "Score each item", q: "One score from 1 to 10 and a quick note for each. Add anything that's missing at the bottom.", kind: "market", optional: true },
+      { key: "items", title: "Score each item", q: "A score from 1 to 10 for each, plus a quick note and what it cost if you like. Add anything that's missing at the bottom.", kind: "market", optional: true },
       { key: "ambiance", title: "Ambiance", q: "The setting. Shown separately; it never counts toward the food score.", optional: true },
-      { key: "price", title: "Prices", q: "Optional. What did each item cost? Leave any blank.", optional: true, kind: "price" },
     ];
     if (isDrink(e)) return [
       { key: "overall", title: "Overall", q: "One score for the drink." },
@@ -814,7 +819,7 @@
       v: {
         ...(e.scores?.main || {}), ...(prev.main || {}),
         overall: prev.overall ?? e.scores?.overall,
-        items: (e.items || []).map(it => ({ name: it.name, rating: it.rating, note: it.note || "" })),
+        items: (e.items || []).map(it => ({ name: it.name, rating: it.rating, note: it.note || "", price: e.price?.sides?.[it.name] })),
         sidesRating: prev.sidesRating ?? (e.scores?.main && isScore(e.sides?.rating) ? e.sides.rating : undefined),
         sideItems: { ...sideItems, ...(prev.sideItems || {}) },
         dessertRating: prev.dessertRating ?? e.dessert?.rating,
@@ -877,8 +882,10 @@
           <div class="multi-head"><input type="text" class="mk-in mk-title" data-iname="${k}" value="${esc(it.name)}" placeholder="Item name" aria-label="Item ${k + 1} name">
             <button type="button" class="clear" data-iremove="${k}" aria-label="Remove ${esc(it.name || "this item")}">Remove</button></div>
           ${scaleRow("i:" + k, it.rating, true, it.name || `Item ${k + 1}`)}
-          <input type="text" class="mk-in" data-inote="${k}" value="${esc(it.note)}" placeholder="Quick note (optional)" aria-label="${esc(it.name || "Item")} note">
+          <div class="mk-extra"><textarea class="mk-in mk-note" rows="1" data-inote="${k}" placeholder="Quick note (optional)" aria-label="${esc(it.name || "Item")} note">${esc(it.note)}</textarea>
+            <label class="mk-price"><span aria-hidden="true">${SYM[v.price.currency] || v.price.currency}</span><input type="text" class="mk-in" inputmode="decimal" data-iprice="${k}" value="${isAmount(it.price) ? it.price : ""}" placeholder="Price" aria-label="${esc(it.name || "Item")} price in ${v.price.currency}"></label></div>
         </li>`).join("")}</ul>
+        <div class="mk-foot"><label class="prow"><span>Paid in</span><select data-pcur>${Object.keys(FX).map(c => `<option value="${c}" ${c === v.price.currency ? "selected" : ""}>${c} (${SYM[c] || c})</option>`).join("")}</select></label><p class="wiz-q" data-mtotal></p></div>
         <form class="mk-add" data-iadd><input type="text" class="mk-in" name="n" placeholder="Add an item" aria-label="New item name"><button type="submit" class="ghost">Add</button></form>`;
       const field = s.kind === "market" ? marketForm : s.kind === "price" ? priceForm : s.kind === "dessert" ? dessertField : s.multi
         ? `<ul class="multi">${e.sides.items.map(it => { const n = sideName(it); return `<li><div class="multi-head"><span>${esc(n)}</span><button type="button" class="clear" data-clear="${esc(n)}" ${isScore(v.sideItems[n]) ? "" : "hidden"}>Clear</button></div>${scaleRow(n, v.sideItems[n], true)}</li>`; }).join("")}</ul>`
@@ -905,12 +912,17 @@
     dlg.querySelector(".lb").classList.add("scoring");
     body.innerHTML = inner;
     if (wiz.pricing) showPriceTotal();
+    if (st[i]?.kind === "market") showMarketTotal();
     body.querySelector('.scale input[type="range"], [data-nav=save]:not(:disabled)')?.focus({ preventScroll: true });
   }
   // Market prices are keyed by item name; drop prices of items that were renamed or removed.
   function marketPrice() {
-    const names = new Set(wiz.v.items.map(it => it.name.trim()).filter(Boolean));
-    return { currency: wiz.v.price.currency, sides: Object.fromEntries(Object.entries(wiz.v.price.sides).filter(([n]) => names.has(n))) };
+    return { currency: wiz.v.price.currency, sides: Object.fromEntries(wiz.v.items.filter(it => it.name.trim() && isAmount(it.price)).map(it => [it.name.trim(), it.price])) };
+  }
+  function showMarketTotal() {
+    const el = dlg.querySelector("[data-mtotal]"); if (!el) return;
+    const pr = cleanPrice(marketPrice());
+    el.innerHTML = pr ? `Total ${priceHtml({ price: pr })}` : "";
   }
   async function saveScores() {
     const { e, v } = wiz;
@@ -973,12 +985,16 @@
     el.innerHTML = pr ? `Total ${priceHtml({ price: pr })}` : "";
   }
   dlg.addEventListener("change", ev => {
-    if (wiz && ev.target.matches("[data-pcur]")) { wiz.v.price.currency = ev.target.value; showPriceTotal(); }
+    if (wiz && ev.target.matches("[data-pcur]")) { wiz.v.price.currency = ev.target.value; if (isMarket(wiz.e)) drawWizard(); else showPriceTotal(); }
   });
   dlg.addEventListener("input", ev => {
     if (!wiz) return;
     if (ev.target.matches("[data-dname]")) { wiz.v.dessertName = ev.target.value; return; }
     if (ev.target.matches("[data-iname]")) { wiz.v.items[+ev.target.dataset.iname].name = ev.target.value; const sv = dlg.querySelector("[data-nav=save]"); if (sv) sv.disabled = !mainDone(); return; }
+    if (ev.target.matches("[data-iprice]")) {
+      const raw = ev.target.value.replace(/[^0-9.]/g, ""), n = raw === "" ? undefined : Math.round(parseFloat(raw) * 100) / 100;
+      wiz.v.items[+ev.target.dataset.iprice].price = isAmount(n) ? n : undefined; showMarketTotal(); return;
+    }
     if (ev.target.matches("[data-inote]")) { wiz.v.items[+ev.target.dataset.inote].note = ev.target.value; return; }
     if (ev.target.matches("[data-pfor]")) {
       const raw = ev.target.value.replace(/[^0-9.]/g, ""), n = raw === "" ? undefined : Math.round(parseFloat(raw) * 100) / 100;

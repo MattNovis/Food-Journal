@@ -790,29 +790,43 @@ window.JOURNAL = {
    "items": [
     {
      "name": "Thai tea",
+     "note": "It had cream cheese in it. It was unnecessary but think of it as like sweet whipped cream cheese icing",
+     "rating": 6.8,
      "photo": "photos/2026-11-25-thai-tea-market.jpg"
     },
     {
      "name": "Thai sausage",
+     "note": "God damn this was the tastiest thing I’ve had so far on this trip",
+     "rating": 9.7,
      "photo": "photos/2026-11-25-thai-sausage.jpg"
     },
     {
-     "name": "Salmon sashimi"
+     "name": "Salmon sashimi",
+     "note": "I fear I will be shitting my self from eating these. I hope I’m proven wrong",
+     "rating": 6.4
     },
     {
      "name": "Sausage bites (original, vermicelli and sour)",
+     "note": "So incredibly turbo ass was riding the high of the Thai sausage and these things were so gross",
+     "rating": 1.8,
      "photo": "photos/2026-11-25-sausage-bite.jpg"
     },
     {
      "name": "Caramel loaf",
+     "note": "Sweet bread pretty mid had no personality",
+     "rating": 3.9,
      "photo": "photos/2026-11-25-caramel-loaf.jpg"
     },
     {
      "name": "Grasshoppers",
+     "note": "It was like eating a sunflower seed shell but tastier? I made the mistake of looking it in the eyes",
+     "rating": 2.8,
      "photo": "photos/2026-11-25-grasshoppers.jpg"
     },
     {
      "name": "Grapes",
+     "note": "The green grapes were good but very different from grapes I’ve had. The purple grapes were kinda squishy",
+     "rating": 6.7,
      "photo": "photos/2026-11-25-grapes.jpg"
     }
    ],
@@ -853,7 +867,8 @@ window.JOURNAL = {
      "h": 1600,
      "alt": "Open plastic box of red and green grapes"
     }
-   ]
+   ],
+   "rating": 5.4
   },
   {
    "id": "2026-11-25-thai-tea",
