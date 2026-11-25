@@ -461,13 +461,13 @@
     }
   },
   {
-    "id": "2026-11-25-street-market",
+    "id": "2026-11-25-yee-peng-river-festival",
     "date": "2026-11-25",
     "meal": "market",
-    "dish": "Street market",
+    "dish": "Yee Peng River Festival",
     "place": {
-      "name": "Street market",
-      "area": "Chiang Mai"
+      "name": "Yee Peng River Festival",
+      "area": "Ping River, Chiang Mai"
     },
     "region": "chiang-mai",
     "items": [
