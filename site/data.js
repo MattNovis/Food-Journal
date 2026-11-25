@@ -675,8 +675,8 @@ window.JOURNAL = {
    "dish": "Pork noodle soup",
    "description": "Light but flavorful broth, tender noodles, tons of good fixings. There are these little pickled hot peppers that are so fire.",
    "place": {
-    "name": "Yi Peng International Lantern Festival",
-    "area": "Chiang Mai"
+    "name": "Yee Peng Lanna International",
+    "area": "Sansai, Chiang Mai"
    },
    "region": "chiang-mai",
    "dessert": {
@@ -707,8 +707,8 @@ window.JOURNAL = {
    "dish": "Khao soi chicken",
    "description": "Chicken drumstick, yellow-curry-adjacent. Noodles and sauce were good, and it had crunchy noodles. Tasty but didn't wow me; a little oily.",
    "place": {
-    "name": "Yi Peng International Lantern Festival",
-    "area": "Chiang Mai"
+    "name": "Yee Peng Lanna International",
+    "area": "Sansai, Chiang Mai"
    },
    "region": "chiang-mai",
    "photos": [
@@ -727,8 +727,8 @@ window.JOURNAL = {
    "dish": "Thai tea",
    "description": "I could drink a million gallons of Thai tea.",
    "place": {
-    "name": "Yi Peng International Lantern Festival",
-    "area": "Chiang Mai"
+    "name": "Yee Peng Lanna International",
+    "area": "Sansai, Chiang Mai"
    },
    "region": "chiang-mai",
    "photos": [
