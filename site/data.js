@@ -695,7 +695,16 @@ window.JOURNAL = {
    "price": {
     "currency": "THB",
     "note": "Included with the hotel room"
-   }
+   },
+   "scores": {
+    "main": {
+     "flavour": 7.7,
+     "texture": 7,
+     "value": 7.5,
+     "presentation": 6
+    }
+   },
+   "rating": 7.4
   },
   {
    "id": "2026-11-25-pork-noodles",
@@ -712,7 +721,8 @@ window.JOURNAL = {
     "items": [
      "Riceless mango sticky rice"
     ],
-    "note": "They ran out of rice lol, so it was just mango with coconut sauce. Still very tasty."
+    "note": "They ran out of rice lol, so it was just mango with coconut sauce. Still very tasty.",
+    "rating": 7
    },
    "photos": [
     {
@@ -731,7 +741,17 @@ window.JOURNAL = {
    "price": {
     "currency": "THB",
     "note": "Included with the festival ticket"
-   }
+   },
+   "scores": {
+    "main": {
+     "flavour": 8.9,
+     "texture": 8,
+     "value": 7.5,
+     "presentation": 7
+    }
+   },
+   "ambiance": 10,
+   "rating": 8.3
   },
   {
    "id": "2026-11-25-khao-soi-chicken",
@@ -769,28 +789,71 @@ window.JOURNAL = {
    "region": "chiang-mai",
    "items": [
     {
-     "name": "Thai tea"
+     "name": "Thai tea",
+     "photo": "photos/2026-11-25-thai-tea-market.jpg"
     },
     {
-     "name": "Thai sausage"
+     "name": "Thai sausage",
+     "photo": "photos/2026-11-25-thai-sausage.jpg"
     },
     {
      "name": "Salmon sashimi"
     },
     {
-     "name": "Sausage bites (original, vermicelli and sour)"
+     "name": "Sausage bites (original, vermicelli and sour)",
+     "photo": "photos/2026-11-25-sausage-bite.jpg"
     },
     {
-     "name": "Caramel loaf"
+     "name": "Caramel loaf",
+     "photo": "photos/2026-11-25-caramel-loaf.jpg"
     },
     {
-     "name": "Grasshoppers"
+     "name": "Grasshoppers",
+     "photo": "photos/2026-11-25-grasshoppers.jpg"
     },
     {
-     "name": "Grapes"
+     "name": "Grapes",
+     "photo": "photos/2026-11-25-grapes.jpg"
     }
    ],
-   "photos": []
+   "photos": [
+    {
+     "src": "photos/2026-11-25-thai-sausage.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Glazed Thai sausage on a stick held up in a crowded festival street at night"
+    },
+    {
+     "src": "photos/2026-11-25-caramel-loaf.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Caramel-glazed loaf in a plastic tray with an iced Thai tea behind it"
+    },
+    {
+     "src": "photos/2026-11-25-sausage-bite.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Fried sausage bite on a stick at a busy night market"
+    },
+    {
+     "src": "photos/2026-11-25-thai-tea-market.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Matt holding up a large iced Thai tea in a plastic bag at night"
+    },
+    {
+     "src": "photos/2026-11-25-grasshoppers.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "A friend about to eat a fried grasshopper from a bag of them"
+    },
+    {
+     "src": "photos/2026-11-25-grapes.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Open plastic box of red and green grapes"
+    }
+   ]
   },
   {
    "id": "2026-11-25-thai-tea",

@@ -137,6 +137,7 @@ which keeps its data in its own db and is synced to the `artifact-planner` branc
   main dishes, sides, desserts or drinks, filtered by location (region) and meal. Tagline: "Matt's food reviews from his trip to Thailand!"
 - Legs (scripts/sync_trip.py LEGS): Getting there (In) · Bangkok (BKK) · Chiang Mai · Koh Lanta · Bangkok ·
   Seoul / return travel (Out). Dec 9 is a journal-only extra day.
+- Street markets (`meal: "market"`): items can carry `"photo": "<one of the entry's photo srcs>"` (thumb in the list + Market ranking).
 - Entries so far (all region `transit`): Qdoba chicken bowl at SEA (Nov 22, $15, no sides, scored, no photo),
   STARLUX beef bulgogi (Nov 23 per Matt, id still says 11-22), STARLUX pork congee (Nov 23), Taoyuan airport soup dumplings (Nov 24 per Matt,
   id still says 11-23 so its db score doc stays linked; photo, $8.99 USD), STARLUX garlic butter chicken TPE→BKK

@@ -96,6 +96,8 @@ def main():
                 if it["name"] in seen:
                     fail(f"{eid}: duplicate market item {it['name']}")
                 seen.add(it["name"])
+                if it.get("photo") and it["photo"] not in [ph["src"] for ph in e.get("photos", [])]:
+                    fail(f"{eid}: market item '{it['name']}' photo must be one of the entry's photos")
                 ir = it.get("rating")
                 if ir is not None and not (isinstance(ir, (int, float)) and 1 <= ir <= 10):
                     fail(f"{eid}: market item '{it['name']}' rating must be 1–10")
