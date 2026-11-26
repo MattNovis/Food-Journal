@@ -775,7 +775,17 @@ window.JOURNAL = {
    "price": {
     "currency": "THB",
     "note": "Included with the festival ticket"
-   }
+   },
+   "scores": {
+    "main": {
+     "flavour": 7,
+     "texture": 8.8,
+     "value": 7.5,
+     "presentation": 9
+    }
+   },
+   "ambiance": 10,
+   "rating": 7.7
   },
   {
    "id": "2026-11-25-yee-peng-river-festival",
@@ -868,6 +878,18 @@ window.JOURNAL = {
      "alt": "Open plastic box of red and green grapes"
     }
    ],
+   "price": {
+    "currency": "THB",
+    "sides": {
+     "Thai tea": 40,
+     "Thai sausage": 25,
+     "Salmon sashimi": 39,
+     "Sausage bites (original, vermicelli and sour)": 30,
+     "Caramel loaf": 30,
+     "Grasshoppers": 30,
+     "Grapes": 30
+    }
+   },
    "rating": 5.4
   },
   {
@@ -892,7 +914,11 @@ window.JOURNAL = {
    "price": {
     "currency": "THB",
     "note": "Included with the festival ticket"
-   }
+   },
+   "scores": {
+    "overall": 8.1
+   },
+   "rating": 8.1
   }
  ]
 };
