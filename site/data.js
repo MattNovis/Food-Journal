@@ -932,8 +932,10 @@ window.JOURNAL = {
    },
    "price": {
     "currency": "THB",
-    "main": 190,
-    "note": "Cake and iced vanilla latte together"
+    "main": 80,
+    "sides": {
+     "Iced vanilla latte": 95
+    }
    },
    "sides": {
     "items": [
@@ -954,7 +956,17 @@ window.JOURNAL = {
      "h": 1600,
      "alt": "Iced vanilla latte in a tall glass, milk settling under the coffee"
     }
-   ]
+   ],
+   "scores": {
+    "main": {
+     "flavour": 7.9,
+     "presentation": 6.5,
+     "texture": 4.5,
+     "value": 6.5
+    }
+   },
+   "ambiance": 6.6,
+   "rating": 6.8
   },
   {
    "id": "2026-11-26-thai-cooking-class",
@@ -969,22 +981,26 @@ window.JOURNAL = {
    "items": [
     {
      "name": "Tom kha",
-     "note": "Tasty but pretty watery",
+     "note": "Tasty but pretty watery. Secret sauce is to cook the aromatics first in just a little bit of the coconut milk on ripping high heat to draw out flavor from the aromatics",
+     "rating": 8.1,
      "photo": "photos/2026-11-26-pad-krapow-tom-kha.jpg"
     },
     {
      "name": "Pad krapow (basil stir fry)",
      "note": "Tasty. I put too much fish sauce in mine and it was a little too salty and funky",
+     "rating": 7.7,
      "photo": "photos/2026-11-26-pad-krapow.jpg"
     },
     {
      "name": "Khao soi",
-     "note": "By far the best of the bunch, so flavorful and tasty",
+     "note": "By far the best of the bunch, so flavorful and tasty. Ground the curry paste ourselves which was cool",
+     "rating": 9.3,
      "photo": "photos/2026-11-26-khao-soi.jpg"
     },
     {
      "name": "Mango sticky rice",
      "note": "Tasty as always, but we didn't really make this: they made and steamed the rice, cut the mango and plated it for us lmao. We just coloured the rice",
+     "rating": 8,
      "photo": "photos/2026-11-26-mango-sticky-rice.jpg"
     }
    ],
@@ -1025,7 +1041,8 @@ window.JOURNAL = {
      "h": 1200,
      "alt": "Mango slices beside blue and green coloured sticky rice topped with crispy mung beans"
     }
-   ]
+   ],
+   "rating": 8.3
   },
   {
    "id": "2026-11-26-shinkanzen-sushi",
@@ -1041,31 +1058,35 @@ window.JOURNAL = {
     {
      "name": "Pickled salmon don",
      "note": "Star of the show. Pickled salmon and egg yolk and two mystery sauces were so tasty, great balance while being flavorful",
+     "rating": 9.1,
      "photo": "photos/2026-11-26-salmon-don.jpg"
     },
     {
      "name": "Scallop sashimi",
      "note": "Very tasty, similar to an oyster taste",
+     "rating": 8.7,
      "photo": "photos/2026-11-26-scallop-sashimi.jpg"
     },
     {
      "name": "Volcano roll",
      "note": "Pretty mid tbh. The salmon is good but it was also nothing to write home about. I think it tried to do too much",
+     "rating": 5.6,
      "photo": "photos/2026-11-26-volcano-roll.jpg"
     },
     {
      "name": "Miso soup",
      "note": "Good, nothing special",
+     "rating": 7,
      "photo": "photos/2026-11-26-miso-soup.jpg"
     }
    ],
    "price": {
     "currency": "THB",
     "sides": {
+     "Miso soup": 25,
      "Pickled salmon don": 159,
      "Scallop sashimi": 199,
-     "Volcano roll": 199,
-     "Miso soup": 25
+     "Volcano roll": 199
     }
    },
    "photos": [
@@ -1093,7 +1114,8 @@ window.JOURNAL = {
      "h": 1600,
      "alt": "Black bowl of miso soup with seaweed and tofu"
     }
-   ]
+   ],
+   "rating": 7.6
   },
   {
    "id": "2026-11-26-pups-thai-tea",
@@ -1113,7 +1135,16 @@ window.JOURNAL = {
      "h": 1600,
      "alt": "Iced Thai tea in a PUPS cup held up next to a friend's boba milk tea at a market"
     }
-   ]
+   ],
+   "scores": {
+    "overall": 8
+   },
+   "ambiance": 8.1,
+   "price": {
+    "currency": "THB",
+    "main": 20
+   },
+   "rating": 8
   }
  ]
 };
