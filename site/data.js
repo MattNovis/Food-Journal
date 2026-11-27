@@ -919,6 +919,187 @@ window.JOURNAL = {
     "overall": 8.1
    },
    "rating": 8.1
+  },
+  {
+   "id": "2026-11-26-coconut-cake",
+   "date": "2026-11-26",
+   "meal": "breakfast",
+   "dish": "Coconut cake",
+   "description": "Large strips of coconut flesh. Tasty, but the dough was pretty crumbly and dry.",
+   "place": {
+    "name": "Breakfast cafe",
+    "area": "Northern Old City, Chiang Mai"
+   },
+   "price": {
+    "currency": "THB",
+    "main": 190,
+    "note": "Cake and iced vanilla latte together"
+   },
+   "sides": {
+    "items": [
+     "Iced vanilla latte"
+    ]
+   },
+   "region": "chiang-mai",
+   "photos": [
+    {
+     "src": "photos/2026-11-26-coconut-cake.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Slice of coconut cake on a pale green ceramic plate on a crochet tablecloth"
+    },
+    {
+     "src": "photos/2026-11-26-iced-vanilla-latte.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Iced vanilla latte in a tall glass, milk settling under the coffee"
+    }
+   ]
+  },
+  {
+   "id": "2026-11-26-thai-cooking-class",
+   "date": "2026-11-26",
+   "meal": "market",
+   "dish": "Thai cooking class",
+   "place": {
+    "name": "Thai cooking class",
+    "area": "Chiang Mai"
+   },
+   "region": "chiang-mai",
+   "items": [
+    {
+     "name": "Tom kha",
+     "note": "Tasty but pretty watery",
+     "photo": "photos/2026-11-26-pad-krapow-tom-kha.jpg"
+    },
+    {
+     "name": "Pad krapow (basil stir fry)",
+     "note": "Tasty. I put too much fish sauce in mine and it was a little too salty and funky",
+     "photo": "photos/2026-11-26-pad-krapow.jpg"
+    },
+    {
+     "name": "Khao soi",
+     "note": "By far the best of the bunch, so flavorful and tasty",
+     "photo": "photos/2026-11-26-khao-soi.jpg"
+    },
+    {
+     "name": "Mango sticky rice",
+     "note": "Tasty as always, but we didn't really make this: they made and steamed the rice, cut the mango and plated it for us lmao. We just coloured the rice",
+     "photo": "photos/2026-11-26-mango-sticky-rice.jpg"
+    }
+   ],
+   "photos": [
+    {
+     "src": "photos/2026-11-26-pad-krapow.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Plate of chicken basil stir fry with a dome of white rice"
+    },
+    {
+     "src": "photos/2026-11-26-pad-krapow-wok.jpg",
+     "w": 1600,
+     "h": 1200,
+     "alt": "Basil stir fry cooking in an aluminium wok at a cooking-class station"
+    },
+    {
+     "src": "photos/2026-11-26-pad-krapow-tom-kha.jpg",
+     "w": 1600,
+     "h": 1200,
+     "alt": "Basil stir fry with rice next to a bowl of creamy tom kha soup"
+    },
+    {
+     "src": "photos/2026-11-26-khao-soi.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Bowl of khao soi topped with crispy noodles and red onion"
+    },
+    {
+     "src": "photos/2026-11-26-khao-soi-toppings.jpg",
+     "w": 1600,
+     "h": 1200,
+     "alt": "Khao soi toppings: crispy noodles, pickled mustard greens, lime and red onion"
+    },
+    {
+     "src": "photos/2026-11-26-mango-sticky-rice.jpg",
+     "w": 1600,
+     "h": 1200,
+     "alt": "Mango slices beside blue and green coloured sticky rice topped with crispy mung beans"
+    }
+   ]
+  },
+  {
+   "id": "2026-11-26-shinkanzen-sushi",
+   "date": "2026-11-26",
+   "meal": "market",
+   "dish": "Sushi dinner",
+   "place": {
+    "name": "Shinkanzen Sushi",
+    "area": "Chiang Mai"
+   },
+   "region": "chiang-mai",
+   "items": [
+    {
+     "name": "Pickled salmon don",
+     "note": "Star of the show. Pickled salmon and egg yolk and two mystery sauces were so tasty, great balance while being flavorful",
+     "photo": "photos/2026-11-26-salmon-don.jpg"
+    },
+    {
+     "name": "Scallop sashimi",
+     "note": "Very tasty, similar to an oyster taste",
+     "photo": "photos/2026-11-26-scallop-sashimi.jpg"
+    },
+    {
+     "name": "Volcano roll",
+     "note": "Pretty mid tbh. The salmon is good but it was also nothing to write home about. I think it tried to do too much",
+     "photo": "photos/2026-11-26-volcano-roll.jpg"
+    },
+    {
+     "name": "Miso soup",
+     "note": "Good, nothing special",
+     "photo": "photos/2026-11-26-miso-soup.jpg"
+    }
+   ],
+   "price": {
+    "currency": "THB",
+    "sides": {
+     "Pickled salmon don": 159,
+     "Scallop sashimi": 199,
+     "Volcano roll": 199,
+     "Miso soup": 25
+    }
+   },
+   "photos": [
+    {
+     "src": "photos/2026-11-26-salmon-don.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Rice bowl of salmon topped with orange roe, egg yolk, tamagoyaki and pickled ginger"
+    },
+    {
+     "src": "photos/2026-11-26-scallop-sashimi.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Scallop sashimi on ice with lemon wedges, cucumber and shredded carrot"
+    },
+    {
+     "src": "photos/2026-11-26-salmon-rolls.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "A tobiko-coated roll and a salmon roll topped with mayo and roe on black plates"
+    },
+    {
+     "src": "photos/2026-11-26-volcano-roll.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Seared salmon roll pieces with shredded tuna, seaweed salad and tempura crumbs"
+    },
+    {
+     "src": "photos/2026-11-26-miso-soup.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Black bowl of miso soup with seaweed and tofu"
+    }
+   ]
   }
  ]
 };
