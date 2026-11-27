@@ -815,5 +815,263 @@
         "alt": "Black bowl of miso soup with seaweed and tofu"
       }
     ]
+  },
+  {
+    "id": "2026-11-27-7-eleven-haul",
+    "date": "2026-11-27",
+    "meal": "market",
+    "dish": "7-Eleven haul",
+    "place": {
+      "name": "7-Eleven",
+      "area": "Chiang Rai day trip"
+    },
+    "region": "chiang-rai",
+    "items": [
+      {
+        "name": "Sweet pork croissant sandwich",
+        "photo": "photos/2026-11-27-pork-croissant-sandwich.jpg"
+      },
+      {
+        "name": "Spicy onigiri",
+        "photo": "photos/2026-11-27-spicy-onigiri.jpg"
+      },
+      {
+        "name": "Ginseng energy drink",
+        "note": "Weird energy drink?",
+        "photo": "photos/2026-11-27-ginseng-drink.jpg"
+      }
+    ],
+    "photos": [
+      {
+        "src": "photos/2026-11-27-pork-croissant-sandwich.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Toasted croissant sandwich half on its red paper wrapper"
+      },
+      {
+        "src": "photos/2026-11-27-spicy-onigiri.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Bitten rice triangle wrapped in seaweed with a spicy red filling"
+      },
+      {
+        "src": "photos/2026-11-27-ginseng-drink.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Small brown bottle of Som Plus Korean ginseng and honey drink"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-27-fried-chicken-stick",
+    "date": "2026-11-27",
+    "meal": "snack",
+    "dish": "Fried chicken on a stick",
+    "place": {
+      "name": "Street stall",
+      "area": "Chiang Rai"
+    },
+    "region": "chiang-rai",
+    "photos": [
+      {
+        "src": "photos/2026-11-27-fried-chicken-stick.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Bitten piece of breaded fried chicken on a skewer"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-27-mango-stop",
+    "date": "2026-11-27",
+    "meal": "market",
+    "dish": "Mango smoothie and mango",
+    "place": {
+      "name": "Fruit stall",
+      "area": "Chiang Rai"
+    },
+    "region": "chiang-rai",
+    "items": [
+      {
+        "name": "Mango smoothie"
+      },
+      {
+        "name": "Mango",
+        "photo": "photos/2026-11-27-mango.jpg"
+      }
+    ],
+    "photos": [
+      {
+        "src": "photos/2026-11-27-mango.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Bag of sliced ripe mango with wooden skewers"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-27-lunch-buffet",
+    "date": "2026-11-27",
+    "meal": "market",
+    "dish": "Lunch buffet",
+    "place": {
+      "name": "Lunch buffet",
+      "area": "Chiang Rai"
+    },
+    "region": "chiang-rai",
+    "items": [
+      {
+        "name": "Tom kha",
+        "photo": "photos/2026-11-27-buffet-tom-kha.jpg"
+      },
+      {
+        "name": "Yellow curry chicken",
+        "photo": "photos/2026-11-27-lunch-buffet.jpg"
+      },
+      {
+        "name": "Sweet stir-fry chicken",
+        "photo": "photos/2026-11-27-lunch-buffet.jpg"
+      },
+      {
+        "name": "Pad Thai"
+      }
+    ],
+    "photos": [
+      {
+        "src": "photos/2026-11-27-lunch-buffet.jpg",
+        "w": 1600,
+        "h": 1200,
+        "alt": "Yellow curry chicken, sweet stir-fried chicken with peppers and pineapple, and stir-fried vegetables on a checked tablecloth"
+      },
+      {
+        "src": "photos/2026-11-27-buffet-tom-kha.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Bowl of tom kha coconut soup with chili flakes"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-27-lalitta-coconut-cake",
+    "date": "2026-11-27",
+    "meal": "snack",
+    "dish": "Coconut cream cake",
+    "place": {
+      "name": "Lalitta Cafe",
+      "area": "Chiang Rai"
+    },
+    "region": "chiang-rai",
+    "sides": {
+      "items": [
+        "Orange juice Americano"
+      ]
+    },
+    "photos": [
+      {
+        "src": "photos/2026-11-27-coconut-cream-cake.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Slice of layered coconut cream cake in a clear plastic box"
+      },
+      {
+        "src": "photos/2026-11-27-orange-juice-americano.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Iced Americano layered over orange juice in a Lalitta Cafe cup, garden behind"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-27-temple-snacks",
+    "date": "2026-11-27",
+    "meal": "market",
+    "dish": "Temple street snacks",
+    "place": {
+      "name": "Food stalls",
+      "area": "Chiang Rai"
+    },
+    "region": "chiang-rai",
+    "items": [
+      {
+        "name": "Coconut ice cream",
+        "photo": "photos/2026-11-27-coconut-ice-cream.jpg"
+      },
+      {
+        "name": "Taro bun",
+        "photo": "photos/2026-11-27-taro-bun.jpg"
+      },
+      {
+        "name": "Thai sausage",
+        "photo": "photos/2026-11-27-thai-sausage.jpg"
+      }
+    ],
+    "photos": [
+      {
+        "src": "photos/2026-11-27-coconut-ice-cream.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Blue coconut ice cream and purple sticky rice with peanuts and sesame in a coconut shell"
+      },
+      {
+        "src": "photos/2026-11-27-taro-bun.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Purple steamed taro bun on a paper bag"
+      },
+      {
+        "src": "photos/2026-11-27-thai-sausage.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Grilled Thai sausage on a skewer"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-27-chicken-skewers",
+    "date": "2026-11-27",
+    "meal": "dinner",
+    "dish": "Chicken skewers with chili sauce",
+    "place": {
+      "name": "Street stall",
+      "area": "Chiang Mai"
+    },
+    "region": "chiang-mai",
+    "price": {
+      "currency": "THB",
+      "main": 50,
+      "note": "5 skewers at ฿10 each"
+    },
+    "photos": [
+      {
+        "src": "photos/2026-11-27-chicken-skewers.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Five grilled chicken skewers glazed in sweet chili sauce, held up in a paper tray"
+      }
+    ]
+  },
+  {
+    "id": "2026-11-27-crispy-pork-basil-egg",
+    "date": "2026-11-27",
+    "meal": "snack",
+    "dish": "Crispy pork basil stir fry with fried egg",
+    "description": "Late night snack. I just got what the guy recommended.",
+    "place": {
+      "name": "Street stall by the hotel",
+      "area": "Chiang Mai"
+    },
+    "region": "chiang-mai",
+    "price": {
+      "currency": "THB",
+      "main": 65
+    },
+    "photos": [
+      {
+        "src": "photos/2026-11-27-crispy-pork-basil-egg.jpg",
+        "w": 1200,
+        "h": 1600,
+        "alt": "Crispy pork belly stir-fried with holy basil and chilies over rice and a fried egg, in a takeaway box"
+      }
+    ]
   }
 ]
