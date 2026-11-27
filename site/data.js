@@ -1082,12 +1082,6 @@ window.JOURNAL = {
      "alt": "Scallop sashimi on ice with lemon wedges, cucumber and shredded carrot"
     },
     {
-     "src": "photos/2026-11-26-salmon-rolls.jpg",
-     "w": 1200,
-     "h": 1600,
-     "alt": "A tobiko-coated roll and a salmon roll topped with mayo and roe on black plates"
-    },
-    {
      "src": "photos/2026-11-26-volcano-roll.jpg",
      "w": 1200,
      "h": 1600,
@@ -1098,6 +1092,26 @@ window.JOURNAL = {
      "w": 1200,
      "h": 1600,
      "alt": "Black bowl of miso soup with seaweed and tofu"
+    }
+   ]
+  },
+  {
+   "id": "2026-11-26-pups-thai-tea",
+   "date": "2026-11-26",
+   "meal": "drink",
+   "dish": "Thai tea",
+   "description": "From the food market before the cooking class.",
+   "place": {
+    "name": "PUPS",
+    "area": "Food market, Chiang Mai"
+   },
+   "region": "chiang-mai",
+   "photos": [
+    {
+     "src": "photos/2026-11-26-pups-teas.jpg",
+     "w": 1200,
+     "h": 1600,
+     "alt": "Iced Thai tea in a PUPS cup held up next to a friend's boba milk tea at a market"
     }
    ]
   }
