@@ -1235,6 +1235,11 @@ window.JOURNAL = {
     }
    },
    "ambiance": 5,
+   "price": {
+    "currency": "THB",
+    "main": 20
+   },
+   "description": "Crispy and had a chili sauce with picked peppers you could put on it and they made it magic",
    "rating": 9.3
   },
   {
@@ -1499,14 +1504,14 @@ window.JOURNAL = {
    "seq": 8,
    "scores": {
     "main": {
-     "flavour": 9.5,
-     "presentation": 9,
+     "flavour": 8.8,
+     "presentation": 8,
      "texture": 9.2,
      "value": 10
     }
    },
    "ambiance": 8,
-   "rating": 9.5
+   "rating": 9.0
   }
  ]
 };

@@ -903,7 +903,12 @@
         "value": 9
       }
     },
-    "ambiance": 5
+    "ambiance": 5,
+    "price": {
+      "currency": "THB",
+      "main": 20
+    },
+    "description": "Crispy and had a chili sauce with picked peppers you could put on it and they made it magic"
   },
   {
     "id": "2026-11-27-mango-stop",
@@ -1162,8 +1167,8 @@
     "seq": 8,
     "scores": {
       "main": {
-        "flavour": 9.5,
-        "presentation": 9,
+        "flavour": 8.8,
+        "presentation": 8,
         "texture": 9.2,
         "value": 10
       }
