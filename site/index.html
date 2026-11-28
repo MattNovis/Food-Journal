@@ -385,6 +385,7 @@
   const isDrink = e => e.meal === "drink";
   // Street markets: many small items, each one flat 1–10 + a blurb; the market's score is their average.
   const isMarket = e => e.meal === "market";
+  const mealLabel = e => e.course || e.meal;  // a market-style entry can be labelled breakfast/lunch/… via course
   const avg = vals => Math.floor(vals.reduce((a, b) => a + b, 0) * 10 / vals.length + 0.5) / 10;  // must match avg_score() in build.py
   const ratedItems = e => (e.items || []).filter(it => typeof it.rating === "number");
   const byScore = e => [...ratedItems(e)].sort((a, b) => b.rating - a.rating);
@@ -496,7 +497,7 @@
       ${sidesLine(e)}
       ${dessertLine(e)}
       ${canScore && !hasScore(e) ? `<span class="todo">Needs ${isDrink(e) ? "a score" : "scores"}</span>` : ""}
-      <div class="foot">${priceHtml(e)}<span>${esc(e.meal ? e.meal[0].toUpperCase() + e.meal.slice(1) : "")}${typeof e.ambiance === "number" ? ` · Ambiance ${fmtScore(e.ambiance)}/10` : ""}</span></div>
+      <div class="foot">${priceHtml(e)}<span>${esc(mealLabel(e) ? mealLabel(e)[0].toUpperCase() + mealLabel(e).slice(1) : "")}${typeof e.ambiance === "number" ? ` · Ambiance ${fmtScore(e.ambiance)}/10` : ""}</span></div>
     </button>`;
   }
 
@@ -670,7 +671,7 @@
     const photos = e.photos || [];
     const day = dayOf(e.date);
     const facts = [
-      ["When", `${fmtDate(e.date, { weekday: "long", day: "numeric", month: "long" })}${e.meal ? ", " + e.meal : ""}${e.time ? " · " + e.time : ""}`],
+      ["When", `${fmtDate(e.date, { weekday: "long", day: "numeric", month: "long" })}${mealLabel(e) ? ", " + mealLabel(e) : ""}${e.time ? " · " + e.time : ""}`],
       ["Where", [e.place?.name, e.place?.area || regionName(e.region)].filter(Boolean).map(esc).join(", ") + (e.place?.mapsUrl ? ` · <a href="${esc(e.place.mapsUrl)}" target="_blank" rel="noopener">map</a>` : "")],
       e.sides ? ["Sides", (typeof e.sides.rating === "number" ? `<strong>${fmtScore(e.sides.rating)}/10</strong>` : "") +
         ((e.sides.items || []).length ? `${typeof e.sides.rating === "number" ? " · " : ""}${esc(e.sides.items.map(sideName).join(", "))}` : "") +

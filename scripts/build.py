@@ -81,6 +81,11 @@ def main():
                 e["rating"] = sc["overall"]
         elif "overall" in sc:
             fail(f"{eid}: scores.overall is for drinks only (meal: drink)")
+        c = e.get("course")
+        if c is not None and (e.get("meal") != "market" or c not in MEALS - {"market", "drink"}):
+            fail(f"{eid}: course (the meal label for a market-style entry) must be breakfast|lunch|dinner|snack|dessert, on meal: market only")
+        if "seq" in e and not isinstance(e["seq"], int):
+            fail(f"{eid}: seq (order within the day) must be an integer")
         if e.get("meal") == "market":
             # Street market: many small items, each ONE flat 1–10 score + a blurb.
             # The market's score is the average of its scored items.
@@ -164,7 +169,8 @@ def main():
         if e["region"] not in trip["regions"]:
             fail(f"{eid}: unknown region {e['region']}")
     order = {m: i for i, m in enumerate(["breakfast", "lunch", "snack", "dinner", "market", "dessert", "drink"])}
-    entries.sort(key=lambda e: (e["date"], e.get("time") or "", order.get(e.get("meal"), 9)))
+    # seq (optional) = Matt's order within a day; then time, then meal type.
+    entries.sort(key=lambda e: (e["date"], e.get("seq", 0), e.get("time") or "", order.get(e.get("course") or e.get("meal"), 9)))
     bundle = {"trip": trip, "rubric": RUBRIC, "fx": FX, "entries": entries}
     js = "window.JOURNAL = " + json.dumps(bundle, ensure_ascii=False, indent=1) + ";\n"
     (ROOT / "site/data.js").write_text(js)

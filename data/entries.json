@@ -860,7 +860,9 @@
         "h": 1600,
         "alt": "Small brown bottle of Som Plus Korean ginseng and honey drink"
       }
-    ]
+    ],
+    "seq": 1,
+    "course": "breakfast"
   },
   {
     "id": "2026-11-27-fried-chicken-stick",
@@ -879,7 +881,8 @@
         "h": 1600,
         "alt": "Bitten piece of breaded fried chicken on a skewer"
       }
-    ]
+    ],
+    "seq": 2
   },
   {
     "id": "2026-11-27-mango-stop",
@@ -907,7 +910,9 @@
         "h": 1600,
         "alt": "Bag of sliced ripe mango with wooden skewers"
       }
-    ]
+    ],
+    "seq": 3,
+    "course": "snack"
   },
   {
     "id": "2026-11-27-lunch-buffet",
@@ -949,7 +954,9 @@
         "h": 1600,
         "alt": "Bowl of tom kha coconut soup with chili flakes"
       }
-    ]
+    ],
+    "seq": 4,
+    "course": "lunch"
   },
   {
     "id": "2026-11-27-lalitta-coconut-cake",
@@ -979,7 +986,8 @@
         "h": 1600,
         "alt": "Iced Americano layered over orange juice in a Lalitta Cafe cup, garden behind"
       }
-    ]
+    ],
+    "seq": 5
   },
   {
     "id": "2026-11-27-temple-snacks",
@@ -1024,12 +1032,14 @@
         "h": 1600,
         "alt": "Grilled Thai sausage on a skewer"
       }
-    ]
+    ],
+    "seq": 6,
+    "course": "snack"
   },
   {
     "id": "2026-11-27-chicken-skewers",
     "date": "2026-11-27",
-    "meal": "dinner",
+    "meal": "snack",
     "dish": "Chicken skewers with chili sauce",
     "place": {
       "name": "Street stall",
@@ -1048,14 +1058,15 @@
         "h": 1600,
         "alt": "Five grilled chicken skewers glazed in sweet chili sauce, held up in a paper tray"
       }
-    ]
+    ],
+    "seq": 7
   },
   {
     "id": "2026-11-27-crispy-pork-basil-egg",
     "date": "2026-11-27",
-    "meal": "snack",
+    "meal": "dinner",
     "dish": "Crispy pork basil stir fry with fried egg",
-    "description": "Late night snack. I just got what the guy recommended.",
+    "description": "Late night. I just got what the guy recommended.",
     "place": {
       "name": "Street stall by the hotel",
       "area": "Chiang Mai"
@@ -1072,6 +1083,7 @@
         "h": 1600,
         "alt": "Crispy pork belly stir-fried with holy basil and chilies over rice and a fried egg, in a takeaway box"
       }
-    ]
+    ],
+    "seq": 8
   }
 ]
