@@ -300,6 +300,8 @@
   .multi-head:has(.mk-title) { align-items: center; gap: var(--s-3); }
   .mk-extra { display: grid; gap: var(--s-2); justify-items: start; }
   .mk-note { field-sizing: content; min-height: 2.4em; resize: none; line-height: 1.35; }
+  .wiz-comment { display: block; width: 100%; min-height: 5.5em; margin-top: var(--s-3); }
+  .facts dd.wiz-cmt { text-align: left; font-weight: 400; }
   .mk-price { position: relative; width: 7.5em; }
   .mk-price span { position: absolute; left: .6em; top: 50%; transform: translateY(-50%); color: var(--ink-faint); font-weight: 600; pointer-events: none; }
   .mk-price .mk-in { padding-left: 1.7em; text-align: right; }
@@ -736,7 +738,7 @@
 
   /* ---------- Live scores (artifact db) ----------
      Scores entered on the page live in db collection "scores", one doc per entry id:
-     { main: {flavour, texture, value, presentation}, sidesRating, sideItems: {name: n}, ambiance }
+     { main: {flavour, texture, value, presentation}, description, sidesRating, sideItems: {name: n}, ambiance }
      or, for markets, { marketItems: [{name, rating?, note?}], ambiance, price }.
      They override the repo data; Claude folds them back into data/entries.json. */
   let db = null, canScore = false, dbScores = {};
@@ -770,6 +772,7 @@
     if (dn && !(x.dessert?.items || []).length) x.dessert = { ...(x.dessert || {}), items: [dn] };
     if (isScore(sc.dessertRating)) x.dessert = { items: [], ...(x.dessert || {}), rating: sc.dessertRating };
     if (isScore(sc.ambiance)) x.ambiance = sc.ambiance;
+    if (!isMarket(x) && typeof sc.description === "string") { const d = sc.description.trim(); if (d) x.description = d; else delete x.description; }
     const pr = cleanPrice(sc.price); if (pr) x.price = { ...(x.price || {}), ...pr };
     return x;
   }
@@ -786,6 +789,7 @@
     derive(); render();
   }
 
+  const COMMENT_STEP = { key: "description", title: "Comments", q: "Optional. What you thought of it, in your own words. Shown under the dish.", optional: true, kind: "comment" };
   function steps(e) {
     if (isMarket(e)) return [
       { key: "items", title: "Score each item", q: "A score from 1 to 10 for each, plus a quick note and what it cost if you like. Add anything that's missing at the bottom.", kind: "market", optional: true },
@@ -793,6 +797,7 @@
     ];
     if (isDrink(e)) return [
       { key: "overall", title: "Overall", q: "One score for the drink." },
+      COMMENT_STEP,
       { key: "ambiance", title: "Ambiance", q: "The setting. Shown separately; it never counts toward the score.", optional: true },
       { key: "price", title: "Price", q: "Optional. What did it cost?", optional: true, kind: "price" },
     ];
@@ -801,6 +806,7 @@
       { key: "texture", title: "Texture", q: "How does it feel to eat: bite, crispness, tenderness?" },
       { key: "value", title: "Value", q: "Was it worth what you paid?" },
       { key: "presentation", title: "Presentation", q: "Did it look good and arrive well put together?" },
+      COMMENT_STEP,
     ];
     if (e.sides) st.push({ key: "sidesRating", title: "Sides", q: "One score for everything else on the table.", optional: true });
     if ((e.sides?.items || []).length) st.push({ key: "sideItems", title: "Standout sides", q: "Score any side worth calling out. Skip the rest.", optional: true, multi: true });
@@ -826,6 +832,7 @@
         dessertRating: prev.dessertRating ?? e.dessert?.rating,
         dessertName: (e.dessert?.items || []).length ? undefined : (prev.dessertName || ""),
         ambiance: prev.ambiance ?? e.ambiance,
+        description: e.description || "",
         price: (() => {
           const base = cleanPrice(prev.price) || cleanPrice(e.price) || {};
           return { currency: base.currency || (e.region === "transit" ? "USD" : "THB"), main: base.main, sides: { ...(base.sides || {}) } };
@@ -854,7 +861,7 @@
     const { st, i } = wiz, s = st[i];
     const last = i >= st.length;
     return `<div class="wiz-nav"><span class="wiz-left"><button type="button" class="ghost" data-nav="cancel">Cancel</button>
-        ${s && s.optional && !s.multi && s.kind !== "price" && s.kind !== "market" ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}</span>
+        ${s && s.optional && !s.multi && s.kind !== "price" && s.kind !== "market" && s.kind !== "comment" ? `<button type="button" class="ghost" data-nav="skip">Skip</button>` : ""}</span>
       <span class="wiz-right">
         <button type="button" class="ghost arrow" data-nav="back" aria-label="Previous" ${i ? "" : "disabled"}>${ARROW("M15 5l-7 7 7 7")}</button>
         <button type="button" class="primary" data-nav="save" ${mainDone() ? "" : "disabled"} title="${mainDone() ? "Save scores" : isMarket(wiz.e) ? "Score at least one item first" : isDrink(wiz.e) ? "Give it an overall score first" : "Flavour, texture, value and presentation are needed first"}">Save</button>
@@ -888,7 +895,8 @@
         </li>`).join("")}</ul>
         <div class="mk-foot"><label class="prow"><span>Paid in</span><select data-pcur>${Object.keys(FX).map(c => `<option value="${c}" ${c === v.price.currency ? "selected" : ""}>${c} (${SYM[c] || c})</option>`).join("")}</select></label><p class="wiz-q" data-mtotal></p></div>
         <form class="mk-add" data-iadd><input type="text" class="mk-in" name="n" placeholder="Add an item" aria-label="New item name"><button type="submit" class="ghost">Add</button></form>`;
-      const field = s.kind === "market" ? marketForm : s.kind === "price" ? priceForm : s.kind === "dessert" ? dessertField : s.multi
+      const commentField = `<textarea class="mk-in mk-note wiz-comment" rows="3" data-comment placeholder="e.g. Crispy edges, a bit too salty" aria-label="Comments on ${esc(e.dish)}">${esc(v.description || "")}</textarea>`;
+      const field = s.kind === "comment" ? commentField : s.kind === "market" ? marketForm : s.kind === "price" ? priceForm : s.kind === "dessert" ? dessertField : s.multi
         ? `<ul class="multi">${e.sides.items.map(it => { const n = sideName(it); return `<li><div class="multi-head"><span>${esc(n)}</span><button type="button" class="clear" data-clear="${esc(n)}" ${isScore(v.sideItems[n]) ? "" : "hidden"}>Clear</button></div>${scaleRow(n, v.sideItems[n], true)}</li>`; }).join("")}</ul>`
         : scaleRow(s.key, v[s.key]);
       const ready = s.multi || s.optional || isScore(v[s.key]);
@@ -905,6 +913,7 @@
         ${isScore(v.sidesRating) ? `<dt>Sides</dt><dd>${v.sidesRating.toFixed(1)}</dd>` : ""}
         ${Object.entries(v.sideItems).filter(([, r]) => isScore(r)).map(([n, r]) => `<dt>${esc(n)}</dt><dd>${r.toFixed(1)}</dd>`).join("")}
         ${isScore(v.dessertRating) ? `<dt>Dessert${dessertItems(e).length || v.dessertName ? ` <small>${esc(dessertItems(e).join(", ") || v.dessertName)}</small>` : ""}</dt><dd>${v.dessertRating.toFixed(1)}</dd>` : ""}
+        ${!market && (v.description || "").trim() ? `<dt>Comments</dt><dd class="wiz-cmt">${esc(v.description.trim())}</dd>` : ""}
         ${isScore(v.ambiance) ? `<dt>Ambiance</dt><dd>${v.ambiance.toFixed(1)} <small>(not in the food score)</small></dd>` : ""}
         ${(() => { const pe = { dish: e.dish, price: cleanPrice(market ? marketPrice() : v.price) }; return pe.price ? `<dt>Paid</dt><dd>${market ? `Total ${priceHtml(pe)}` : priceFacts(pe)}</dd>` : ""; })()}</dl>
         <p class="wiz-msg" role="status"></p>
@@ -940,6 +949,7 @@
     if (isScore(v.dessertRating)) doc.dessertRating = v.dessertRating;
     if (v.dessertName && v.dessertName.trim()) doc.dessertName = v.dessertName.trim();
     if (isScore(v.ambiance)) doc.ambiance = v.ambiance;
+    if (!isMarket(e) && typeof v.description === "string" && v.description.trim() !== (BASE.find(x => x.id === e.id)?.description || "")) doc.description = v.description.trim();
     const pr = cleanPrice(isMarket(e) ? marketPrice() : v.price); if (pr) doc.price = pr;
     try {
       await db.doc("scores/" + e.id).set(doc);
@@ -991,6 +1001,7 @@
   dlg.addEventListener("input", ev => {
     if (!wiz) return;
     if (ev.target.matches("[data-dname]")) { wiz.v.dessertName = ev.target.value; return; }
+    if (ev.target.matches("[data-comment]")) { wiz.v.description = ev.target.value; return; }
     if (ev.target.matches("[data-iname]")) { wiz.v.items[+ev.target.dataset.iname].name = ev.target.value; const sv = dlg.querySelector("[data-nav=save]"); if (sv) sv.disabled = !mainDone(); return; }
     if (ev.target.matches("[data-iprice]")) {
       const raw = ev.target.value.replace(/[^0-9.]/g, ""), n = raw === "" ? undefined : Math.round(parseFloat(raw) * 100) / 100;

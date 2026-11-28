@@ -329,9 +329,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 7,
+     "presentation": 6,
      "texture": 6.5,
-     "value": 6.5,
-     "presentation": 6
+     "value": 6.5
     }
    },
    "ambiance": 2,
@@ -359,9 +359,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 8.5,
+     "presentation": 4,
      "texture": 8,
-     "value": 5,
-     "presentation": 4
+     "value": 5
     }
    },
    "ambiance": 1,
@@ -394,9 +394,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 8.7,
+     "presentation": 4,
      "texture": 7.6,
-     "value": 5,
-     "presentation": 4
+     "value": 5
     }
    },
    "ambiance": 1,
@@ -434,9 +434,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 9,
+     "presentation": 8,
      "texture": 8,
-     "value": 7,
-     "presentation": 8
+     "value": 7
     }
    },
    "ambiance": 5,
@@ -490,9 +490,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 6,
+     "presentation": 3,
      "texture": 5,
-     "value": 5,
-     "presentation": 3
+     "value": 5
     }
    },
    "ambiance": 1,
@@ -524,9 +524,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 7.8,
+     "presentation": 7,
      "texture": 7,
-     "value": 9,
-     "presentation": 7
+     "value": 9
     }
    },
    "ambiance": 3,
@@ -574,9 +574,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 6.5,
+     "presentation": 8,
      "texture": 8,
-     "value": 6.5,
-     "presentation": 8
+     "value": 6.5
     }
    },
    "ambiance": 4,
@@ -699,9 +699,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 7.7,
+     "presentation": 6,
      "texture": 7,
-     "value": 7.5,
-     "presentation": 6
+     "value": 7.5
     }
    },
    "rating": 7.4
@@ -745,9 +745,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 8.9,
+     "presentation": 7,
      "texture": 8,
-     "value": 7.5,
-     "presentation": 7
+     "value": 7.5
     }
    },
    "ambiance": 10,
@@ -779,9 +779,9 @@ window.JOURNAL = {
    "scores": {
     "main": {
      "flavour": 7,
+     "presentation": 9,
      "texture": 8.8,
-     "value": 7.5,
-     "presentation": 9
+     "value": 7.5
     }
    },
    "ambiance": 10,
@@ -881,13 +881,13 @@ window.JOURNAL = {
    "price": {
     "currency": "THB",
     "sides": {
-     "Thai tea": 40,
-     "Thai sausage": 25,
+     "Caramel loaf": 30,
+     "Grapes": 30,
+     "Grasshoppers": 30,
      "Salmon sashimi": 39,
      "Sausage bites (original, vermicelli and sour)": 30,
-     "Caramel loaf": 30,
-     "Grasshoppers": 30,
-     "Grapes": 30
+     "Thai sausage": 25,
+     "Thai tea": 40
     }
    },
    "rating": 5.4
@@ -1159,15 +1159,20 @@ window.JOURNAL = {
    "items": [
     {
      "name": "Sweet pork croissant sandwich",
+     "note": "They panini pressed it for me very fun",
+     "rating": 8.1,
      "photo": "photos/2026-11-27-pork-croissant-sandwich.jpg"
     },
     {
      "name": "Spicy onigiri",
+     "note": "Great little healthy tasty snack before food opened up",
+     "rating": 7,
      "photo": "photos/2026-11-27-spicy-onigiri.jpg"
     },
     {
      "name": "Ginseng energy drink",
-     "note": "Weird energy drink?",
+     "note": "Weird energy drink tasted like redbull but more herbal",
+     "rating": 7,
      "photo": "photos/2026-11-27-ginseng-drink.jpg"
     }
    ],
@@ -1192,7 +1197,15 @@ window.JOURNAL = {
     }
    ],
    "seq": 1,
-   "course": "breakfast"
+   "course": "breakfast",
+   "price": {
+    "currency": "THB",
+    "sides": {
+     "Spicy onigiri": 30,
+     "Sweet pork croissant sandwich": 30
+    }
+   },
+   "rating": 7.4
   },
   {
    "id": "2026-11-27-fried-chicken-stick",
@@ -1212,7 +1225,17 @@ window.JOURNAL = {
      "alt": "Bitten piece of breaded fried chicken on a skewer"
     }
    ],
-   "seq": 2
+   "seq": 2,
+   "scores": {
+    "main": {
+     "flavour": 9.2,
+     "presentation": 8.5,
+     "texture": 10,
+     "value": 9
+    }
+   },
+   "ambiance": 5,
+   "rating": 9.3
   },
   {
    "id": "2026-11-27-mango-stop",
@@ -1226,10 +1249,14 @@ window.JOURNAL = {
    "region": "chiang-rai",
    "items": [
     {
-     "name": "Mango smoothie"
+     "name": "Mango smoothie",
+     "note": "Didn’t have real mango was syrup based very sad",
+     "rating": 2.8
     },
     {
      "name": "Mango",
+     "note": "Not quite ripe and pricy",
+     "rating": 5.6,
      "photo": "photos/2026-11-27-mango.jpg"
     }
    ],
@@ -1242,7 +1269,15 @@ window.JOURNAL = {
     }
    ],
    "seq": 3,
-   "course": "snack"
+   "course": "snack",
+   "price": {
+    "currency": "THB",
+    "sides": {
+     "Mango": 100,
+     "Mango smoothie": 80
+    }
+   },
+   "rating": 4.2
   },
   {
    "id": "2026-11-27-lunch-buffet",
@@ -1257,18 +1292,26 @@ window.JOURNAL = {
    "items": [
     {
      "name": "Tom kha",
+     "note": "Mid watery broth",
+     "rating": 5,
      "photo": "photos/2026-11-27-buffet-tom-kha.jpg"
     },
     {
      "name": "Yellow curry chicken",
+     "note": "Tasty and tender yum!",
+     "rating": 8.3,
      "photo": "photos/2026-11-27-lunch-buffet.jpg"
     },
     {
      "name": "Sweet stir-fry chicken",
+     "note": "Yeah this was gas dunno really what it was",
+     "rating": 9.1,
      "photo": "photos/2026-11-27-lunch-buffet.jpg"
     },
     {
-     "name": "Pad Thai"
+     "name": "Pad Thai",
+     "note": "Very tasty not typically a big pad Thai guy",
+     "rating": 8.2
     }
    ],
    "photos": [
@@ -1286,7 +1329,9 @@ window.JOURNAL = {
     }
    ],
    "seq": 4,
-   "course": "lunch"
+   "course": "lunch",
+   "ambiance": 5,
+   "rating": 7.7
   },
   {
    "id": "2026-11-27-lalitta-coconut-cake",
@@ -1300,7 +1345,10 @@ window.JOURNAL = {
    "region": "chiang-rai",
    "sides": {
     "items": [
-     "Orange juice Americano"
+     {
+      "name": "Orange juice Americano",
+      "rating": 9.1
+     }
     ]
    },
    "photos": [
@@ -1317,7 +1365,16 @@ window.JOURNAL = {
      "alt": "Iced Americano layered over orange juice in a Lalitta Cafe cup, garden behind"
     }
    ],
-   "seq": 5
+   "seq": 5,
+   "scores": {
+    "main": {
+     "flavour": 7,
+     "presentation": 10,
+     "texture": 10,
+     "value": 7
+    }
+   },
+   "rating": 7.9
   },
   {
    "id": "2026-11-27-temple-snacks",
@@ -1332,14 +1389,20 @@ window.JOURNAL = {
    "items": [
     {
      "name": "Coconut ice cream",
+     "note": "Favorite desert of the trip so far. Tender coconut, sweet cream, sticky rice(worked really well) sesame and peanut it was wonderful creamy refreshing and sweet",
+     "rating": 9.3,
      "photo": "photos/2026-11-27-coconut-ice-cream.jpg"
     },
     {
      "name": "Taro bun",
+     "note": "This little cloud of magic was jiggly and magical wow",
+     "rating": 9.1,
      "photo": "photos/2026-11-27-taro-bun.jpg"
     },
     {
      "name": "Thai sausage",
+     "note": "Good but not the best was steamed in a banana leaf!",
+     "rating": 7.5,
      "photo": "photos/2026-11-27-thai-sausage.jpg"
     }
    ],
@@ -1364,7 +1427,16 @@ window.JOURNAL = {
     }
    ],
    "seq": 6,
-   "course": "snack"
+   "course": "snack",
+   "ambiance": 9.4,
+   "price": {
+    "currency": "THB",
+    "sides": {
+     "Coconut ice cream": 45,
+     "Taro bun": 15
+    }
+   },
+   "rating": 8.6
   },
   {
    "id": "2026-11-27-chicken-skewers",
@@ -1389,7 +1461,17 @@ window.JOURNAL = {
      "alt": "Five grilled chicken skewers glazed in sweet chili sauce, held up in a paper tray"
     }
    ],
-   "seq": 7
+   "seq": 7,
+   "scores": {
+    "main": {
+     "flavour": 8.3,
+     "presentation": 9,
+     "texture": 9.6,
+     "value": 10
+    }
+   },
+   "ambiance": 2,
+   "rating": 9.0
   },
   {
    "id": "2026-11-27-crispy-pork-basil-egg",
@@ -1414,7 +1496,17 @@ window.JOURNAL = {
      "alt": "Crispy pork belly stir-fried with holy basil and chilies over rice and a fried egg, in a takeaway box"
     }
    ],
-   "seq": 8
+   "seq": 8,
+   "scores": {
+    "main": {
+     "flavour": 9.5,
+     "presentation": 9,
+     "texture": 9.2,
+     "value": 10
+    }
+   },
+   "ambiance": 8,
+   "rating": 9.5
   }
  ]
 };
