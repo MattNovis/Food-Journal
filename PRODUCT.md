@@ -17,7 +17,7 @@ place/vendor, price in THB (USD shown at ~33.5), rating out of 10, date and meal
 
 **Brand:** tropical, kept simple (palette only, no decorative motifs). See DESIGN.md.
 **Layout:** a hamburger menu at the top right of a sticky bar (above the masthead) opens four views: **Home** (leg strip, Top 3 meals, scoring chart) ·
-**Legs** (leg strip, then dishes grouped by leg) · **Day by day** (numbered day buttons, then every day) ·
+**Legs** (leg strip, then dishes grouped by leg) · **Day by day** (numbered day buttons, then one score card per day: day average, top item, where; tap to open its dishes) ·
 **Best to worst** (ranked list of main dishes or sides, filtered by location and meal). The URL hash drives the
 view (#home, #legs, #leg-N, #days, #d-YYYY-MM-DD, #rank), so the phone's back button works. No totals or spend
 dashboard on the front (Matt's call).

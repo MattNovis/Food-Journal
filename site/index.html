@@ -147,6 +147,35 @@
   .day-empty { color: var(--ink-soft); margin: 0; padding: var(--s-4) var(--s-5); background: var(--paper-sunk); border-radius: var(--radius-md); max-width: 70ch; }
   .day-empty em { font-style: normal; color: var(--ink); font-weight: 600; }
 
+  /* Day by day: one score card per day; open it for the day's dishes. */
+  .daycards { display: grid; gap: var(--s-4); margin-top: var(--s-6); }
+  .daycards .quiet { margin: 0; }
+  .dayc { border: 1.5px solid var(--rule); border-radius: var(--radius-md); background: var(--paper-raised); scroll-margin-top: 64px; transition: border-color .2s var(--ease-out); }
+  .dayc:hover, .dayc[open] { border-color: var(--r); }
+  .dayc > summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: var(--s-1) var(--s-4); align-items: start; padding: var(--s-4) var(--s-5); border-radius: inherit; }
+  .dayc > summary::-webkit-details-marker { display: none; }
+  .dayc > summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+  .dc-when { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-1) var(--s-3); }
+  .dc-date { font: 400 var(--step-3)/1.05 var(--font-display); color: var(--ink); }
+  .dc-where { grid-column: 1; margin: 0; color: var(--ink-soft); font-size: var(--step--1); font-weight: 600; }
+  .dc-score { grid-column: 2; grid-row: 1 / span 2; display: grid; justify-items: center; align-content: center; min-width: 4.6rem; padding: var(--s-2) var(--s-3);
+    border-radius: var(--radius-sm); background: color-mix(in srgb, var(--r) 14%, var(--paper-raised)); color: var(--ink); }
+  .dc-score b { font: 400 var(--step-3)/1 var(--font-display); font-variant-numeric: tabular-nums; }
+  .dc-score small { font-size: var(--step--1); color: var(--ink-soft); white-space: nowrap; }
+  .dc-score.none b { color: var(--ink-faint); }
+  .dc-top { grid-column: 1 / -1; display: grid; grid-template-columns: 56px 1fr auto; gap: var(--s-3); align-items: center; margin-top: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--rule); }
+  .dc-top img, .dc-top .dc-noimg { width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-sm); background: var(--paper-sunk); }
+  .dc-top-k { display: block; font-size: var(--step--1); color: var(--ink-faint); font-weight: 600; }
+  .dc-top-name { font-weight: 700; color: var(--ink); line-height: 1.25; }
+  .dc-top-score { font: 400 var(--step-2)/1 var(--font-display); color: var(--ink); font-variant-numeric: tabular-nums; }
+  .dc-more { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; margin-top: var(--s-2); font: 600 var(--step--1)/1.2 var(--font-body); color: var(--fern); }
+  .dc-more svg { width: 18px; height: 18px; transition: transform .2s var(--ease-out); }
+  .dayc[open] .dc-more svg { transform: rotate(180deg); }
+  .dayc[open] .dc-more .dc-open { display: none; } .dayc:not([open]) .dc-more .dc-close { display: none; }
+  .dc-dishes { padding: var(--s-2) var(--s-5) var(--s-6); }
+  @media (max-width: 599px) { .dayc > summary { padding: var(--s-4); } .dc-date { font-size: var(--step-2); } .dc-dishes { padding: var(--s-2) var(--s-4) var(--s-5); } .dc-top { grid-template-columns: 48px 1fr auto; } .dc-top img, .dc-top .dc-noimg { width: 48px; height: 48px; } }
+  @media (prefers-reduced-motion: reduce) { .dc-more svg, .dayc { transition: none; } }
+
   .grid { display: grid; gap: var(--s-6) var(--s-5); grid-template-columns: 1fr; }
   @media (min-width: 560px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 940px) { .grid { grid-template-columns: repeat(3, 1fr); } }
@@ -588,12 +617,41 @@
     }).join("");
   }
 
+  // Day score card: average of everything scored that day, its best item, where the food was eaten.
+  const openDays = new Set();
+  function dayCard(d, items) {
+    const i = trip.days.indexOf(d);
+    const scored = items.filter(e => typeof e.rating === "number");
+    const avgDay = scored.length ? avg(scored.map(e => e.rating)) : null;
+    const cands = items.flatMap(e => isMarket(e)
+      ? ratedItems(e).map(it => ({ e, name: it.name, rating: it.rating, src: it.photo || e.photos?.[0]?.src }))
+      : typeof e.rating === "number" ? [{ e, name: e.dish, rating: e.rating, src: e.photos?.[0]?.src }] : []);
+    const top = cands.sort((a, b) => b.rating - a.rating)[0];
+    const regions = [...new Set(items.map(e => e.region))];
+    const where = regions.map(regionName).join(" · ") || d.location;
+    const n = items.length;
+    return `<details class="dayc" id="d-${d.date}" data-region="${esc(regions[0] || d.region)}"${openDays.has(d.date) ? " open" : ""}>
+      <summary>
+        <span class="dc-when"><span class="day-num">DAY ${i + 1}</span><span class="dc-date">${fmtDate(d.date)}</span></span>
+        <span class="dc-score${avgDay === null ? " none" : ""}"><b>${avgDay === null ? "–" : avgDay.toFixed(1)}</b><small>${avgDay === null ? "not scored" : "day average"}</small></span>
+        <span class="dc-where">${esc(where)}</span>
+        ${top ? `<span class="dc-top">${top.src ? `<img src="${esc(top.src)}" alt="" loading="lazy" decoding="async">` : `<span class="dc-noimg" aria-hidden="true"></span>`}
+          <span><span class="dc-top-k">Top item</span><span class="dc-top-name">${esc(top.name)}</span></span><span class="dc-top-score">${fmtScore(top.rating)}</span></span>` : ""}
+        <span class="dc-more"><span>${n} ${n === 1 ? "item" : "items"}${scored.length < n ? ` · ${scored.length} scored` : ""}</span><span><span class="dc-open">Show dishes</span><span class="dc-close">Hide dishes</span></span></span>
+      </summary>
+      <div class="grid dc-dishes">${items.map(card).join("")}</div>
+    </details>`;
+  }
   function daysView() {
     const chips = `<ol class="daychips" aria-label="Jump to a day">${trip.days.map((d, i) => {
       const has = entries.some(e => e.date === d.date);
       return `<li><a href="#d-${d.date}" class="${has ? "has" : ""}" data-region="${esc(d.region)}" title="${fmtDate(d.date)} · ${esc(d.location)}" aria-label="Day ${i + 1}, ${fmtDate(d.date)}${has ? ", has dishes" : ""}">${i + 1}</a></li>`;
     }).join("")}</ol><p class="chips-note">Tap a day to jump to it. Shaded days have dishes.</p>`;
-    return `<div class="view-intro">${chips}</div>` + runHtml(trip.days.map(d => ({ d, items: entries.filter(e => e.date === d.date) })), true);
+    let html = "", quiet = [];
+    const flush = () => { if (quiet.length) { html += `<ol class="quiet">${quiet.join("")}</ol>`; quiet = []; } };
+    trip.days.forEach(d => { const items = entries.filter(e => e.date === d.date); if (items.length) { flush(); html += dayCard(d, items); } else quiet.push(quietRow(d, true)); });
+    flush();
+    return `<div class="view-intro">${chips}</div><div class="daycards">${html}</div>`;
   }
 
   /* Best to worst: mains or sides, filtered by where and which meal. */
@@ -662,6 +720,7 @@
     state.view = viewFor(h);
     render();
     const el = (h.startsWith("leg-") || h.startsWith("d-")) ? document.getElementById(h) : null;
+    if (el?.matches("details.dayc")) { el.open = true; openDays.add(h.slice(2)); }
     if (el) requestAnimationFrame(() => el.scrollIntoView({ block: "start" }));
     else window.scrollTo({ top: 0 });
   }
@@ -1055,6 +1114,7 @@
 
   /* ---------- Events ---------- */
   window.addEventListener("hashchange", go);
+  document.addEventListener("toggle", ev => { const t = ev.target; if (t.matches?.("details.dayc")) { const k = t.id.slice(2); t.open ? openDays.add(k) : openDays.delete(k); } }, true);
   // Menu: toggle, close on pick / Escape / tap outside. Picking the current view goes back to its top.
   const menuBtn = $("#menuBtn"), menuList = $("#menuList");
   const setMenu = on => { menuBtn.setAttribute("aria-expanded", on); menuList.hidden = !on; if (on) (menuList.querySelector("[aria-current]") || menuList.querySelector("a")).focus(); };
